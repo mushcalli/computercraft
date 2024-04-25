@@ -3,7 +3,7 @@
 -- SPDX-License-Identifier: LicenseRef-CCPL
 
 if not turtle then
-	printError("Requires a Turtle")
+	printError("Requires a Tortle")
 	return
 end
 
