@@ -1,7 +1,9 @@
+local rsa = {}
+
 --[[
     returns gcd, bezout_x
 ]]
-function gcd_ext(a, b)
+function rsa.gcd_ext(a, b)
     -- yeah don't ask me how this works i coped wikipedia's pseudocode
     assert(tonumber(a) and tonumber(b) and math.floor(a) == a and math.floor(b) == b and a > 0 and b > 0, "invalid gcd_ext args")
 
@@ -26,7 +28,7 @@ end
 --[[
     returns (b^e) mod n
 ]]
-function mod_exp(b, e, n)
+function rsa.mod_exp(b, e, n)
     -- again im just yoinking wikipedia's pseudocode lol
     if (n == 1) then return 0 end
 
@@ -108,7 +110,7 @@ end
     returns is_prime(N), N
     (given k is odd and < 2^n)
 ]]
-function checkPrime(n, k)
+function rsa.checkPrime(n, k)
     assert(k % 2 == 1 and k < 2^n, "invalid number form for checkPrime")
     
 
@@ -166,7 +168,7 @@ end
     (n, e) = public key,
     d = private key
 ]]
-function generate_keys(seed1, seed2, magnitude)
+function rsa.generate_keys(seed1, seed2, magnitude)
     if (not magnitude) then
         magnitude = 32
     end
@@ -188,7 +190,7 @@ function generate_keys(seed1, seed2, magnitude)
             local _n = math.random(magnitude)
             local _k = math.random(_n-1)
 
-            is_prime, N = checkPrime(_n, _k)
+            is_prime, N = rsa.checkPrime(_n, _k)
         until is_prime
         p = N
 
@@ -197,12 +199,12 @@ function generate_keys(seed1, seed2, magnitude)
             local _n = math.random(magnitude)
             local _k = math.random(n-1)
 
-            is_prime, N = checkPrime(_n, _k)
+            is_prime, N = rsa.checkPrime(_n, _k)
         until is_prime
         q = N
 
         -- calculate lcm(p-1, q-1) = |(p-1)(q-1)| / gcd(p-1, q-1)
-        local gcd, _ = gcd_ext(p-1, q-1)
+        local gcd, _ = rsa.gcd_ext(p-1, q-1)
         totient_thingy = math.abs((p-1) * (q-1)) / gcd
     until totient_thingy > 65537
 
@@ -217,7 +219,7 @@ function generate_keys(seed1, seed2, magnitude)
 
     ---- calculate d
     -- d = bezout_x from gcd(e, totient)
-    _, d = gcd_ext(e, totient_thingy)
+    _, d = rsa.gcd_ext(e, totient_thingy)
 
 
     -- return
@@ -227,13 +229,17 @@ end
 --[[
     encrypts an INTEGER m given public keys e and n
 ]]
-function encryptInt(m, e, n)
-    return mod_exp(m, e, n)
+function rsa.encryptInt(m, e, n)
+    return rsa.mod_exp(m, e, n)
 end
 
 --[[
     decrypts an encrypted INTEGER message ((m^e) mod n) given private key d and public key n
 ]]
-function decryptInt(m, d, n)
-    return mod_exp(m, d, n)
+function rsa.decryptInt(m, d, n)
+    return rsa.mod_exp(m, d, n)
 end
+
+
+
+return rsa
