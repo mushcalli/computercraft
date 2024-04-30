@@ -188,7 +188,8 @@ function rsa.generate_keys(seed1, seed2, magnitude)
         local N
         repeat
             local _n = math.random(magnitude)
-            local _k = math.random(_n-1)
+            local _k = math.random(_n-2)
+            if (_k % 2 == 0) then k = k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
         until is_prime
@@ -197,7 +198,8 @@ function rsa.generate_keys(seed1, seed2, magnitude)
         -- generate q
         repeat
             local _n = math.random(magnitude)
-            local _k = math.random(n-1)
+            local _k = math.random(_n-2)
+            if (_k % 2 == 0) then k = k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
         until is_prime
