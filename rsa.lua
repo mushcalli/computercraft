@@ -104,7 +104,8 @@ end
 
 --[[
     lucas-lehmer-riesel,
-    gets is_prime((k * (2^n)) - 1)
+    for N = (k * (2^n)) - 1,
+    returns is_prime(N), N
     (given k is odd and < 2^n)
 ]]
 function checkPrime(n, k)
@@ -155,13 +156,52 @@ function checkPrime(n, k)
     end
 
     -- N is prime if and only if it cleanly divides u[n-2]
-    return (math.fmod(u, N) == 0)
+    return (math.fmod(u, N) == 0), N
 end
 
 --[[
     returns n, e, d
+    (n, e) = public key,
+    d = private key
 ]]
 function generate_keys(seed1, seed2)
+    -- outputs
+    local n, e, d
+
     math.randomseed(seed1, seed2)
 
+    -- constant maximum for 2^n component of p and q
+    local magnitude = 32
+
+    -- make sure lcm(p-1, q-1) is greater than 65537 so that e is valid
+    repeat
+        -- generate p
+        local p
+        local is_prime = false
+        local N
+        repeat
+            local _n = math.random(magnitude)
+            local _k = math.random(_n-1)
+
+            is_prime, N = checkPrime(_n, _k)
+        until is_prime
+        p = N
+
+        -- generate q
+        local q
+        repeat
+            local _n = math.random(magnitude)
+            local _k = math.random(n-1)
+
+            is_prime, N = checkPrime(_n, _k)
+        until is_prime
+        q = N
+    until
+
+
+    -- assign n
+    n = p * q
+
+
+    
 end
