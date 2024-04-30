@@ -144,6 +144,8 @@ function rsa.checkPrime(n, k)
                     p = i
                     break
                 end
+                --print(i)
+                i = i + 1
                 os.sleep(0.05)
             end
         end
@@ -164,12 +166,12 @@ end
 
 --[[
     magnitude = max power of 2 for 2^n component of p and q
-    seed1, seed2 used for p and q generation
+    seed used for p and q generation
     returns n, e, d
     (n, e) = public key,
     d = private key
 ]]
-function rsa.generate_keys(seed1, seed2, magnitude)
+function rsa.generate_keys(seed, magnitude)
     if (not magnitude) then
         magnitude = 32
     end
@@ -180,9 +182,13 @@ function rsa.generate_keys(seed1, seed2, magnitude)
     local n, e, d
 
 
+    ---- get e
+    e = 17 -- yeag maybe its insecure but im just gonna go with 2^16+1 public key-
+
+
     ---- generate p and q, get totient
-    math.randomseed(seed1, seed2)
-    -- make sure totient(n) = lcm(p-1, q-1) is greater than 65537 so that e is valid
+    math.randomseed(seed)
+    -- make sure totient(n) = lcm(p-1, q-1) is greater than e so that e is valid
     local totient_thingy
     local p, q
     local _n = magnitude
@@ -208,7 +214,7 @@ function rsa.generate_keys(seed1, seed2, magnitude)
 
             is_prime, N = rsa.checkPrime(_n, _k)
             os.sleep(0.05)
-        until is_prime
+        until is_prime and N ~= p
         q = N
 
         -- calculate lcm(p-1, q-1) = |(p-1)(q-1)| / gcd(p-1, q-1)
@@ -216,15 +222,11 @@ function rsa.generate_keys(seed1, seed2, magnitude)
         totient_thingy = math.abs((p-1) * (q-1)) / gcd
 
         os.sleep(0.05)
-    until totient_thingy > 65537
+    until totient_thingy > e and (totient_thingy % e) ~= 0
 
 
     ---- get n
     n = p * q
-
-
-    ---- get e
-    e = 65537 -- yeag maybe its insecure but im just gonna go with 2^16+1 public key-
 
 
     ---- calculate d
