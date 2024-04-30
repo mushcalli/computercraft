@@ -174,6 +174,8 @@ function rsa.generate_keys(seed1, seed2, magnitude)
         magnitude = 32
     end
 
+    assert(magnitude >= 8, "magnitude must be higher for this e value")
+
     -- outputs
     local n, e, d
 
@@ -188,8 +190,8 @@ function rsa.generate_keys(seed1, seed2, magnitude)
         local is_prime = false
         local N
         repeat
-            local _n = math.random(magnitude)
-            local _k = math.random(_n-2)
+            local _n = math.random(8, magnitude)
+            local _k = math.random(2, (2^_n) - 2)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
@@ -199,8 +201,8 @@ function rsa.generate_keys(seed1, seed2, magnitude)
 
         -- generate q
         repeat
-            local _n = math.random(magnitude)
-            local _k = math.random(_n-2)
+            local _n = math.random(8, magnitude)
+            local _k = math.random(2, (2^_n) - 2)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
