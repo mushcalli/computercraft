@@ -173,10 +173,12 @@ function generate_keys(seed1, seed2)
     -- constant maximum for 2^n component of p and q
     local magnitude = 32
 
-    -- make sure lcm(p-1, q-1) is greater than 65537 so that e is valid
+    -- make sure lcm(p-1, q-1) (aka totient(n) ig?) is greater than 65537 so that e is valid
+    local lcm
+
+    local p, q
     repeat
         -- generate p
-        local p
         local is_prime = false
         local N
         repeat
@@ -188,7 +190,6 @@ function generate_keys(seed1, seed2)
         p = N
 
         -- generate q
-        local q
         repeat
             local _n = math.random(magnitude)
             local _k = math.random(n-1)
@@ -196,7 +197,11 @@ function generate_keys(seed1, seed2)
             is_prime, N = checkPrime(_n, _k)
         until is_prime
         q = N
-    until
+
+        -- calculate lcm(p-1, q-1) = |(p-1)(q-1)| / gcd(p-1, q-1)
+        local gcd, _ = gcd_ext(p-1, q-1)
+        lcm = math.abs((p-1) * (q-1)) / gcd
+    until lcm > 65537
 
 
     -- assign n
