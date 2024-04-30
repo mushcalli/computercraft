@@ -80,8 +80,25 @@ local function jacobi(n, k)
     t = 1
     while (n ~= 0) do
         while (n % 2 == 0) do
-            
+            n = n / 2
+            local r = k % 8
+
+            if (r == 3 or r == 5) then
+                t = -t
+            end
         end
+
+        n, k = k, n
+        if (n % 4 == 3 and k % 4 == 3) then
+            t = -t
+        end
+        n = n % k
+    end
+
+    if (k == 1) then
+        return t
+    else
+        return 0
     end
 end
 
