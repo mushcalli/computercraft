@@ -223,3 +223,17 @@ function generate_keys(seed1, seed2, magnitude)
     -- return
     return n, e, d
 end
+
+--[[
+    encrypts an INTEGER m given public keys e and n
+]]
+function encryptInt(m, e, n)
+    return mod_exp(m, e, n)
+end
+
+--[[
+    decrypts an encrypted INTEGER message ((m^e) mod n) given private key d and public key n
+]]
+function decryptInt(m, d, n)
+    return mod_exp(m, d, n)
+end
