@@ -185,12 +185,13 @@ function rsa.generate_keys(seed1, seed2, magnitude)
     -- make sure totient(n) = lcm(p-1, q-1) is greater than 65537 so that e is valid
     local totient_thingy
     local p, q
+    local _n = magnitude
     repeat
         -- generate p
         local is_prime = false
         local N
         repeat
-            local _n = math.random(8, magnitude)
+            --local _n = math.random(8, magnitude)
             local _k = math.random(2, (2^_n) - 2)
             if (_k % 2 == 0) then _k = _k + 1 end
 
@@ -201,7 +202,7 @@ function rsa.generate_keys(seed1, seed2, magnitude)
 
         -- generate q
         repeat
-            local _n = math.random(8, magnitude)
+            --local _n = math.random(8, magnitude)
             local _k = math.random(2, (2^_n) - 2)
             if (_k % 2 == 0) then _k = _k + 1 end
 
