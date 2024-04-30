@@ -56,7 +56,7 @@ local function lucas(e, p, n)
     local v1 = ((p * p) - 2) % n
 
     local _e = e
-   while (_e > 0) do
+    while (_e > 0) do
         if (e % 2 == 1) then
             v = ((v * v1) - p) % n
             v1 = ((v1 * v1) - 2) % n
@@ -144,6 +144,7 @@ function rsa.checkPrime(n, k)
                     p = i
                     break
                 end
+                os.sleep(0.05)
             end
         end
     end
@@ -192,6 +193,7 @@ function rsa.generate_keys(seed1, seed2, magnitude)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
+            os.sleep(0.05)
         until is_prime
         p = N
 
@@ -202,6 +204,7 @@ function rsa.generate_keys(seed1, seed2, magnitude)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
+            os.sleep(0.05)
         until is_prime
         q = N
 
