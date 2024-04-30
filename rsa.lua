@@ -79,7 +79,7 @@ local function jacobi(n, k)
     assert(k > 0 and k % 2 == 1, "invalid k for jacobi")
 
     n = n % k
-    t = 1
+    local t = 1
     while (n ~= 0) do
         while (n % 2 == 0) do
             n = n / 2
@@ -208,6 +208,8 @@ function rsa.generate_keys(seed1, seed2, magnitude)
         -- calculate lcm(p-1, q-1) = |(p-1)(q-1)| / gcd(p-1, q-1)
         local gcd, _ = rsa.gcd_ext(p-1, q-1)
         totient_thingy = math.abs((p-1) * (q-1)) / gcd
+
+        os.sleep(0.05)
     until totient_thingy > 65537
 
 
