@@ -129,7 +129,7 @@ function rsa.checkPrime(n, k)
         -- idk wikipedia says these are good candidates but also that citation is needed
         local p_found = false
         local hardcoded_candidates = {5, 8, 9, 11}
-        for _p in hardcoded_candidates do
+        for _, _p in ipairs(hardcoded_candidates) do
             if (jacobi(_p - 2, N) == 1 and jacobi(_p + 2, N) == -1) then
                 p = _p
                 p_found = true
