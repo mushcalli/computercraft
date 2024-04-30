@@ -110,16 +110,51 @@ end
 function checkPrime(n, k)
     assert(k % 2 == 1 and k < 2^n, "invalid number form for checkPrime")
     
-    -- find u[0]
-    local u = 1
+
+    -- N = actual number we're primality checking
+    local N = (k * (2^n)) - 1
+
+
+    ----- find u[0]
+    local u
+
+    -- finding p
+    local p
+    if (k % 3 == 0) then
+        p = 4
+    else
+        -- idk wikipedia says these are good candidates but also that citation is needed
+        local p_found = false
+        local hardcoded_candidates = {5, 8, 9, 11}
+        for _p in hardcoded_candidates do
+            if (jacobi(_p - 2, N) == 1 and jacobi(_p + 2, N) == -1) then
+                p = _p
+                p_found = true
+            end
+        end
+
+        if (not p_found) then
+            local i = 12
+            -- MATH (wikipedia tbh) SAYS THIS SHOULD BREAK EVENTUALLY SO IT BETTER
+            while (true) do
+                if (jacobi(i - 2, N) == 1 and jacobi(i + 2, N) == -1) then
+                    p = i
+                    break
+                end
+            end
+        end
+    end
+
+    -- calculating u[0]
+    u = lucas(k, p, N)
+
     
-    -- get u[n-2]
+    ---- get u[n-2]
     for i = 1, n-2 do
         u = (u*u) - 2
     end
 
     -- N is prime if and only if it cleanly divides u[n-2]
-    local N = (k * (2^n)) - 1
     return (math.fmod(u, N) == 0)
 end
 
