@@ -160,22 +160,25 @@ function checkPrime(n, k)
 end
 
 --[[
+    magnitude = max power of 2 for 2^n component of p and q
+    seed1, seed2 used for p and q generation
     returns n, e, d
     (n, e) = public key,
     d = private key
 ]]
-function generate_keys(seed1, seed2)
+function generate_keys(seed1, seed2, magnitude)
+    if (not magnitude) then
+        magnitude = 32
+    end
+
     -- outputs
     local n, e, d
 
+
+    ---- generate p and q, get totient
     math.randomseed(seed1, seed2)
-
-    -- constant maximum for 2^n component of p and q
-    local magnitude = 32
-
-    -- make sure lcm(p-1, q-1) (aka totient(n) ig?) is greater than 65537 so that e is valid
-    local lcm
-
+    -- make sure totient(n) = lcm(p-1, q-1) is greater than 65537 so that e is valid
+    local totient_thingy
     local p, q
     repeat
         -- generate p
@@ -200,13 +203,23 @@ function generate_keys(seed1, seed2)
 
         -- calculate lcm(p-1, q-1) = |(p-1)(q-1)| / gcd(p-1, q-1)
         local gcd, _ = gcd_ext(p-1, q-1)
-        lcm = math.abs((p-1) * (q-1)) / gcd
-    until lcm > 65537
+        totient_thingy = math.abs((p-1) * (q-1)) / gcd
+    until totient_thingy > 65537
 
 
-    -- assign n
+    ---- get n
     n = p * q
 
 
-    
+    ---- get e
+    e = 65537 -- yeag maybe its insecure but im just gonna go with 2^16+1 public key-
+
+
+    ---- calculate d
+    -- d = bezout_x from gcd(e, totient)
+    _, d = gcd_ext(e, totient_thingy)
+
+
+    -- return
+    return n, e, d
 end
