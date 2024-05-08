@@ -73,7 +73,7 @@ end
 while true do
     term.clear()
 
-    print("songs:\n")
+    print("sounds:\n")
     if (#sounds_list == 0) then
         print("none")
     else
