@@ -75,6 +75,7 @@ end
     (used in checkPrime)
 ]]
 local function jacobi(n, k)
+    print("n:" .. n ..", k:" .. k)
     -- yoinked from wikipedia implementation
     assert(k > 0 and k % 2 == 1, "invalid k for jacobi")
 
@@ -138,15 +139,18 @@ function rsa.checkPrime(n, k)
 
         if (not p_found) then
             local i = 12
-            -- MATH (wikipedia tbh) SAYS THIS SHOULD BREAK EVENTUALLY SO IT BETTER
+            -- MATH (wikipedia tbh) SAYS THIS SHOULD BREAK OUT EVENTUALLY SO IT BETTER
             while (true) do
                 if (jacobi(i - 2, N) == 1 and jacobi(i + 2, N) == -1) then
                     p = i
                     break
                 end
-                --print(i)
+                if (i > 300) then
+                    --return false, N
+                end
+                print("i-" .. i)
                 i = i + 1
-                os.sleep(0.05)
+                --os.sleep(0.05)
             end
         end
     end
@@ -176,7 +180,7 @@ function rsa.generate_keys(seed, magnitude)
         magnitude = 32
     end
 
-    assert(magnitude >= 8, "magnitude must be higher for this e value")
+    assert(magnitude >= 3, "magnitude must be higher for this e value")
 
     -- outputs
     local n, e, d
@@ -191,31 +195,33 @@ function rsa.generate_keys(seed, magnitude)
     -- make sure totient(n) = lcm(p-1, q-1) is greater than e so that e is valid
     local totient_thingy
     local p, q
-    local _n = magnitude
+    --local _n = magnitude
     repeat
         -- generate p
         local is_prime = false
         local N
         repeat
-            --local _n = math.random(8, magnitude)
-            local _k = math.random(2, (2^_n) - 2)
+            local _n = math.random(3, magnitude)
+            local _k = math.random((2^_n) - 2)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
             os.sleep(0.05)
         until is_prime
         p = N
+        print("p: " .. p)
 
         -- generate q
         repeat
-            --local _n = math.random(8, magnitude)
-            local _k = math.random(2, (2^_n) - 2)
+            local _n = math.random(3, magnitude)
+            local _k = math.random((2^_n) - 2)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
             os.sleep(0.05)
         until is_prime and N ~= p
         q = N
+        print("q: " .. q)
 
         -- calculate lcm(p-1, q-1) = |(p-1)(q-1)| / gcd(p-1, q-1)
         local gcd, _ = rsa.gcd_ext(p-1, q-1)
@@ -223,6 +229,7 @@ function rsa.generate_keys(seed, magnitude)
 
         os.sleep(0.05)
     until totient_thingy > e and (totient_thingy % e) ~= 0
+    print("totient: " .. totient_thingy)
 
 
     ---- get n
@@ -254,4 +261,8 @@ end
 
 
 
-return rsa
+--return rsa
+
+local n, e, d = rsa.generate_keys(23849812, 8)
+local enc = rsa.encryptInt(7, e, n)
+print("7 -> " .. enc .. " -> " .. rsa.decryptInt(enc, d, n))
