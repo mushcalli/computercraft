@@ -81,7 +81,7 @@ while true do
         end
     end
 
-    print("\n\n1-0: play song, W: add song, E: edit song, D: delete song")
+    print("\n\n1-0: play song, W: add song, E: edit song, D: delete song, X: exit")
 
     local event, key = os.pullEvent("key_up")
     if (key >= keys.zero and key <= keys.nine and #music_list ~= 0) then
@@ -176,6 +176,8 @@ while true do
                 os.sleep(1)
             end
         end
+    elseif (key == keys.x) then
+        break
     end
 
     ::continue::
