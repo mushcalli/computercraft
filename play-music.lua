@@ -137,7 +137,7 @@ while true do
 
                 print("new song title (spaces fine, pls no | thats my string separator):")
                 local input1 = read()
-                if (input1 == "") then goto continue end
+                if (input1 == "") then input1 = music_list[num][1] end
                 while (string.find(input1, "%|")) do
                     print(">:(")
                     input1 = read()
@@ -145,7 +145,7 @@ while true do
 
                 print("new song url (pls no | here either):")
                 local input2 = read()
-                if (input2 == "") then goto continue end
+                if (input2 == "") then input2 = music_list[num][2] end
                 while (string.find(input2, "%|")) do
                     print(">:(")
                     input2 = read()
