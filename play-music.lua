@@ -96,7 +96,7 @@ while true do
 
             print("new song title (spaces fine, pls no | thats my string separator):")
             local input1 = read()
-            if (input1 == "") then break end
+            if (input1 == "") then goto continue end
             while (string.find(input1, "%|")) do
                 print(">:(")
                 input1 = read()
@@ -105,7 +105,7 @@ while true do
 
             print("new song url (pls no | here either):")
             local input2 = read()
-            if (input2 == "") then break end
+            if (input2 == "") then goto continue end
             while (string.find(input2, "%|")) do
                 print(">:(")
                 input2 = read()
@@ -127,7 +127,7 @@ while true do
 
                 print("new song title (spaces fine, pls no | thats my string separator):")
                 local input1 = read()
-                if (input1 == "") then break end
+                if (input1 == "") then goto continue end
                 while (string.find(input1, "%|")) do
                     print(">:(")
                     input1 = read()
@@ -135,7 +135,7 @@ while true do
 
                 print("new song url (pls no | here either):")
                 local input2 = read()
-                if (input2 == "") then break end
+                if (input2 == "") then goto continue end
                 while (string.find(input2, "%|")) do
                     print(">:(")
                     input2 = read()
@@ -160,4 +160,6 @@ while true do
             end
         end
     end
+
+    ::continue::
 end
