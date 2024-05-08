@@ -191,6 +191,6 @@ end
 -- remove files
 for _, sound in ipairs(sounds_list) do
     if (fs.exists(sound[1] .. ".dfpwm")) then
-        fs.remove(sound[1] .. ".dfpwm")
+        fs.delete(sound[1] .. ".dfpwm")
     end
 end
