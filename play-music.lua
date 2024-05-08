@@ -32,13 +32,14 @@ local function play(path)
 end
 
 local function wget_play(url, filename)
-    shell.run("wget " .. url .. "'" .. filename .. "'")
+    shell.run("wget " .. url .. '"' .. filename .. '"')
     if (fs.exists(filename)) then
         play(filename)
         fs.delete(filename)
     else
         print("wget failed :(")
     end
+    os.sleep(2)
 end
 
 
@@ -91,7 +92,7 @@ while true do
         end
 
         if (music_list[num]) then
-            wget_play(music_list[num][2], music_list[num][1])
+            wget_play(music_list[num][2], music_list[num][1] .. ".dfpwm")
         end
     elseif (key == keys.w) then
         if (#music_list > 9) then
