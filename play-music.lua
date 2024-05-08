@@ -96,6 +96,7 @@ while true do
 
             print("new song title (spaces fine, pls no | thats my string separator):")
             local input1 = read()
+            if (input1 == "") then break end
             while (string.find(input1, "%|")) do
                 print(">:(")
                 input1 = read()
@@ -104,6 +105,7 @@ while true do
 
             print("new song url (pls no | here either):")
             local input2 = read()
+            if (input2 == "") then break end
             while (string.find(input2, "%|")) do
                 print(">:(")
                 input2 = read()
@@ -124,20 +126,22 @@ while true do
                 term.clear()
 
                 print("new song title (spaces fine, pls no | thats my string separator):")
-                local input = read()
-                while (string.find(input, "%|")) do
+                local input1 = read()
+                if (input1 == "") then break end
+                while (string.find(input1, "%|")) do
                     print(">:(")
-                    input = read()
+                    input1 = read()
                 end
-                music_list[num][1] = input
 
                 print("new song url (pls no | here either):")
-                local input = read()
-                while (string.find(input, "%|")) do
+                local input2 = read()
+                if (input2 == "") then break end
+                while (string.find(input2, "%|")) do
                     print(">:(")
-                    input = read()
+                    input2 = read()
                 end
-                music_list[num][2] = input
+                
+                music_list[num] = {input1, input2}
 
                 updateCache()
             end
