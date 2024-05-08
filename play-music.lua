@@ -11,7 +11,7 @@ local music_list = {""}
 local function updateCache()
 	local cacheFile = fs.open(listpath, "w")
 
-    for line in music_list do
+    for _, line in ipairs(music_list) do
         cacheFile.writeLine(line[1] .. "|" .. line[2])
     end
 
@@ -71,10 +71,8 @@ while true do
     if (music_list == {""}) then
         print("none")
     else
-        local i = 1
-        for line in music_list do
+        for i, line in ipairs(music_list) do
             print(i .. ". " .. line[1])
-            i = i + 1
         end
     end
 
