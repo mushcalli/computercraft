@@ -158,6 +158,9 @@ while true do
                     input2 = read()
                 end
                 
+                if (fs.exists(sounds_list[num][1] .. ".dfpwm")) then
+                    fs.delete(sounds_list[num][1] .. ".dfpwm")
+                end
                 sounds_list[num] = {input1, input2}
 
                 updateCache()
@@ -176,6 +179,9 @@ while true do
 
             if (sounds_list[num]) then
                 print("removing " .. sounds_list[num][1])
+                if (fs.exists(sounds_list[num][1] .. ".dfpwm")) then
+                    fs.delete(sounds_list[num][1] .. ".dfpwm")
+                end
                 table.remove(sounds_list, num)
                 updateCache()
                 os.sleep(1)
