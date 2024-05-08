@@ -82,8 +82,13 @@ while true do
     print("1-0: play song, W: add song, E: edit song, D: delete song")
 
     local event, key = os.pullEvent("key_up")
-    if (key >= keys.one and key <= keys.zero and #music_list ~= 0) then
-        local num = key - keys.one - 1
+    if (key >= keys.zero and key <= keys.nine and #music_list ~= 0) then
+        local num
+        if (key == keys.zero) then
+            num = 10
+        else
+            num = key - keys.one + 1
+        end
 
         if (music_list[num]) then
             wget_play(music_list[num][2], music_list[num][1])
@@ -119,8 +124,13 @@ while true do
     elseif (key == keys.e) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.one and key <= keys.zero and #music_list ~= 0) then
-            local num = key - keys.one - 1
+        if (key >= keys.zero and key <= keys.nine and #music_list ~= 0) then
+            local num
+            if (key == keys.zero) then
+                num = 10
+            else
+                num = key - keys.one + 1
+            end
 
             if (music_list[num]) then
                 term.clear()
@@ -149,8 +159,13 @@ while true do
     elseif (key == keys.d) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.one and key <= keys.zero and #music_list ~= 0) then
-            local num = key - keys.one - 1
+        if (key >= keys.zero and key <= keys.nine and #music_list ~= 0) then
+            local num
+            if (key == keys.zero) then
+                num = 10
+            else
+                num = key - keys.one + 1
+            end
 
             if (music_list[num]) then
                 print("removing " .. music_list[num][1])
