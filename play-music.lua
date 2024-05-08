@@ -50,8 +50,11 @@ if (fs.exists(listpath)) then
     local i = 1
     while (line) do
         --if (music_list == {""}) then music_list = {} end
-        music_list[i][1] = string.gmatch(line, "[^%|]+")
-        music_list[i][2] = string.gmatch(line, "[^%|]+")
+        local song = {}
+        for str in string.gmatch(line, "[^%|]+") do
+            table.insert(song, str)
+        end
+        music_list[i] = song
         
         line = file.readLine()
         i = i + 1
