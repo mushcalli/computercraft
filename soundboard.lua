@@ -32,14 +32,18 @@ local function play(path)
 end
 
 local function wget_play(url, filename)
-    shell.run("wget " .. url .. '"' .. filename .. '"')
     if (fs.exists(filename)) then
         --print("(press enter to stop)")
         play(filename)
-        fs.delete(filename)
+        --fs.delete(filename)
     else
-        print("wget failed :(")
-        os.sleep(2)
+        shell.run("wget " .. url .. '"' .. filename .. '"')
+        if (fs.exists(filename)) then
+            play(filename)
+        else
+            print("wget failed :(")
+            os.sleep(2)
+        end
     end
     --os.sleep(2)
 end
@@ -182,4 +186,11 @@ while true do
     end
 
     ::continue::
+end
+
+-- remove files
+for _, sound in ipairs(sounds_list) do
+    if (fs.exists(sound[1] .. ".dfpwm")) then
+        fs.remove(sound[1] .. ".dfpwm")
+    end
 end
