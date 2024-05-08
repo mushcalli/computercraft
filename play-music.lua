@@ -5,7 +5,7 @@ if (not speaker) then error("error: speaker not found") end
 
 local decoder = dfpwm.make_decoder()
 local listpath = "caches/music_list.txt"
-local music_list = {""}
+local music_list = {}
 
 
 local function updateCache()
@@ -49,7 +49,7 @@ if (fs.exists(listpath)) then
     local line = file.readLine()
     local i = 1
     while (line) do
-        if (music_list == {""}) then music_list = {} end
+        --if (music_list == {""}) then music_list = {} end
         music_list[i][1] = string.gmatch(line, "[^%|]+")
         music_list[i][2] = string.gmatch(line, "[^%|]+")
         
@@ -68,7 +68,7 @@ while true do
     term.clear()
 
     print("songs:\n")
-    if (music_list == {""}) then
+    if (#music_list == 0) then
         print("none")
     else
         for i, line in ipairs(music_list) do
@@ -79,7 +79,7 @@ while true do
     print("1-0: play song, W: add song, E: edit song, D: delete song")
 
     local event, key = os.pullEvent("key_up")
-    if (key >= keys.one and key <= keys.zero and music_list ~= {""}) then
+    if (key >= keys.one and key <= keys.zero and #music_list ~= 0) then
         local num = key - keys.one - 1
 
         if (music_list[num]) then
@@ -114,7 +114,7 @@ while true do
     elseif (key == keys.e) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.one and key <= keys.zero and music_list ~= {""}) then
+        if (key >= keys.one and key <= keys.zero and #music_list ~= 0) then
             local num = key - keys.one - 1
 
             if (music_list[num]) then
@@ -142,7 +142,7 @@ while true do
     elseif (key == keys.d) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.one and key <= keys.zero and music_list ~= {""}) then
+        if (key >= keys.one and key <= keys.zero and #music_list ~= 0) then
             local num = key - keys.one - 1
 
             if (music_list[num]) then
