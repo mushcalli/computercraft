@@ -7,7 +7,6 @@ local decoder = dfpwm.make_decoder()
 local listpath = "caches/music_list.txt"
 local music_list = {}
 
-
 local function updateCache()
 	local cacheFile = fs.open(listpath, "w")
 
