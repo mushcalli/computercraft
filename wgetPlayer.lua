@@ -24,7 +24,7 @@ function wgetPlayer.wget_play(url, filename)
     shell.run("wget " .. url .. '"' .. filename .. '"')
     if (fs.exists(filename)) then
         print("(press enter to stop)")
-        play(filename)
+        wgetPlayer.play(filename)
         fs.delete(filename)
     else
         print("wget failed :(")
