@@ -7,7 +7,6 @@ local decoder = dfpwm.make_decoder()
 
 local wgetPlayer = {}
 
-
 function wgetPlayer.play(path)
     for chunk in io.lines(path, 16 * 1024) do
         local buf = decoder(chunk)
@@ -32,3 +31,6 @@ function wgetPlayer.wget_play(url, filename)
     end
     os.sleep(2)
 end
+
+
+return wgetPlayer
