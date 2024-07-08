@@ -133,6 +133,11 @@ function wave.context:removeInstance(instance)
 	end
 end
 
+--[[
+note: note block instrument, 0-15
+pitch: F#2 is zero, F#4 is 24
+volume: float 0.0-1.0, volume scalar
+]]
 function wave.context:playNote(note, pitch, volume)
 	volume = volume or 1.0
 
