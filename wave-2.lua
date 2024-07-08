@@ -135,8 +135,9 @@ end
 
 --[[
 note: note block instrument, 0-15
-pitch: F#2 is zero, F#4 is 24
+pitch: F#3 is zero, F#5 is 24
 volume: float 0.0-1.0, volume scalar
+**stopNote() does not exist, note blocks usually play their note for ~0.2s or so
 ]]
 function wave.context:playNote(note, pitch, volume)
 	volume = volume or 1.0
