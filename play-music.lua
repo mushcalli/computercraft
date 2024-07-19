@@ -3,7 +3,7 @@ local dfpwm = require("cc.audio.dfpwm")
 local speaker = peripheral.find("speaker")
 if (not speaker) then error("error: speaker not found") end
 
-local success, wgetPlayer = pcall(require("wgetPlayer"))
+local success, wgetPlayer = pcall(function() return require("wgetPlayer") end)
 if (not success) then
     shell.run("wget https://github.com/noodle2521/computercraft/raw/main/wgetPlayer.lua rom/modules/main/wgetPlayer.lua")
     wgetPlayer = require("wgetPlayer")
