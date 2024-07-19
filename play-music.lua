@@ -4,7 +4,7 @@ local speaker = peripheral.find("speaker")
 if (not speaker) then error("error: speaker not found") end
 
 local wgetPlayer = require("wgetPlayer")
-if (~wgetPlayer) then
+if (not wgetPlayer) then
     shell.run("wget https://github.com/noodle2521/computercraft/raw/main/wgetPlayer.lua rom/modules/main/wgetPlayer.lua")
     wgetPlayer = require("wgetPlayer")
 end
