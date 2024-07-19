@@ -3,6 +3,12 @@ local dfpwm = require("cc.audio.dfpwm")
 local speaker = peripheral.find("speaker")
 if (not speaker) then error("error: speaker not found") end
 
+local wgetPlayer = require("wgetPlayer")
+if (~wgetPlayer) then
+    shell.run("wget https://github.com/noodle2521/computercraft/raw/main/wgetPlayer.lua rom/modules/main/wgetPlayer.lua")
+    wgetPlayer = require("wgetPlayer")
+end
+
 local decoder = dfpwm.make_decoder()
 local listpath = "caches/music_list.txt"
 local music_list = {}
@@ -15,31 +21,6 @@ local function updateCache()
     end
 
 	cacheFile.close()
-end
-
-local function play(path)
-    for chunk in io.lines(path, 16 * 1024) do
-        local buf = decoder(chunk)
-        while not speaker.playAudio(buf) do
-            local event, data = os.pullEvent()
-
-            if (event == "key_up" and data == keys.enter) then
-                return
-            end
-        end
-    end
-end
-
-local function wget_play(url, filename)
-    shell.run("wget " .. url .. '"' .. filename .. '"')
-    if (fs.exists(filename)) then
-        print("(press enter to stop)")
-        play(filename)
-        fs.delete(filename)
-    else
-        print("wget failed :(")
-    end
-    os.sleep(2)
 end
 
 
@@ -92,7 +73,7 @@ while true do
         end
 
         if (music_list[num]) then
-            wget_play(music_list[num][2], music_list[num][1] .. ".dfpwm")
+            wgetPlayer.wget_play(music_list[num][2], music_list[num][1] .. ".dfpwm", keys.enter)
         end
     elseif (key == keys.w) then
         if (#music_list > 9) then
