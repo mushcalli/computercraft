@@ -129,7 +129,10 @@ local function songListUI()
         end
     end
     if (key == keys.j) then
-        pageOffset = math.min(pageOffset + 1)
+        pageOffset = math.max(pageOffset - 1, 0)
+    end
+    if (key == keys.k) then
+        pageOffset = math.min(pageOffset + 1, maxSongPage)
     end
     if (key == keys.a) then
         --[[if (#songList > 9) then
@@ -235,7 +238,7 @@ readCache(songList, songListPath)
 -- read from playlists.txt if exists
 readCache(playlists, playlistsPath)
 -- generate sortedPlaylists for faster contains check
-for i, line in playlists do
+for i, line in ipairs(playlists) do
     sorted = { table.unpack(line, 2) }
     table.sort(sorted)
     sortedPlaylists[i] = sorted
