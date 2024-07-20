@@ -24,7 +24,7 @@ local sortedPlaylists = {}
 local uiLayer = 1
 local pageOffset = 0
 --songs list
-local maxSongPage = math.ceil(#songList / 10)
+local maxSongPage = 0
 --current playlist
 local currentPlaylist = {}
 
@@ -113,7 +113,11 @@ local function songListUI()
         print("none")
     else
         local start = (pageOffset) * 10 + 1
-        for i = start, start + 10 do
+        for i = start, start + 9 do
+            if (not songList[i]) then
+                break
+            end
+
             print(i .. ". " .. songList[i][1])
         end
     end
@@ -128,11 +132,12 @@ local function songListUI()
             wgetPlayer.wget_play(songList[num][2], songList[num][1] .. ".dfpwm", keys.enter)
         end
     end
+    -- jrop and klimb :relieved:
     if (key == keys.j) then
-        pageOffset = math.max(pageOffset - 1, 0)
+        pageOffset = math.min(pageOffset + 1, maxSongPage)
     end
     if (key == keys.k) then
-        pageOffset = math.min(pageOffset + 1, maxSongPage)
+        pageOffset = math.max(pageOffset - 1, 0)
     end
     if (key == keys.a) then
         --[[if (#songList > 9) then
@@ -165,6 +170,7 @@ local function songListUI()
         table.insert(songList, {input1, input2})
 
         updateCache(songList, songListPath)
+        maxSongPage = math.ceil(#songList / 10) - 1
     end
     if (key == keys.e) then
         print("which one? (1-0)")
@@ -208,6 +214,7 @@ local function songListUI()
                 table.remove(songList, num)
                 updateCache(songList, songListPath)
                 updatePlaylists(num)
+                maxSongPage = math.ceil(#songList / 10) - 1maxSongPage = math.ceil(#songList / 10) - 1
                 os.sleep(1)
             end
         end
@@ -234,6 +241,7 @@ end
 ---- main
 -- read from song_list.txt if exists
 readCache(songList, songListPath)
+maxSongPage = math.ceil(#songList / 10) - 1
 
 -- read from playlists.txt if exists
 readCache(playlists, playlistsPath)
