@@ -10,116 +10,171 @@ if (not success) then
 end
 
 local decoder = dfpwm.make_decoder()
-local listpath = "caches/music_list.txt"
-local music_list = {}
+local songListPath = "caches/song_list.txt"
+local playlistsPath = "caches/playlists.txt"
 
-local function updateCache()
-	local cacheFile = fs.open(listpath, "w")
 
-    for _, line in ipairs(music_list) do
-        cacheFile.writeLine(line[1] .. "|" .. line[2])
+-- cache tables
+local songList = {}
+local playlists = {}
+
+local sortedPlaylists = {}
+
+-- ui variables
+local uiLayer = 1
+local pageOffset = 0
+--songs list
+local maxSongPage = math.ceil(#songList / 10)
+--current playlist
+local currentPlaylist = {}
+
+
+local function updateCache(cacheTable, path)
+	local cacheFile = fs.open(path, "w")
+
+    for _, line in ipairs(cacheTable) do
+        cacheFile.writeLine(table.concat(line, "|"))
     end
 
 	cacheFile.close()
 end
 
-
----- main
--- read from music_list if exists
-if (fs.exists(listpath)) then
-    local file = fs.open(listpath, "r")
-    local line = file.readLine()
-    local i = 1
-    while (line) do
-        --if (music_list == {""}) then music_list = {} end
-        local song = {}
-        for str in string.gmatch(line, "[^%|]+") do
-            table.insert(song, str)
+local function readCache(cacheTable, path)
+    if (fs.exists(path)) then
+        local file = fs.open(path, "r")
+        local line = file.readLine()
+        local i = 1
+        while (line) do
+            local entry = {}
+            for str in string.gmatch(line, "[^%|]+") do
+                table.insert(entry, str)
+            end
+            cacheTable[i] = entry
+            
+            line = file.readLine()
+            i = i + 1
         end
-        music_list[i] = song
-        
-        line = file.readLine()
-        i = i + 1
     end
 end
 
-if (#music_list > 10) then
-    error("music list too long! ik its a skill issue but i dont wanna implement multi page ui-")
+local function updatePlaylists(removedIndex)
+    for i, line in ipairs(playlists) do
+        local songInPlaylist = false
+
+        -- binary search sorted playlist
+        local sorted = sortedPlaylists[i]
+        local k , j = 1, #sorted
+        while (j > k) do
+            if (sorted[k] == removedIndex or sorted[j] == removedIndex) then
+                songInPlaylist = true
+                break
+            end
+
+            local mid = math.floor(k + (j/2))
+            if (removedIndex < mid) then
+                j = mid - 1
+            elseif (removedIndex > mid) then
+                k = mid + 1
+            else
+                songInPlaylist = true
+                break
+            end
+        end
+
+        if (songInPlaylist) then
+            for i, song in ipairs(line) do
+                if (type(song) ~= "string" and song > removedIndex) then
+                    line[i] = song - 1;
+                end
+            end
+        end
+    end
+end
+
+-- *** INCONSISTENT DEPENDING ON VERSION OF CC: TWEAKED
+local function keyToDigit(key)
+    if (key < keys.zero or key > keys.nine) then error("key is not a digit") end
+
+    if (key == keys.zero) then
+        return 10
+    else
+        return key - keys.one + 1
+    end
 end
 
 
--- ui loop
-while true do
+
+--- ui functions
+local function songListUI()
     term.clear()
 
     print("songs:\n")
-    if (#music_list == 0) then
+    if (#songList == 0) then
         print("none")
     else
-        for i, line in ipairs(music_list) do
-            print(i .. ". " .. line[1])
+        local start = (pageOffset) * 10 + 1
+        for i = start, start + 10 do
+            print(i .. ". " .. songList[i][1])
         end
     end
 
-    print("\n\n1-0: play song, W: add song, E: edit song, D: delete song, X: exit")
+    print("\n\n1-0: play song, J,K: page up/down, A: add song, E: edit song, D: delete song, P: add to playlist, tab: playlists menu, X: exit")
 
     local event, key = os.pullEvent("key_up")
-    if (key >= keys.zero and key <= keys.nine and #music_list ~= 0) then
-        local num
-        if (key == keys.zero) then
-            num = 10
-        else
-            num = key - keys.one + 1
-        end
+    if (key >= keys.zero and key <= keys.nine and #songList ~= 0) then
+        local num = keyToDigit(key) + (pageOffset * 10)
 
-        if (music_list[num]) then
-            wgetPlayer.wget_play(music_list[num][2], music_list[num][1] .. ".dfpwm", keys.enter)
+        if (songList[num]) then
+            wgetPlayer.wget_play(songList[num][2], songList[num][1] .. ".dfpwm", keys.enter)
         end
-    elseif (key == keys.w) then
-        if (#music_list > 9) then
+    end
+    if (key == keys.j) then
+        pageOffset = math.min(pageOffset + 1)
+    end
+    if (key == keys.a) then
+        --[[if (#songList > 9) then
             print("no there's too many already")
-        else
-            term.clear()
+        else]]
+        term.clear()
 
-            print("new song title (spaces fine, pls no | thats my string separator):")
-            local input1 = read()
-            if (input1 == "") then goto continue end
-            while (string.find(input1, "%|")) do
-                print(">:(")
-                input1 = read()
-            end
-            --music_list[#music_list+1][1] = input
-
-            print("new song url (pls no | here either):")
-            local input2 = read()
-            if (input2 == "") then goto continue end
-            while (string.find(input2, "%|")) do
-                print(">:(")
-                input2 = read()
-            end
-            --music_list[#music_list+1][2] = input
-
-            table.insert(music_list, {input1, input2})
-
-            updateCache()
+        print("new song title (spaces fine, pls no | thats my string separator):")
+        local input1 = read()
+        if (input1 == "") then
+            goto continue
         end
-    elseif (key == keys.e) then
+        while (string.find(input1, "%|")) do
+            print(">:(")
+            input1 = read()
+        end
+        --songList[#songList+1][1] = input
+
+        print("new song url (pls no | here either):")
+        local input2 = read()
+        if (input2 == "") then
+            goto continue
+        end
+        while (string.find(input2, "%|")) do
+            print(">:(")
+            input2 = read()
+        end
+        --songList[#songList+1][2] = input
+
+        table.insert(songList, {input1, input2})
+
+        updateCache(songList, songListPath)
+    end
+    if (key == keys.e) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.zero and key <= keys.nine and #music_list ~= 0) then
-            local num
-            if (key == keys.zero) then
-                num = 10
-            else
-                num = key - keys.one + 1
-            end
+        if (key >= keys.zero and key <= keys.nine and #songList ~= 0) then
+            local num = keyToDigit(key) + (pageOffset * 10)
 
-            if (music_list[num]) then
+            if (songList[num]) then
                 term.clear()
 
                 print("new song title (spaces fine, pls no | thats my string separator):")
                 local input1 = read()
-                if (input1 == "") then input1 = music_list[num][1] end
+                if (input1 == "") then input1 = songList[num][1] end
                 while (string.find(input1, "%|")) do
                     print(">:(")
                     input1 = read()
@@ -127,38 +182,79 @@ while true do
 
                 print("new song url (pls no | here either):")
                 local input2 = read()
-                if (input2 == "") then input2 = music_list[num][2] end
+                if (input2 == "") then input2 = songList[num][2] end
                 while (string.find(input2, "%|")) do
                     print(">:(")
                     input2 = read()
                 end
                 
-                music_list[num] = {input1, input2}
+                songList[num] = {input1, input2}
 
-                updateCache()
+                updateCache(songList, songListPath)
             end
         end
-    elseif (key == keys.d) then
+    end
+    if (key == keys.d) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.zero and key <= keys.nine and #music_list ~= 0) then
-            local num
-            if (key == keys.zero) then
-                num = 10
-            else
-                num = key - keys.one + 1
-            end
+        if (key >= keys.zero and key <= keys.nine and #songList ~= 0) then
+            local num = keyToDigit(key) + (pageOffset * 10)
 
-            if (music_list[num]) then
-                print("removing " .. music_list[num][1])
-                table.remove(music_list, num)
-                updateCache()
+            if (songList[num]) then
+                print("removing " .. songList[num][1])
+                table.remove(songList, num)
+                updateCache(songList, songListPath)
+                updatePlaylists(num)
                 os.sleep(1)
             end
         end
-    elseif (key == keys.x) then
-        break
+    end
+    if (key == keys.x) then
+        uiLayer = 0
     end
 
     ::continue::
+end
+
+
+local function playlistsUI()
+    --
+end
+
+
+local function currentPlaylistUI()
+    --
+end
+
+
+
+---- main
+-- read from song_list.txt if exists
+readCache(songList, songListPath)
+
+-- read from playlists.txt if exists
+readCache(playlists, playlistsPath)
+-- generate sortedPlaylists for faster contains check
+for i, line in playlists do
+    sorted = { table.unpack(line, 2) }
+    table.sort(sorted)
+    sortedPlaylists[i] = sorted
+end
+
+--[[if (#songList > 10) then
+    error("music list too long! ik its a skill issue but i dont wanna implement multi page ui-")
+end]]
+
+
+-- ui loop
+while true do
+    if (uiLayer == 1) then
+        songListUI()
+    elseif (uiLayer == 2) then
+        playlistsUI()
+    elseif (uiLayer == 3) then
+        currentPlaylistUI()
+    else
+        break
+    end
 end
