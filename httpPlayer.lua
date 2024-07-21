@@ -10,13 +10,13 @@ local httpPlayer = {}
 
 httpPlayer.chunkSize = 16 * 1024
 
-local function playChunk(chunk, interruptKey)
+local function playChunk(chunk, interruptEvent)
     local buf = decoder(chunk)
     while not speaker.playAudio(buf) do
         local event, data = os.pullEvent()
 
-        if (interruptKey) then
-            if (event == "key_up" and data == interruptKey) then
+        if (interruptEvent) then
+            if (event == interruptEvent) then
                 speaker.stop()
                 return true
             end
@@ -26,7 +26,7 @@ local function playChunk(chunk, interruptKey)
     return false
 end
 
-local function streamFromUrl(audioUrl, audioByteLength, interruptKey)
+local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     --- stream audio chunks from url
     local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
 
@@ -56,7 +56,6 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptKey)
 
             -- increment
             chunkHandle = nextChunkHandle
-
             i = i + httpPlayer.chunkSize
             rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
             nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
@@ -84,7 +83,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptKey)
     response.close()
 end
 
-function httpPlayer.playFromUrl(audioUrl, interruptKey)
+function httpPlayer.playFromUrl(audioUrl, interruptEvent)
     -- check url
     local success, err = http.checkURL(audioUrl)
     if (not success) then
