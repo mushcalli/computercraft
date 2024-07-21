@@ -36,29 +36,33 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptKey)
 
     local rangeEnd = math.min(httpPlayer.chunkSize, audioByteLength)
     local chunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
-    local nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
-    while (i <= maxByteOffset) do
-        rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
+    if (audioByteLength >= httpPlayer.chunkSize) then
+        local nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+        while (i <= maxByteOffset) do
+            rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
 
-        -- send get range request
+            -- send get range request
         
-        nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+            nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
 
-        -- return if get error
-        if (chunkHandle.getResponseCode() == 412) then
-            print("get failed: file modified :(")
-            chunkHandle.close()
-            return
-        elseif (chunkHandle.getResponseCode ~= 200) then
-            print("get request failed :(")
-            chunkHandle.close()
-            return
+            -- return if get error
+            if (chunkHandle.getResponseCode() == 412) then
+                print("get failed: file modified :(")
+                chunkHandle.close()
+                return
+            elseif (chunkHandle.getResponseCode ~= 200) then
+                print("get request failed :(")
+                chunkHandle.close()
+                return
+            end
+
+            local chunk = chunkHandle.readAll()
+
+            -- increment i
+            i = i + httpPlayer.chunkSize
         end
-
-        local chunk = chunkHandle.readAll()
-
-        -- increment i
-        i = i + httpPlayer.chunkSize
+    else
+        --
     end
 
     local chunk = response.read(httpPlayer.chunkSize)
