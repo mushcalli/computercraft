@@ -40,8 +40,8 @@ function httpPlayer.play_from_url(url, interruptKey)
     end
 
     -- play from response handle
-    local chunk = response.read(chunkSize)
-    local nextChunk = response.read(chunkSize)
+    local chunk = response.read(httpPlayer.chunkSize)
+    local nextChunk = response.read(httpPlayer.chunkSize)
     while (nextChunk) do
         local interrupt = playChunk(chunk, interruptKey)
         if (interrupt) then
@@ -51,7 +51,7 @@ function httpPlayer.play_from_url(url, interruptKey)
         end
         
         chunk = nextChunk
-        nextChunk = response.read(chunkSize)
+        nextChunk = response.read(httpPlayer.chunkSize)
     end
     playChunk(chunk, interruptKey)
 
