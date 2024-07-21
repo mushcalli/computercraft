@@ -103,11 +103,8 @@ local function keyToDigit(key)
 end
 
 
-
 --- ui functions
 local function songListUI()
-    term.clear()
-
     print("songs:\n")
     if (#songList == 0) then
         print("none")
@@ -129,8 +126,9 @@ local function songListUI()
         local num = keyToDigit(key) + (pageOffset * 10)
 
         if (songList[num]) then
+            term.clear()
             print("(press enter to stop)")
-            httpPlayer.play_from_url(songList[num][2], keys.enter)
+            httpPlayer.playFromUrl(songList[num][2], keys.enter)
         end
     end
     -- jrop and klimb :relieved:
@@ -227,16 +225,13 @@ local function songListUI()
     ::continue::
 end
 
-
 local function playlistsUI()
     --
 end
 
-
 local function currentPlaylistUI()
     --
 end
-
 
 
 ---- main
@@ -260,6 +255,8 @@ end]]
 
 -- ui loop
 while true do
+    term.clear()
+
     if (uiLayer == 1) then
         songListUI()
     elseif (uiLayer == 2) then

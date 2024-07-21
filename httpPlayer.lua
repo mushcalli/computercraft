@@ -17,6 +17,7 @@ local function playChunk(chunk, interruptKey)
 
         if (interruptKey) then
             if (event == "key_up" and data == interruptKey) then
+                speaker.stop()
                 return true
             end
         end
@@ -25,21 +26,41 @@ local function playChunk(chunk, interruptKey)
     return false
 end
 
-function httpPlayer.play_from_url(url, interruptKey)
-    -- check url
-    local success, err = http.checkURL(url)
-    if (not success) then
-        print(err or "invalid url")
+local function streamFromUrl(audioUrl, audioByteLength, interruptKey)
+    --- stream audio chunks from url
+    local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
+
+    
+    local i = 0
+    local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
+
+    local rangeEnd = math.min(httpPlayer.chunkSize, audioByteLength)
+    local chunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
+    local nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+    while (i <= maxByteOffset) do
+        rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
+
+        -- send get range request
+        
+        nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+
+        -- return if get error
+        if (chunkHandle.getResponseCode() == 412) then
+            print("get failed: file modified :(")
+            chunkHandle.close()
+            return
+        elseif (chunkHandle.getResponseCode ~= 200) then
+            print("get request failed :(")
+            chunkHandle.close()
+            return
+        end
+
+        local chunk = chunkHandle.readAll()
+
+        -- increment i
+        i = i + httpPlayer.chunkSize
     end
 
-    -- do get request
-    local response = http.get(url)
-    if (not response) then
-        print("get request failed :(")
-        return
-    end
-
-    -- play from response handle
     local chunk = response.read(httpPlayer.chunkSize)
     local nextChunk = response.read(httpPlayer.chunkSize)
     while (nextChunk) do
@@ -57,6 +78,56 @@ function httpPlayer.play_from_url(url, interruptKey)
 
     -- close response handle when done
     response.close()
+end
+
+function httpPlayer.playFromUrl(audioUrl, interruptKey)
+    -- check url
+    local success, err = http.checkURL(audioUrl)
+    if (not success) then
+        print(err or "invalid url")
+    end
+
+
+    --- head request
+    http.request({url = audioUrl, method = "HEAD"})
+
+    local event, _url, handle
+    repeat
+        event, _url, handle = os.pullEvent("http_success")
+    until _url == audioUrl
+
+    -- get content length and partial request support
+    local headers = handle.getResponseHeaders()
+    local audioByteLength = headers["Content-Length"]
+    local usePartialRequests = (headers["Accept-Ranges"] and headers["Accept-Ranges"] ~= "none")
+
+
+    --- playback
+    if (usePartialRequests) then
+        streamFromUrl(audioUrl, audioByteLength, interruptKey)
+    else
+        --- play from single get request
+        local response = http.get(audioUrl)
+        if (not response) then
+            print("get request failed :(")
+            return
+        end
+
+        local chunk = response.read(httpPlayer.chunkSize)
+        while (chunk) do
+            local interrupt = playChunk(chunk, interruptKey)
+            if (interrupt) then
+                -- close response handle and exit early
+                response.close()
+                return
+            end
+
+            chunk = response.read(httpPlayer.chunkSize)
+        end
+
+        -- close response handle when done
+        response.close()
+    end
 end
 
 
