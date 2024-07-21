@@ -3,10 +3,10 @@ local dfpwm = require("cc.audio.dfpwm")
 local speaker = peripheral.find("speaker")
 if (not speaker) then error("error: speaker not found") end
 
-local success, wgetPlayer = pcall(require, "wgetPlayer")
+local success, httpPlayer = pcall(require, "httpPlayer")
 if (not success) then
-    shell.run("wget https://github.com/noodle2521/computercraft/raw/main/wgetPlayer.lua wgetPlayer.lua")
-    wgetPlayer = require("wgetPlayer")
+    shell.run("wget https://github.com/noodle2521/computercraft/raw/main/httpPlayer.lua httpPlayer.lua")
+    httpPlayer = require("httpPlayer")
 end
 
 local decoder = dfpwm.make_decoder()
@@ -129,7 +129,8 @@ local function songListUI()
         local num = keyToDigit(key) + (pageOffset * 10)
 
         if (songList[num]) then
-            wgetPlayer.wget_play(songList[num][2], songList[num][1] .. ".dfpwm", keys.enter)
+            print("(press enter to stop)")
+            httpPlayer.play_from_url(songList[num][2], keys.enter)
         end
     end
     -- jrop and klimb :relieved:
@@ -214,7 +215,7 @@ local function songListUI()
                 table.remove(songList, num)
                 updateCache(songList, songListPath)
                 updatePlaylists(num)
-                maxSongPage = math.ceil(#songList / 10) - 1maxSongPage = math.ceil(#songList / 10) - 1
+                maxSongPage = math.ceil(#songList / 10) - 1
                 os.sleep(1)
             end
         end

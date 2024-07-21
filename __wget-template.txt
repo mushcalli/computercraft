@@ -1,9 +1,0 @@
-(FILENAME IS REQUIRED NOW TO GET CORRECT FILE FORMAT)
-
-
-computercraft:
-wget https://drive.google.com/uc?id=[file-id] [filename]
-
-
-bash:
-wget https://drive.google.com/uc?id=[file-id] -O [filename]
