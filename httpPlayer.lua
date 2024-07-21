@@ -31,26 +31,22 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptKey)
     local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
 
     
-    local i = 0
+    local i
     local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
 
     local rangeEnd = math.min(httpPlayer.chunkSize, audioByteLength)
     local chunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
     if (audioByteLength >= httpPlayer.chunkSize) then
+        i = httpPlayer.chunkSize
+        rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
         local nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         while (i <= maxByteOffset) do
-            rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
-
-            -- send get range request
-        
-            nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
-
             -- return if get error
-            if (chunkHandle.getResponseCode() == 412) then
+            if (chunkHandle.getResponseCode() == 412 or nextChunkHandle.getResponseCode() == 412) then
                 print("get failed: file modified :(")
                 chunkHandle.close()
                 return
-            elseif (chunkHandle.getResponseCode ~= 200) then
+            elseif (chunkHandle.getResponseCode ~= 200 or nextChunkHandle.getResponseCode() ~= 200) then
                 print("get request failed :(")
                 chunkHandle.close()
                 return
@@ -58,8 +54,12 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptKey)
 
             local chunk = chunkHandle.readAll()
 
-            -- increment i
+            -- increment
+            chunkHandle = nextChunkHandle
+
             i = i + httpPlayer.chunkSize
+            rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
+            nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         end
     else
         --
