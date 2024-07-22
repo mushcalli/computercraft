@@ -33,11 +33,11 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     local i
     local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
 
-    local rangeEnd = math.min(httpPlayer.chunkSize, audioByteLength)
+    local rangeEnd = math.min(httpPlayer.chunkSize - 1, audioByteLength - 1)
     local chunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
     if (audioByteLength >= httpPlayer.chunkSize) then
         i = httpPlayer.chunkSize
-        rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
+        rangeEnd = math.min((2 * httpPlayer.chunkSize) - 1, audioByteLength - 1)
         local nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         while (i <= maxByteOffset) do
             -- return if get error
@@ -61,7 +61,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
             chunkHandle.close()
             chunkHandle = nextChunkHandle
             i = i + httpPlayer.chunkSize
-            rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
+            rangeEnd = math.min(i + httpPlayer.chunkSize - 1, audioByteLength - 1)
             nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
 
             -- wait through remainder of chunk run time, receive interrupts
