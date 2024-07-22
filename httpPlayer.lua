@@ -67,7 +67,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
             nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
 
             -- wait through remainder of chunk run time, receive interrupts
-            while not speaker.playAudio(buf) do
+            repeat
                 local event, data = os.pullEvent()
         
                 if (interruptEvent) then
@@ -78,7 +78,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                         return
                     end
                 end
-            end
+            until event == "speaker_audio_empty"
         end
     end
 
