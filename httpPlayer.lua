@@ -45,7 +45,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                 print("get failed: file modified :(")
                 chunkHandle.close()
                 return
-            elseif (chunkHandle.getResponseCode() ~= 200 or nextChunkHandle.getResponseCode() ~= 200) then
+            elseif (chunkHandle.getResponseCode() ~= 206 or nextChunkHandle.getResponseCode() ~= 206) then
                 print("get request failed :( (" .. chunkHandle.getResponseCode() .. ")")
                 chunkHandle.close()
                 return
