@@ -126,7 +126,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
             byteHandle.close()
             return
         end
-        local _, __, audioByteLength = string.find(, "([^%/]+)$")
+        local _, __, audioByteLength = string.find(header, "([^%/]+)$")
         audioByteLength = tonumber(audioByteLength)
 
         streamFromUrl(audioUrl, audioByteLength, interruptEvent)
