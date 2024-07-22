@@ -116,11 +116,17 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
         -- get request the first byte to scrape the full file's Content-Length from lmfao
         local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-0"})
         if (byteHandle.getResponseCode ~= 200) then
-            print("get request failed :(")
+            print("get request failed :( (".. byteHandle.getResponseCode() .. ")")
             byteHandle.close()
             return
         end
-        local _, __, audioByteLength = string.find(byteHandle.getResponseHeaders()["Content-Range"], "([^%/]+)$")
+        local header = byteHandle.getResponseHeaders()["Content-Range"]
+        if (not header) then
+            print("get request failed :( (no Content-Range)")
+            byteHandle.close()
+            return
+        end
+        local _, __, audioByteLength = string.find(, "([^%/]+)$")
         audioByteLength = tonumber(audioByteLength)
 
         streamFromUrl(audioUrl, audioByteLength, interruptEvent)
