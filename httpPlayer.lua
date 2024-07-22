@@ -26,10 +26,9 @@ local function playChunk(chunk, interruptEvent)
     return false
 end
 
+--- stream audio chunks from url
 local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
-    --- stream audio chunks from url
     local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
-
     
     local i
     local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
@@ -47,7 +46,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                 chunkHandle.close()
                 return
             elseif (chunkHandle.getResponseCode() ~= 200 or nextChunkHandle.getResponseCode() ~= 200) then
-                print("get request failed :(")
+                print("get request failed :( (" .. chunkHandle.getResponseCode() .. ")")
                 chunkHandle.close()
                 return
             end
