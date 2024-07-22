@@ -114,7 +114,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
     --- playback
     if (usePartialRequests) then
         -- get request the first byte to scrape the full file's Content-Length from lmfao
-        local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-1"})
+        local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-0"})
         local audioByteLength = tonumber(string.gmatch(byteHandle.getResponseHeaders()["Content-Range"], "([^%/]+)$"))
 
         streamFromUrl(audioUrl, audioByteLength, interruptEvent)
