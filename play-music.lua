@@ -1,5 +1,3 @@
-local dfpwm = require("cc.audio.dfpwm")
-
 local speaker = peripheral.find("speaker")
 if (not speaker) then error("error: speaker not found") end
 
@@ -9,7 +7,7 @@ if (not success) then
     httpPlayer = require("httpPlayer")
 end
 
-local decoder = dfpwm.make_decoder()
+
 local songListPath = "caches/song_list.txt"
 local playlistsPath = "caches/playlists.txt"
 
@@ -20,7 +18,7 @@ local playlists = {}
 
 local sortedPlaylists = {}
 
--- ui variables
+--- ui variables
 local uiLayer = 1
 local pageOffset = 0
 --songs list
@@ -128,7 +126,7 @@ local function songListUI()
         if (songList[num]) then
             term.clear()
             print("(press enter to stop)")
-            httpPlayer.playFromUrl(songList[num][2], keys.enter)
+            httpPlayer.playFromUrl(songList[num][2], "song_interrupt")
         end
     end
     -- jrop and klimb :relieved:
@@ -218,6 +216,12 @@ local function songListUI()
             end
         end
     end
+    if (key == keys.p) then
+        --
+    end
+    if (key == keys.tab) then
+        --
+    end
     if (key == keys.x) then
         uiLayer = 0
     end
@@ -231,6 +235,28 @@ end
 
 local function currentPlaylistUI()
     --
+end
+
+local function playSongWithUI(url)
+    local function playSong()
+        httpPlayer.playFromUrl(songList[num][2], "song_interrupt")
+    end
+
+    local function songUI()
+        term.clear()
+        print("(press enter to stop)")
+
+        local event, key
+        while true do
+            event, key = os.pullEvent("key_up")
+            if (key == keys.enter) then
+                os.queueEvent("song_interrupt")
+            end
+        end
+    end
+
+    
+    parallel.waitForAny(playSong, songUI)
 end
 
 

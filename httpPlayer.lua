@@ -111,7 +111,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
 
     --- playback
     if (usePartialRequests) then
-        streamFromUrl(audioUrl, audioByteLength, interruptKey)
+        streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     else
         --- play from single get request
         local response = http.get(audioUrl)
@@ -122,7 +122,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
 
         local chunk = response.read(httpPlayer.chunkSize)
         while (chunk) do
-            local interrupt = playChunk(chunk, interruptKey)
+            local interrupt = playChunk(chunk, interruptEvent)
             if (interrupt) then
                 -- close response handle and exit early
                 response.close()
