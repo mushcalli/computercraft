@@ -122,6 +122,7 @@ local function playSongWithUI(url)
 
     
     parallel.waitForAny(playSong, songUI)
+    os.sleep(0.5)
 end
 
 local function songListUI()
