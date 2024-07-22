@@ -7,8 +7,8 @@ local decoder = dfpwm.make_decoder()
 
 local httpPlayer = {}
 
-
 httpPlayer.chunkSize = 16 * 1024
+
 
 local function playChunk(chunk, interruptEvent)
     local buf = decoder(chunk)
@@ -52,35 +52,39 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                 return
             end
 
+            -- start playback of chunk (~2.7s for default chunkSize of 16kb)
             local chunk = chunkHandle.readAll()
+            local buf = decoder(chunk)
+            speaker.playAudio(buf)
 
-            -- increment
+            -- increment, get next chunk while current is playing
+            -- (smooth playback relies on being able to http get the next fixed-size chunk during the current one's run time, adjust chunkSize as needed)
+            chunkHandle.close()
             chunkHandle = nextChunkHandle
             i = i + httpPlayer.chunkSize
             rangeEnd = math.min(i + httpPlayer.chunkSize, audioByteLength)
             nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
-        end
-    else
-        --
-    end
 
-    local chunk = response.read(httpPlayer.chunkSize)
-    local nextChunk = response.read(httpPlayer.chunkSize)
-    while (nextChunk) do
-        local interrupt = playChunk(chunk, interruptKey)
-        if (interrupt) then
-            -- close response handle and exit early
-            response.close()
-            return
-        end
+            -- wait through remainder of chunk run time, receive interrupts
+            while not speaker.playAudio(buf) do
+                local event, data = os.pullEvent()
         
-        chunk = nextChunk
-        nextChunk = response.read(httpPlayer.chunkSize)
+                if (interruptEvent) then
+                    if (event == interruptEvent) then
+                        speaker.stop()
+                        chunkHandle.close()
+                        nextChunkHandle.close()
+                        return
+                    end
+                end
+            end
+        end
     end
-    playChunk(chunk, interruptKey)
 
-    -- close response handle when done
-    response.close()
+    -- play last chunk
+    local chunk = chunkHandle.readAll()
+    playChunk(chunk, interruptEvent)
+    chunkHandle.close()
 end
 
 function httpPlayer.playFromUrl(audioUrl, interruptEvent)
