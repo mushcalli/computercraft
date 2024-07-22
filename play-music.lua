@@ -102,6 +102,28 @@ end
 
 
 --- ui functions
+local function playSongWithUI(url)
+    local function playSong()
+        httpPlayer.playFromUrl(url, "song_interrupt")
+    end
+
+    local function songUI()
+        term.clear()
+        print("(press enter to stop)")
+
+        local event, key
+        while true do
+            event, key = os.pullEvent("key_up")
+            if (key == keys.enter) then
+                os.queueEvent("song_interrupt")
+            end
+        end
+    end
+
+    
+    parallel.waitForAny(playSong, songUI)
+end
+
 local function songListUI()
     print("songs:\n")
     if (#songList == 0) then
@@ -124,9 +146,7 @@ local function songListUI()
         local num = keyToDigit(key) + (pageOffset * 10)
 
         if (songList[num]) then
-            term.clear()
-            print("(press enter to stop)")
-            httpPlayer.playFromUrl(songList[num][2], "song_interrupt")
+            playSongWithUI(songList[num][2])
         end
     end
     -- jrop and klimb :relieved:
@@ -235,28 +255,6 @@ end
 
 local function currentPlaylistUI()
     --
-end
-
-local function playSongWithUI(url)
-    local function playSong()
-        httpPlayer.playFromUrl(songList[num][2], "song_interrupt")
-    end
-
-    local function songUI()
-        term.clear()
-        print("(press enter to stop)")
-
-        local event, key
-        while true do
-            event, key = os.pullEvent("key_up")
-            if (key == keys.enter) then
-                os.queueEvent("song_interrupt")
-            end
-        end
-    end
-
-    
-    parallel.waitForAny(playSong, songUI)
 end
 
 
