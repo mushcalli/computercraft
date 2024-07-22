@@ -46,7 +46,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                 chunkHandle.close()
                 return
             elseif (chunkHandle.getResponseCode() ~= 206 or nextChunkHandle.getResponseCode() ~= 206) then
-                print("get request failed :( (" .. chunkHandle.getResponseCode() .. ")")
+                print("get request failed :( (" .. chunkHandle.getResponseCode() .. ", " .. nextChunkHandle.getResponseCode() .. ")")
                 chunkHandle.close()
                 return
             end
