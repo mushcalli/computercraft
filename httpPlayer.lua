@@ -95,6 +95,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
     end
 
 
+    
     --- head request
     http.request({url = audioUrl, method = "HEAD"})
 
@@ -105,12 +106,17 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
 
     -- get content length and partial request support
     local headers = handle.getResponseHeaders()
-    local audioByteLength = headers["Content-Length"]
+    --local audioByteLength = headers["Content-Length"]
+    ---- BROKEN FOR GITHUB RAW LINKS ^^ idk why github isnt properly implementing the Content-Length headers in their HEAD request responses :(((
     local usePartialRequests = (headers["Accept-Ranges"] and headers["Accept-Ranges"] ~= "none")
 
 
     --- playback
     if (usePartialRequests) then
+        -- get request the first byte to scrape the full file's Content-Length from lmfao
+        local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-1"})
+        local audioByteLength = tonumber(string.gmatch(byteHandle.getResponseHeaders()["Content-Range"], "([^%/]+)$"))
+
         streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     else
         --- play from single get request
