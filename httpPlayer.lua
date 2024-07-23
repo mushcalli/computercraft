@@ -7,6 +7,8 @@ local decoder = dfpwm.make_decoder()
 
 local httpPlayer = {}
 
+-- (chunkSize can be decreased on faster internet connections for faster initial buffering on song playback, or increased on slower ones for more consistent playback)
+-- (max 16 * 1024)
 httpPlayer.chunkSize = 16 * 1024
 
 
@@ -78,7 +80,6 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
             end
 
             -- increment, get next chunk while current is playing
-            -- (smooth playback relies on being able to http get the next fixed-size chunk during the current one's run time, adjust chunkSize as needed)
             chunkHandle.close()
             chunkHandle = nextChunkHandle
             i = i + httpPlayer.chunkSize
