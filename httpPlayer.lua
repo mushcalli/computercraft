@@ -78,7 +78,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                         return
                     end
                 end
-            until event == "speaker_audio_empty"
+            until speaker.playAudio(buf)
         end
     end
 
