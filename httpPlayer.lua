@@ -55,7 +55,6 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
 
             local chunk = chunkHandle.readAll()
             local buf = decoder(chunk)
-            speaker.playAudio(buf)
             -- play chunk once speaker can receieve it, catch interrupts
             -- (chunk run time ~2.7s for default chunkSize of 16kb)
             while (not speaker.playAudio(buf)) do
