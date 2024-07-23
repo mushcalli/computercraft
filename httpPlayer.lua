@@ -34,24 +34,31 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
 
     local rangeEnd = math.min(httpPlayer.chunkSize - 1, audioByteLength - 1)
-    local chunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
-    if (audioByteLength >= httpPlayer.chunkSize) then
+    local chunkHandle, chunkErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
+    if (audioByteLength > httpPlayer.chunkSize) then
         i = httpPlayer.chunkSize
         rangeEnd = math.min((2 * httpPlayer.chunkSize) - 1, audioByteLength - 1)
-        local nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+        local nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         while (i <= maxByteOffset) do
             -- return if get error
+            if (not chunkHandle) then
+                print("get failed :( \"" .. chunkErr .. "\"")
+            end
+            if (not nextChunkHandle) then
+                print("get failed :( \"" .. nextErr .. "\"")
+            end
             if (chunkHandle.getResponseCode() == 412 or nextChunkHandle.getResponseCode() == 412) then
                 print("get failed: file modified :(")
                 chunkHandle.close()
                 nextChunkHandle.close()
                 return
-            elseif (chunkHandle.getResponseCode() ~= 206 or nextChunkHandle.getResponseCode() ~= 206) then
+            end
+            --[[elseif (chunkHandle.getResponseCode() ~= 206 or nextChunkHandle.getResponseCode() ~= 206) then
                 print("get request failed :( (" .. chunkHandle.getResponseCode() .. ", " .. nextChunkHandle.getResponseCode() .. ")")
                 chunkHandle.close()
                 nextChunkHandle.close()
                 return
-            end
+            end]]
 
             local chunk = chunkHandle.readAll()
             local buf = decoder(chunk)
@@ -76,7 +83,7 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
             chunkHandle = nextChunkHandle
             i = i + httpPlayer.chunkSize
             rangeEnd = math.min(i + httpPlayer.chunkSize - 1, audioByteLength - 1)
-            nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+            nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         end
     end
 
@@ -115,13 +122,13 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
         -- get request the first byte to scrape the full file's Content-Length from lmfao
         local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-0"})
         if (byteHandle.getResponseCode() ~= 206) then
-            print("get request failed :( (".. byteHandle.getResponseCode() .. ")")
+            print("byte get request failed :( (".. byteHandle.getResponseCode() .. ")")
             byteHandle.close()
             return
         end
         local _header = byteHandle.getResponseHeaders()["Content-Range"]
         if (not _header) then
-            print("get request failed :( (no Content-Range)")
+            print("byte get request failed :( (no Content-Range)")
             byteHandle.close()
             return
         end
