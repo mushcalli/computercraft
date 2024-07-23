@@ -53,21 +53,12 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                 return
             end
 
-            -- start playback of chunk (~2.7s for default chunkSize of 16kb)
             local chunk = chunkHandle.readAll()
             local buf = decoder(chunk)
             speaker.playAudio(buf)
-
-            -- increment, get next chunk while current is playing
-            -- (smooth playback relies on being able to http get the next fixed-size chunk during the current one's run time, adjust chunkSize as needed)
-            chunkHandle.close()
-            chunkHandle = nextChunkHandle
-            i = i + httpPlayer.chunkSize
-            rangeEnd = math.min(i + httpPlayer.chunkSize - 1, audioByteLength - 1)
-            nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
-
-            -- wait through remainder of chunk run time, receive interrupts
-            repeat
+            -- play chunk once speaker can receieve it, catch interrupts
+            -- (chunk run time ~2.7s for default chunkSize of 16kb)
+            while (not speaker.playAudio(buf)) do
                 local event, data = os.pullEvent()
         
                 if (interruptEvent) then
@@ -78,7 +69,15 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                         return
                     end
                 end
-            until speaker.playAudio(buf)
+            end
+
+            -- increment, get next chunk while current is playing
+            -- (smooth playback relies on being able to http get the next fixed-size chunk during the current one's run time, adjust chunkSize as needed)
+            chunkHandle.close()
+            chunkHandle = nextChunkHandle
+            i = i + httpPlayer.chunkSize
+            rangeEnd = math.min(i + httpPlayer.chunkSize - 1, audioByteLength - 1)
+            nextChunkHandle = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         end
     end
 
