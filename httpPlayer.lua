@@ -45,14 +45,14 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
             -- return if get error
             if (not chunkHandle) then
                 print("get failed :( \"" .. chunkErr .. "\"")
-                chunkHandle.close()
-                nextChunkHandle.close()
+                if (nextChunkHandle) then
+                    nextChunkHandle.close()
+                end
                 return
             end
             if (not nextChunkHandle) then
                 print("get failed :( \"" .. nextErr .. "\"")
                 chunkHandle.close()
-                nextChunkHandle.close()
                 return
             end
             if (chunkHandle.getResponseCode() == 412 or nextChunkHandle.getResponseCode() == 412) then
