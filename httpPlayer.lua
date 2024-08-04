@@ -30,17 +30,19 @@ end
 
 --- stream audio chunks from url
 local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
-    local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
+    --local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
     
     local i
     local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
 
     local rangeEnd = math.min(httpPlayer.chunkSize - 1, audioByteLength - 1)
-    local chunkHandle, chunkErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
+    --local chunkHandle, chunkErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
+    local chunkHandle, chunkErr = http.get(audioUrl, {["Range"] = "bytes=0-" .. rangeEnd})
     if (audioByteLength > httpPlayer.chunkSize) then
         i = httpPlayer.chunkSize
         rangeEnd = math.min((2 * httpPlayer.chunkSize) - 1, audioByteLength - 1)
-        local nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+        --local nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+        local nextChunkHandle, nextErr = http.get(audioUrl, {["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         while (i <= maxByteOffset) do
             -- return if get error
             if (not chunkHandle) then
@@ -55,18 +57,18 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                 chunkHandle.close()
                 return
             end
-            if (chunkHandle.getResponseCode() == 412 or nextChunkHandle.getResponseCode() == 412) then
+            --[[if (chunkHandle.getResponseCode() == 412 or nextChunkHandle.getResponseCode() == 412) then
                 print("get failed: file modified :(")
                 chunkHandle.close()
                 nextChunkHandle.close()
                 return
-            end
-            --[[elseif (chunkHandle.getResponseCode() ~= 206 or nextChunkHandle.getResponseCode() ~= 206) then
+            end]]
+            if (chunkHandle.getResponseCode() ~= 206 or nextChunkHandle.getResponseCode() ~= 206) then
                 print("get request failed :( (" .. chunkHandle.getResponseCode() .. ", " .. nextChunkHandle.getResponseCode() .. ")")
                 chunkHandle.close()
                 nextChunkHandle.close()
                 return
-            end]]
+            end
 
             local chunk = chunkHandle.readAll()
             local buf = decoder(chunk)
@@ -90,7 +92,8 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
             chunkHandle = nextChunkHandle
             i = i + httpPlayer.chunkSize
             rangeEnd = math.min(i + httpPlayer.chunkSize - 1, audioByteLength - 1)
-            nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+            --nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+            nextChunkHandle, nextErr = http.get(audioUrl, {["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
         end
     end
 
