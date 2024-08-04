@@ -45,9 +45,15 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
             -- return if get error
             if (not chunkHandle) then
                 print("get failed :( \"" .. chunkErr .. "\"")
+                chunkHandle.close()
+                nextChunkHandle.close()
+                return
             end
             if (not nextChunkHandle) then
                 print("get failed :( \"" .. nextErr .. "\"")
+                chunkHandle.close()
+                nextChunkHandle.close()
+                return
             end
             if (chunkHandle.getResponseCode() == 412 or nextChunkHandle.getResponseCode() == 412) then
                 print("get failed: file modified :(")
@@ -120,7 +126,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
 
     --- playback
     if (usePartialRequests) then
-        -- get request the first byte to scrape the full file's Content-Length from lmfao
+        -- request the first byte to scrape the full file's Content-Length from lmfao
         local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-0"})
         if (byteHandle.getResponseCode() ~= 206) then
             print("byte get request failed :( (".. byteHandle.getResponseCode() .. ")")
