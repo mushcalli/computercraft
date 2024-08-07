@@ -18,6 +18,9 @@ local playlists = {}
 
 local sortedPlaylists = {}
 
+-- constants
+local bytesPerSecond = 6000 -- 48kHz cc: tweaked speakers, dfpwm has 1 bit samples
+
 --- ui variables
 local uiLayer = 1
 local pageOffset = 0
@@ -80,9 +83,11 @@ local function updatePlaylists(removedIndex)
         end
 
         if (songInPlaylist) then
-            for i, song in ipairs(line) do
-                if (type(song) ~= "string" and song > removedIndex) then
-                    line[i] = song - 1;
+            local songs = { table.unpack(line, 2) }
+            for i, song in ipairs(songs) do
+                local id = tonumber(song)
+                if (id > removedIndex) then
+                    line[i] = id - 1;
                 end
             end
         end
@@ -102,26 +107,30 @@ end
 
 
 --- ui functions
-local function playSongWithUI(url)
+local function playSongWithUI(url, prevName, nextName)
     local function playSong()
         httpPlayer.playFromUrl(url, "song_interrupt")
     end
 
     local function songUI()
-        term.clear()
-        print("(press enter to stop)")
+        local allowSeek, audioByteLength = httpPlayer.pollUrl(url)
 
-        local event, key
+        local paused = faLse
         while true do
-            event, key = os.pullEvent("key_up")
+            term.clear()
+            print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
+
+
+            local event, key = os.pullEvent("key_up")
             if (key == keys.enter) then
                 os.queueEvent("song_interrupt")
+                return
             end
         end
     end
 
     
-    parallel.waitForAny(playSong, songUI)
+    parallel.waitForAll(playSong, songUI)
     os.sleep(0.5)
 end
 
@@ -140,7 +149,7 @@ local function songListUI()
         end
     end
 
-    print("\n\n1-0: play song, J,K: page up/down, A: add song, E: edit song, D: delete song, P: add to playlist, tab: playlists menu, X: exit")
+    print("\n\n1-0: play song, J,K: page down/up, A: add song, E: edit song, D: delete song, P: add to playlist, tab: playlists menu, X: exit")
 
     local event, key = os.pullEvent("key_up")
     if (key >= keys.zero and key <= keys.nine and #songList ~= 0) then
@@ -241,7 +250,7 @@ local function songListUI()
         --
     end
     if (key == keys.tab) then
-        --
+        uiLayer = 2
     end
     if (key == keys.x) then
         uiLayer = 0
@@ -268,7 +277,7 @@ maxSongPage = math.ceil(#songList / 10) - 1
 readCache(playlists, playlistsPath)
 -- generate sortedPlaylists for faster contains check
 for i, line in ipairs(playlists) do
-    sorted = { table.unpack(line, 2) }
+    local sorted = { table.unpack(line, 2) }
     table.sort(sorted)
     sortedPlaylists[i] = sorted
 end

@@ -103,48 +103,31 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     chunkHandle.close()
 end
 
-function httpPlayer.playFromUrl(audioUrl, interruptEvent)
+function httpPlayer.playFromUrl(audioUrl, interruptEvent, usePartialRequests, audioByteLength)
+    -- last 2 args optional, only to be used if url has been polled externally
+    usePartialRequests = usePartialRequests or nil
+    audioByteLength = audioByteLength or nil
+
+
     -- check url
     local success, err = http.checkURL(audioUrl)
     if (not success) then
         print(err or "invalid url")
+        return
     end
 
 
-    
-    --- head request
-    http.request({url = audioUrl, method = "HEAD"})
-
-    local event, _url, handle
-    repeat
-        event, _url, handle = os.pullEvent("http_success")
-    until _url == audioUrl
-
-    -- get content length and partial request support
-    local headers = handle.getResponseHeaders()
-    --local audioByteLength = headers["Content-Length"]
-    ---- BROKEN FOR GITHUB RAW LINKS ^^ idk why github isnt properly implementing the Content-Length headers in their HEAD request responses :(((
-    local usePartialRequests = (headers["Accept-Ranges"] and headers["Accept-Ranges"] ~= "none")
+    -- poll url for usePartialRequests, audioByteLength
+    if (not usePartialRequests) then
+        usePartialRequests, audioByteLength = httpPlayer.pollUrl(audioUrl)
+    end
+    if (usePartialRequests == nil) then
+        return
+    end
 
 
     --- playback
     if (usePartialRequests) then
-        -- request the first byte to scrape the full file's Content-Length from lmfao
-        local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-0"})
-        if (byteHandle.getResponseCode() ~= 206) then
-            print("byte get request failed :( (".. byteHandle.getResponseCode() .. ")")
-            byteHandle.close()
-            return
-        end
-        local _header = byteHandle.getResponseHeaders()["Content-Range"]
-        if (not _header) then
-            print("byte get request failed :( (no Content-Range)")
-            byteHandle.close()
-            return
-        end
-        local _, __, audioByteLength = string.find(_header, "([^%/]+)$")
-        audioByteLength = tonumber(audioByteLength)
-
         streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     else
         --- play from single get request
@@ -169,6 +152,54 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent)
         -- close response handle when done
         response.close()
     end
+end
+
+--- returns { supportsPartialRequests, audioByteLength }
+-- { false, nil } if partial requests not supported
+-- nil if error (invalid url/get failed)
+function httpPlayer.pollUrl(audioUrl)
+    -- check url
+    local success, err = http.checkURL(audioUrl)
+    if (not success) then
+        print(err or "invalid url")
+        return nil
+    end
+
+
+    -- head request
+    http.request({url = audioUrl, method = "HEAD"})
+    local event, _url, handle
+    repeat
+        event, _url, handle = os.pullEvent("http_success")
+    until _url == audioUrl
+
+    local headers = handle.getResponseHeaders()
+    --local audioByteLength = headers["Content-Length"]
+    ---- BROKEN FOR GITHUB RAW LINKS ^^ idk why github isnt properly implementing the Content-Length headers in their HEAD request responses :(((
+    local supportsPartialRequests = (headers["Accept-Ranges"] and headers["Accept-Ranges"] ~= "none")
+    if not (supportsPartialRequests) then
+        return { false, nil }
+    end
+
+
+    -- request the first byte to scrape the full file's Content-Length from lmfao
+    local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-0"})
+    if (byteHandle.getResponseCode() ~= 206) then
+        print("byte get request failed :( (".. byteHandle.getResponseCode() .. ")")
+        byteHandle.close()
+        return nil
+    end
+    local _header = byteHandle.getResponseHeaders()["Content-Range"]
+    if (not _header) then
+        print("byte get request failed :( (no Content-Range)")
+        byteHandle.close()
+        return nil
+    end
+    local _, __, audioByteLength = string.find(_header, "([^%/]+)$")
+    audioByteLength = tonumber(audioByteLength)
+
+
+    return { supportsPartialRequests, audioByteLength }
 end
 
 
