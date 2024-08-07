@@ -106,8 +106,8 @@ end
 function httpPlayer.playFromUrl(audioUrl, interruptEvent, usePartialRequests, audioByteLength)
     -- last 2 args optional, only to be used if url has been polled externally
 
-    -- poll url for usePartialRequests, audioByteLength
-    if (usePartialRequests == nil) then
+    -- if not provided, poll url for usePartialRequests, audioByteLength
+    if (usePartialRequests == nil or audioByteLength == nil) then
         local pollResponse, polledLength = httpPlayer.pollUrl(audioUrl)
 
         if (pollResponse == nil) then -- if pollUrl returned error, exit
@@ -168,7 +168,7 @@ function httpPlayer.pollUrl(audioUrl)
     ---- BROKEN FOR GITHUB RAW LINKS ^^ idk why github isnt properly implementing the Content-Length headers in their HEAD request responses :(((
     local supportsPartialRequests = (headers["Accept-Ranges"] and headers["Accept-Ranges"] ~= "none")
     if (not supportsPartialRequests) then
-        return { false, nil }
+        return false, nil
     end
 
 
@@ -193,7 +193,7 @@ function httpPlayer.pollUrl(audioUrl)
     audioByteLength = tonumber(audioByteLength)
 
 
-    return { true, audioByteLength }
+    return true, audioByteLength
 end
 
 
