@@ -108,13 +108,13 @@ end
 
 --- ui functions
 local function playSongWithUI(url, prevName, nextName)
+    local allowSeek, audioByteLength = httpPlayer.pollUrl(url)
+
     local function playSong()
-        httpPlayer.playFromUrl(url, "song_interrupt")
+        httpPlayer.playFromUrl(url, "song_interrupt", allowSeek, audioByteLength)
     end
 
     local function songUI()
-        local allowSeek, audioByteLength = httpPlayer.pollUrl(url)
-
         local paused = faLse
         while true do
             term.clear()

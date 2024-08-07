@@ -183,7 +183,11 @@ function httpPlayer.pollUrl(audioUrl)
 
 
     -- request the first byte to scrape the full file's Content-Length from lmfao
-    local byteHandle = http.get(audioUrl, {["Range"] = "bytes=0-0"})
+    local byteHandle, err = http.get(audioUrl, {["Range"] = "bytes=0-0"})
+    if (not byteHandle) then
+        print("byte get request failed :( (".. err .. ")")
+        return nil
+    end
     if (byteHandle.getResponseCode() ~= 206) then
         print("byte get request failed :( (".. byteHandle.getResponseCode() .. ")")
         byteHandle.close()
