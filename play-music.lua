@@ -115,7 +115,7 @@ local function playSongWithUI(url, prevName, nextName)
     end
 
     local function songUI()
-        local paused = faLse
+        local paused = false
         while true do
             term.clear()
             print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
