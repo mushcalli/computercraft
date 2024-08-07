@@ -104,20 +104,18 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
 end
 
 function httpPlayer.playFromUrl(audioUrl, interruptEvent, usePartialRequests, audioByteLength)
-    -- check url
-    local success, err = http.checkURL(audioUrl)
-    if (not success) then
-        print(err or "invalid url")
-        return
-    end
-
+    -- last 2 args optional, only to be used if url has been polled externally
 
     -- poll url for usePartialRequests, audioByteLength
     if (usePartialRequests == nil) then
-        usePartialRequests, audioByteLength = httpPlayer.pollUrl(audioUrl)
-    end
-    if (usePartialRequests == nil) then -- if pollUrl returned error, exit
-        return
+        local pollResponse, polledLength = httpPlayer.pollUrl(audioUrl)
+
+        if (pollResponse == nil) then -- if pollUrl returned error, exit
+            return
+        end
+
+        usePartialRequests = pollResponse
+        audioByteLength = polledLength
     end
 
 
@@ -151,24 +149,21 @@ end
 
 --- returns { supportsPartialRequests, audioByteLength }
 -- { false, nil } if partial requests not supported
--- nil if error (invalid url/get failed)
+-- { nil, err } if error (invalid url/get failed)
 function httpPlayer.pollUrl(audioUrl)
-    -- check url
-    local success, err = http.checkURL(audioUrl)
-    if (not success) then
-        print(err or "invalid url")
+    -- head request
+    http.request({url = audioUrl, method = "HEAD"})
+    local event, _url, response
+    repeat
+        event, _url, response = os.pullEvent()
+    until (event == "http_success" or event == "http_failure") and _url == audioUrl
+    if (event == "http_failure") then
+        print(response)
         return nil
     end
 
 
-    -- head request
-    http.request({url = audioUrl, method = "HEAD"})
-    local event, _url, handle
-    repeat
-        event, _url, handle = os.pullEvent("http_success")
-    until _url == audioUrl
-
-    local headers = handle.getResponseHeaders()
+    local headers = response.getResponseHeaders()
     --local audioByteLength = headers["Content-Length"]
     ---- BROKEN FOR GITHUB RAW LINKS ^^ idk why github isnt properly implementing the Content-Length headers in their HEAD request responses :(((
     local supportsPartialRequests = (headers["Accept-Ranges"] and headers["Accept-Ranges"] ~= "none")
