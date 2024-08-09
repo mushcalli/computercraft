@@ -29,7 +29,7 @@ local function playChunk(chunk, interruptEvent)
 end
 
 --- stream audio chunks from url
--- returns true on interrupt/error, false otherwise
+-- returns true on interrupt, false otherwise
 local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEvent, chunkQueuedEvent)
     -- chunkQueuedEvent optional; see playFromUrl()
 
@@ -53,12 +53,12 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
                 if (nextChunkHandle) then
                     nextChunkHandle.close()
                 end
-                return true
+                return false
             end
             if (not nextChunkHandle) then
                 print("get failed :( \"" .. nextErr .. "\"")
                 chunkHandle.close()
-                return true
+                return false
             end
             --[[if (chunkHandle.getResponseCode() == 412 or nextChunkHandle.getResponseCode() == 412) then
                 print("get failed: file modified :(")
@@ -66,11 +66,11 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
                 nextChunkHandle.close()
                 return
             end]]
-            if (chunkHandle.getResponseCode() ~= 206 or nextChunkHandle.getResponseCode() ~= 206) then
+            if ((chunkHandle.getResponseCode() ~= 206 and chunkHandle.getResponseCode ~= 200) or (nextChunkHandle.getResponseCode() ~= 206 and nextChunkHandle.getResponseCode ~= 200)) then
                 print("get request failed :( (" .. chunkHandle.getResponseCode() .. ", " .. nextChunkHandle.getResponseCode() .. ")")
                 chunkHandle.close()
                 nextChunkHandle.close()
-                return true
+                return false
             end
 
             --[[local chunk = chunkHandle.readAll()
@@ -127,7 +127,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
     return false
 end
 
--- returns true on interrupt/error, false otherwise
+-- returns true on interrupt, false otherwise
 function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, startOffset, usePartialRequests, audioByteLength)
     -- chunkQueuedEvent optional, if given will send that event just before playing each chunk, along with { chunk byte offset, chunk queued time (based on os.clock()) }
     -- last 2 args optional, only to be used if url has been polled externally
@@ -137,7 +137,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, star
 
     if (startOffset < 0 or startOffset > audioByteLength - 1) then
         print("invalid startOffset (" .. startOffset .. ")")
-        return
+        return false
     end
 
     -- if not provided, poll url for usePartialRequests, audioByteLength
@@ -145,7 +145,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, star
         local pollResponse, polledLength = httpPlayer.pollUrl(audioUrl)
 
         if (pollResponse == nil) then -- if pollUrl returned error, exit
-            return
+            return false
         end
 
         usePartialRequests = pollResponse
