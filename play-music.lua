@@ -106,7 +106,9 @@ end
 
 
 --- ui functions
-local function playSongWithUI(url, prevName, nextName)
+local function playSongWithUI(url, prevName, nextName, doAutoExit)
+    doAutoExit = doAutoExit or true
+
     local allowSeek, audioByteLength = httpPlayer.pollUrl(url)
     if (allowSeek == nil) then
         return
@@ -115,24 +117,37 @@ local function playSongWithUI(url, prevName, nextName)
     local songLength = math.floor(audioByteLength / bytesPerSecond)
 
     local exit = false
+    local paused = false
     local playbackOffset = 0
     local lastChunkByteOffset = 0
     local lastChunkTime = os.clock()
 
     local function playSong()
-        httpPlayer.playFromUrl(url, "song_interrupt", "chunk_queued", playbackOffset, allowSeek, audioByteLength)
-        exit = true
+        local interrupt = httpPlayer.playFromUrl(url, "song_interrupt", "chunk_queued", playbackOffset, allowSeek, audioByteLength)
+        if (not interrupt) then
+            if (doAutoExit) then
+                exit = true
+            else
+                paused = true
+                playbackOffset = 0
+            end
+        end
+    end
+    
+    local function updateLastChunk()
+        while true do
+            local _
+            _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
+        end
     end
 
     local function seek(newOffset)
         os.queueEvent("song_interrupt")
         local clampedOffset = math.max(0, math.min(newOffset, audioByteLength - 1))
         playbackOffset = clampedOffset
-        return
     end
 
     local function songUI()
-        local paused = false
         local key, keyPressed
         local timer = os.startTimer(1)
 
@@ -140,10 +155,6 @@ local function playSongWithUI(url, prevName, nextName)
             local _
             _, key = os.pullEvent("key_up")
             keyPressed = true
-        end
-        local function updateLastChunk()
-            local _
-            _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
         end
         local function secondTimer()
             local _, id
@@ -157,7 +168,7 @@ local function playSongWithUI(url, prevName, nextName)
 
         while true do
             repeat
-                parallel.waitForAny(pullKeyEvent, updateLastChunk, secondTimer)
+                parallel.waitForAny(pullKeyEvent, secondTimer)
                 term.clear()
 
                 -- scrubber bar
@@ -176,6 +187,20 @@ local function playSongWithUI(url, prevName, nextName)
                 local newOffset = math.floor((digit / 10) * audioByteLength)
                 seek(newOffset)
             end
+            if (key == keys.A) then
+                -- estimate offset of current playback
+                local currentOffset = lastChunkByteOffset + (6000 * (os.clock() - lastChunkTime))
+
+                local newOffset = currentOffset - (5 * 6000)
+                seek(newOffset)
+            end
+            if (key == keys.D) then
+                -- estimate offset of current playback
+                local currentOffset = lastChunkByteOffset + (6000 * (os.clock() - lastChunkTime))
+
+                local newOffset = currentOffset + (5 * 6000)
+                seek(newOffset)
+            end
             if (key == keys.x) then
                 os.queueEvent("song_interrupt")
                 exit = true
@@ -185,7 +210,7 @@ local function playSongWithUI(url, prevName, nextName)
 
 
     repeat
-        parallel.waitForAny(playSong, songUI)
+        parallel.waitForAny(playSong, songUI, updateLastChunk)
     until exit
     os.sleep(0.5)
 end
