@@ -112,8 +112,12 @@ local function playSongWithUI(url, prevName, nextName)
         return
     end
 
+    local songLength = math.floor(audioByteLength / bytesPerSecond)
+
     local exit = false
     local playbackOffset = 0
+    local lastChunkByteOffset = 0
+    local lastChunkTime = os.clock()
 
     local function playSong()
         httpPlayer.playFromUrl(url, "song_interrupt", "chunk_queued", playbackOffset, allowSeek, audioByteLength)
@@ -128,38 +132,39 @@ local function playSongWithUI(url, prevName, nextName)
 
     local function songUI()
         local paused = false
-        local lastChunkByteOffset = 0
-        local lastChunkTime = os.clock()
         while true do
             term.clear()
+
+            -- scrubber bar
+
+            -- song time display
+            local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (os.clock() - lastChunkTime)
+            print(string.format("%02d:%02d / %02d:%02d"), math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60)))
+
             print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
 
 
-            local event, val1, val2 = os.pullEvent()
-            if (event == "chunk_queued") then
-                lastChunkByteOffset = val1
-                lastChunkTime = val2
-            elseif (event == "key_up") then
-                local key = val1
-
-                local digit = keyToDigit(key)
-                if (digit >= 0) then
-                    local newOffset = math.floor((digit / 10) * audioByteLength)
-                    seek(newOffset)
-                    return
-                end
-                if (key == keys.x) then
-                    os.queueEvent("song_interrupt")
-                    exit = true
-                    return
-                end
+            local event, key = os.pullEvent("key_up")
+            local digit = keyToDigit(key)
+            if (digit >= 0) then
+                local newOffset = math.floor((digit / 10) * audioByteLength)
+                seek(newOffset)
+            end
+            if (key == keys.x) then
+                os.queueEvent("song_interrupt")
+                exit = true
             end
         end
     end
 
+    local function updateLastChunk()
+        local _
+        _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
+    end
+
 
     repeat
-        parallel.waitForAll(playSong, songUI)
+        parallel.waitForAny(playSong, songUI, updateLastChunk)
     until exit
     os.sleep(0.5)
 end
