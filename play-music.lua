@@ -132,6 +132,18 @@ local function playSongWithUI(url, prevName, nextName)
 
     local function songUI()
         local paused = false
+        local key, keyPressed
+
+        local function pullKeyEvent()
+            local _
+            _, key = os.pullEvent("key_up")
+        end
+        local function updateLastChunk()
+            local _
+            _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
+        end
+
+
         while true do
             term.clear()
 
@@ -139,12 +151,17 @@ local function playSongWithUI(url, prevName, nextName)
 
             -- song time display
             local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (os.clock() - lastChunkTime)
-            print(string.format("%02d:%02d / %02d:%02d"), math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60)))
+            print(string.format("%02d:%02d / %02d:%02d", math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60))))
 
             print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
 
 
-            local event, key = os.pullEvent("key_up")
+            -- wait for key event
+            repeat
+                parallel.waitForAny(pullKeyEvent, updateLastChunk)
+            until keyPressed
+            keyPressed = false
+
             local digit = keyToDigit(key)
             if (digit >= 0) then
                 local newOffset = math.floor((digit / 10) * audioByteLength)
@@ -157,14 +174,9 @@ local function playSongWithUI(url, prevName, nextName)
         end
     end
 
-    local function updateLastChunk()
-        local _
-        _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
-    end
-
 
     repeat
-        parallel.waitForAny(playSong, songUI, updateLastChunk)
+        parallel.waitForAny(playSong, songUI)
     until exit
     os.sleep(0.5)
 end
