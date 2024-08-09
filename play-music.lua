@@ -137,6 +137,7 @@ local function playSongWithUI(url, prevName, nextName)
         local function pullKeyEvent()
             local _
             _, key = os.pullEvent("key_up")
+            keyPressed = true
         end
         local function updateLastChunk()
             local _

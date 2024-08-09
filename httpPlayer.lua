@@ -115,6 +115,11 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
 
     -- play last chunk
     local chunk = chunkHandle.readAll()
+
+    if (chunkQueuedEvent) then
+        os.queueEvent(chunkQueuedEvent, i, os.clock())
+    end
+
     playChunk(chunk, interruptEvent)
     chunkHandle.close()
 end
