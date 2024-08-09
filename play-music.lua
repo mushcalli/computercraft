@@ -145,22 +145,20 @@ local function playSongWithUI(url, prevName, nextName)
 
 
         while true do
-            term.clear()
-
-            -- scrubber bar
-
-            -- song time display
-            local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (os.clock() - lastChunkTime)
-            print(string.format("%02d:%02d / %02d:%02d", math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60))))
-
-            print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
-
-
-            -- wait for key event
             repeat
                 parallel.waitForAny(pullKeyEvent, updateLastChunk)
+                term.clear()
+
+                -- scrubber bar
+
+                -- song time display
+                local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (os.clock() - lastChunkTime)
+                print(string.format("%02d:%02d / %02d:%02d", math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60))))
+
+                print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
             until keyPressed
             keyPressed = false
+
 
             local digit = keyToDigit(key)
             if (digit >= 0) then
