@@ -29,7 +29,9 @@ local function playChunk(chunk, interruptEvent)
 end
 
 --- stream audio chunks from url
-local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
+local function streamFromUrl(audioUrl, audioByteLength, interruptEvent, chunkQueuedEvent)
+    -- chunkQueuedEvent optional; see playFromUrl()
+
     --local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
     
     local i
@@ -70,10 +72,8 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                 return
             end
 
-            local chunk = chunkHandle.readAll()
+            --[[local chunk = chunkHandle.readAll()
             local buf = decoder(chunk)
-            -- play chunk once speaker can receieve it, catch interrupts
-            -- (chunk run time ~2.7s for default chunkSize of 16kb)
             while (not speaker.playAudio(buf)) do
                 local event, data = os.pullEvent()
         
@@ -85,7 +85,20 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
                         return
                     end
                 end
+            end]]
+
+            -- play chunk once speaker can receieve it, catch interrupts
+            -- (chunk run time ~2.7s for default chunkSize of 16kb)
+            local chunk = chunkHandle.readAll()
+
+            if (chunkQueuedEvent) then
+                os.queueEvent(chunkQueuedEvent, i, os.clock())
             end
+
+            playChunk(chunk, interruptEvent)
+            chunkHandle.close()
+            nextChunkHandle.close()
+
 
             -- increment, get next chunk while current is playing
             chunkHandle.close()
@@ -103,7 +116,8 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent)
     chunkHandle.close()
 end
 
-function httpPlayer.playFromUrl(audioUrl, interruptEvent, usePartialRequests, audioByteLength)
+function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, usePartialRequests, audioByteLength)
+    -- chunkQueuedEvent optional, if given will send that event just before playing each chunk, along with { chunk byte offset, chunk queued time (based on os.clock()) }
     -- last 2 args optional, only to be used if url has been polled externally
 
     -- if not provided, poll url for usePartialRequests, audioByteLength
@@ -131,7 +145,12 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, usePartialRequests, au
         end
 
         local chunk = response.read(httpPlayer.chunkSize)
+        local i = 0
         while (chunk) do
+            if (chunkQueuedEvent) then
+                os.queueEvent(chunkQueuedEvent, i, os.clock())
+            end
+
             local interrupt = playChunk(chunk, interruptEvent)
             if (interrupt) then
                 -- close response handle and exit early
@@ -140,6 +159,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, usePartialRequests, au
             end
 
             chunk = response.read(httpPlayer.chunkSize)
+            i = i + httpPlayer.chunkSize
         end
 
         -- close response handle when done

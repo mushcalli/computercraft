@@ -122,7 +122,7 @@ local function playSongWithUI(url, prevName, nextName)
 
 
             local event, key = os.pullEvent("key_up")
-            if (key == keys.enter) then
+            if (key == keys.x) then
                 os.queueEvent("song_interrupt")
                 return
             end
