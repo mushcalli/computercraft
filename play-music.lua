@@ -101,11 +101,7 @@ local function keyToDigit(key)
         return -1
     end
 
-    if (key == keys.zero) then
-        return 10
-    else
-        return key - keys.one + 1
-    end
+    return key - keys.one + 1
 end
 
 
@@ -187,6 +183,9 @@ local function songListUI()
 
     local event, key = os.pullEvent("key_up")
     local digit = keyToDigit(key)
+    if (digit == 0) then
+        digit = 10
+    end
     if (digit >= 0 and #songList ~= 0) then
         local num = digit + (pageOffset * 10)
 
@@ -237,8 +236,12 @@ local function songListUI()
     if (key == keys.e) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.zero and key <= keys.nine and #songList ~= 0) then
-            local num = keyToDigit(key) + (pageOffset * 10)
+        local _digit = keyToDigit(key)
+        if (_digit == 0) then
+            _digit = 10
+        end
+        if (_digit >= 0 and #songList ~= 0) then
+            local num = _digit + (pageOffset * 10)
 
             if (songList[num]) then
                 term.clear()
@@ -268,8 +271,12 @@ local function songListUI()
     if (key == keys.d) then
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
-        if (key >= keys.zero and key <= keys.nine and #songList ~= 0) then
-            local num = keyToDigit(key) + (pageOffset * 10)
+        local _digit = keyToDigit(key)
+        if (_digit == 0) then
+            _digit = 10
+        end
+        if (_digit >= 0 and #songList ~= 0) then
+            local num = _digit + (pageOffset * 10)
 
             if (songList[num]) then
                 print("removing " .. songList[num][1])
@@ -282,7 +289,15 @@ local function songListUI()
         end
     end
     if (key == keys.p) then
-        --
+        print("which one? (1-0)")
+        local event, key = os.pullEvent("key_up")
+        local _digit = keyToDigit(key)
+        if (_digit == 0) then
+            _digit = 10
+        end
+        if (_digit >= 0 and #songList ~= 0) then
+            local num = _digit + (pageOffset * 10)
+        end
     end
     if (key == keys.tab) then
         uiLayer = 2
