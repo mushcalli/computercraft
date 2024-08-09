@@ -192,16 +192,16 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
             end
             if (key == keys.a) then
                 -- estimate offset of current playback
-                local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
+                --local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
 
-                local newOffset = currentOffset - (5 * 6000)
+                local newOffset = lastChunkByteOffset - (5 * 6000)
                 seek(newOffset)
             end
             if (key == keys.d) then
                 -- estimate offset of current playback
-                local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
+                --local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
 
-                local newOffset = currentOffset + (5 * 6000)
+                local newOffset = lastChunkByteOffset + (5 * 6000)
                 seek(newOffset)
             end
             if (key == keys.x) then
