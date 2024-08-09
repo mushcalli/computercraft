@@ -96,7 +96,10 @@ end
 
 -- *** INCONSISTENT DEPENDING ON VERSION OF CC: TWEAKED
 local function keyToDigit(key)
-    if (key < keys.zero or key > keys.nine) then error("key is not a digit") end
+    if (key < keys.zero or key > keys.nine) then
+        --error("key is not a digit")
+        return -1
+    end
 
     if (key == keys.zero) then
         return 10
@@ -109,28 +112,59 @@ end
 --- ui functions
 local function playSongWithUI(url, prevName, nextName)
     local allowSeek, audioByteLength = httpPlayer.pollUrl(url)
+    if (allowSeek == nil) then
+        return
+    end
+
+    local exit = false
+    local playbackOffset = 0
 
     local function playSong()
-        httpPlayer.playFromUrl(url, "song_interrupt", allowSeek, audioByteLength)
+        httpPlayer.playFromUrl(url, "song_interrupt", "chunk_queued", playbackOffset, allowSeek, audioByteLength)
+    end
+
+    local function seek(newOffset)
+        os.queueEvent("song_interrupt")
+        local clampedOffset = math.max(0, math.min(newOffset, audioByteLength - 1))
+        playbackOffset = clampedOffset
+        return
     end
 
     local function songUI()
         local paused = false
+        local lastChunkByteOffset = 0
+        local lastChunkTime = os.clock()
         while true do
             term.clear()
             print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
 
 
-            local event, key = os.pullEvent("key_up")
-            if (key == keys.x) then
-                os.queueEvent("song_interrupt")
-                return
+            local event, val1, val2 = os.pullEvent()
+            if (event == "chunk_queued") then
+                lastChunkByteOffset = val1
+                lastChunkTime = val2
+            elseif (event == "key_up") then
+                local key = val1
+
+                local digit = keyToDigit(key)
+                if (digit >= 0) then
+                    local newOffset = math.floor((digit / 10) * audioByteLength)
+                    seek(newOffset)
+                    return
+                end
+                if (key == keys.x) then
+                    os.queueEvent("song_interrupt")
+                    exit = true
+                    return
+                end
             end
         end
     end
 
-    
-    parallel.waitForAll(playSong, songUI)
+
+    repeat
+        parallel.waitForAll(playSong, songUI)
+    until exit
     os.sleep(0.5)
 end
 
@@ -152,8 +186,9 @@ local function songListUI()
     print("\n\n1-0: play song, J,K: page down/up, A: add song, E: edit song, D: delete song, P: add to playlist, tab: playlists menu, X: exit")
 
     local event, key = os.pullEvent("key_up")
-    if (key >= keys.zero and key <= keys.nine and #songList ~= 0) then
-        local num = keyToDigit(key) + (pageOffset * 10)
+    local digit = keyToDigit(key)
+    if (digit >= 0 and #songList ~= 0) then
+        local num = digit + (pageOffset * 10)
 
         if (songList[num]) then
             playSongWithUI(songList[num][2])

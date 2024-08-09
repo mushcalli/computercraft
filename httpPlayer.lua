@@ -29,18 +29,18 @@ local function playChunk(chunk, interruptEvent)
 end
 
 --- stream audio chunks from url
-local function streamFromUrl(audioUrl, audioByteLength, interruptEvent, chunkQueuedEvent)
+local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEvent, chunkQueuedEvent)
     -- chunkQueuedEvent optional; see playFromUrl()
 
     --local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
-    
-    local i
+
+    local i = startOffset
     local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
 
-    local rangeEnd = math.min(httpPlayer.chunkSize - 1, audioByteLength - 1)
+    local rangeEnd = math.min(i + httpPlayer.chunkSize - 1, audioByteLength - 1)
     --local chunkHandle, chunkErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
-    local chunkHandle, chunkErr = http.get(audioUrl, {["Range"] = "bytes=0-" .. rangeEnd})
-    if (audioByteLength > httpPlayer.chunkSize) then
+    local chunkHandle, chunkErr = http.get(audioUrl, {["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
+    if (audioByteLength - startOffset > httpPlayer.chunkSize) then
         i = httpPlayer.chunkSize
         rangeEnd = math.min((2 * httpPlayer.chunkSize) - 1, audioByteLength - 1)
         --local nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
@@ -116,9 +116,17 @@ local function streamFromUrl(audioUrl, audioByteLength, interruptEvent, chunkQue
     chunkHandle.close()
 end
 
-function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, usePartialRequests, audioByteLength)
+function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, startOffset, usePartialRequests, audioByteLength)
     -- chunkQueuedEvent optional, if given will send that event just before playing each chunk, along with { chunk byte offset, chunk queued time (based on os.clock()) }
     -- last 2 args optional, only to be used if url has been polled externally
+
+    -- startOffset will be ignored if partial requests aren't supported, the song will just be played from the beginning
+    startOffset = startOffset or 0
+
+    if (startOffset < 0 or startOffset > audioByteLength - 1) then
+        print("invalid startOffset (" .. startOffset .. ")")
+        return
+    end
 
     -- if not provided, poll url for usePartialRequests, audioByteLength
     if (usePartialRequests == nil or audioByteLength == nil) then
@@ -135,7 +143,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, useP
 
     --- playback
     if (usePartialRequests) then
-        streamFromUrl(audioUrl, audioByteLength, interruptEvent)
+        streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEvent, chunkQueuedEvent)
     else
         --- play from single get request
         local response = http.get(audioUrl)
