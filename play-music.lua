@@ -121,6 +121,7 @@ local function playSongWithUI(url, prevName, nextName)
 
     local function playSong()
         httpPlayer.playFromUrl(url, "song_interrupt", "chunk_queued", playbackOffset, allowSeek, audioByteLength)
+        exit = true
     end
 
     local function seek(newOffset)
@@ -133,6 +134,7 @@ local function playSongWithUI(url, prevName, nextName)
     local function songUI()
         local paused = false
         local key, keyPressed
+        local timer = os.startTimer(1)
 
         local function pullKeyEvent()
             local _
@@ -143,11 +145,19 @@ local function playSongWithUI(url, prevName, nextName)
             local _
             _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
         end
+        local function secondTimer()
+            local _, id
+            repeat
+                _, id = os.pullEvent("timer")
+            until (id == timer)
+
+            timer = os.startTimer(1)
+        end
 
 
         while true do
             repeat
-                parallel.waitForAny(pullKeyEvent, updateLastChunk)
+                parallel.waitForAny(pullKeyEvent, updateLastChunk, secondTimer)
                 term.clear()
 
                 -- scrubber bar
