@@ -93,7 +93,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
             local chunk = chunkHandle.readAll()
 
             if (chunkQueuedEvent) then
-                os.queueEvent(chunkQueuedEvent, i, os.clock())
+                os.queueEvent(chunkQueuedEvent, i, math.floor(os.clock()))
             end
 
             local interrupt = playChunk(chunk, interruptEvent)
@@ -118,7 +118,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
     local chunk = chunkHandle.readAll()
 
     if (chunkQueuedEvent) then
-        os.queueEvent(chunkQueuedEvent, i, os.clock())
+        os.queueEvent(chunkQueuedEvent, i, math.floor(os.clock()))
     end
 
     playChunk(chunk, interruptEvent)
@@ -169,7 +169,7 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, star
         local i = 0
         while (chunk) do
             if (chunkQueuedEvent) then
-                os.queueEvent(chunkQueuedEvent, i, os.clock())
+                os.queueEvent(chunkQueuedEvent, i, math.floor(os.clock()))
             end
 
             local interrupt = playChunk(chunk, interruptEvent)

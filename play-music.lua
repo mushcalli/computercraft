@@ -177,7 +177,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 -- scrubber bar
 
                 -- song time display
-                local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (os.clock() - lastChunkTime)
+                local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (math.floor(os.clock()) - lastChunkTime)
                 print(string.format("%02d:%02d / %02d:%02d", math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60))))
 
                 print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
@@ -190,16 +190,16 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 local newOffset = math.floor((digit / 10) * audioByteLength)
                 seek(newOffset)
             end
-            if (key == keys.A) then
+            if (key == keys.a) then
                 -- estimate offset of current playback
-                local currentOffset = lastChunkByteOffset + (6000 * (os.clock() - lastChunkTime))
+                local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
 
                 local newOffset = currentOffset - (5 * 6000)
                 seek(newOffset)
             end
-            if (key == keys.D) then
+            if (key == keys.d) then
                 -- estimate offset of current playback
-                local currentOffset = lastChunkByteOffset + (6000 * (os.clock() - lastChunkTime))
+                local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
 
                 local newOffset = currentOffset + (5 * 6000)
                 seek(newOffset)
