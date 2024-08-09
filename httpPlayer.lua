@@ -95,9 +95,12 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
                 os.queueEvent(chunkQueuedEvent, i, os.clock())
             end
 
-            playChunk(chunk, interruptEvent)
-            chunkHandle.close()
-            nextChunkHandle.close()
+            local interrupt = playChunk(chunk, interruptEvent)
+            if (interrupt) then
+                chunkHandle.close()
+                nextChunkHandle.close()
+                return
+            end
 
 
             -- increment, get next chunk while current is playing
