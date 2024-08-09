@@ -145,6 +145,9 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
         os.queueEvent("song_interrupt")
         local clampedOffset = math.max(0, math.min(newOffset, audioByteLength - 1))
         playbackOffset = clampedOffset
+
+        lastChunkByteOffset = clampedOffset
+        lastChunkTime = os.clock()
     end
 
     local function songUI()
