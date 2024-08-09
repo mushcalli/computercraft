@@ -123,13 +123,15 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
     local lastChunkTime = os.clock()
 
     local function playSong()
-        local interrupt = httpPlayer.playFromUrl(url, "song_interrupt", "chunk_queued", playbackOffset, allowSeek, audioByteLength)
-        if (not interrupt) then
-            if (doAutoExit) then
-                exit = true
-            else
-                paused = true
-                playbackOffset = 0
+        if (not paused) then
+            local interrupt = httpPlayer.playFromUrl(url, "song_interrupt", "chunk_queued", playbackOffset, allowSeek, audioByteLength)
+            if (not interrupt) then
+                if (doAutoExit) then
+                    exit = true
+                else
+                    paused = true
+                    playbackOffset = 0
+                end
             end
         end
     end
@@ -148,6 +150,9 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
 
         lastChunkByteOffset = clampedOffset
         lastChunkTime = os.clock()
+
+        -- optional, kind of a preference thing
+        --paused = false
     end
 
     local function songUI()
@@ -180,7 +185,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (math.floor(os.clock()) - lastChunkTime)
                 print(string.format("%02d:%02d / %02d:%02d", math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60))))
 
-                print("\n\nspace: pause, 0-9: seek, A,D: back/forward 5s, J,K: last/next song, X: exit")
+                print("\n\nspace: pause, 0-9: seek, A,D: back/forward 10s, J,K: last/next song, X: exit")
             until keyPressed
             keyPressed = false
 
@@ -190,18 +195,21 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 local newOffset = math.floor((digit / 10) * audioByteLength)
                 seek(newOffset)
             end
+            if (key == keys.space) then
+                paused = not paused
+            end
             if (key == keys.a) then
                 -- estimate offset of current playback
                 --local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
 
-                local newOffset = lastChunkByteOffset - (5 * 6000)
+                local newOffset = lastChunkByteOffset - (10 * 6000)
                 seek(newOffset)
             end
             if (key == keys.d) then
                 -- estimate offset of current playback
                 --local currentOffset = lastChunkByteOffset + (6000 * (math.floor(os.clock()) - lastChunkTime))
 
-                local newOffset = lastChunkByteOffset + (5 * 6000)
+                local newOffset = lastChunkByteOffset + (10 * 6000)
                 seek(newOffset)
             end
             if (key == keys.x) then
