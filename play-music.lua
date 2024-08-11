@@ -143,6 +143,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
         while true do
             local _
             _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
+            lastChunkByteOffset = math.max(lastChunkByteOffset - httpPlayer.chunkSize, 0) -- awful nightmare duct tape solution but idc
         end
     end
 
@@ -163,26 +164,26 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
 
     local function songUI()
         local key, keyPressed
-        local timer = os.startTimer(1)
+        --local timer = os.startTimer(1)
 
         local function pullKeyEvent()
             local _
             _, key = os.pullEvent("key_up")
             keyPressed = true
         end
-        local function secondTimer()
+        --[[local function secondTimer()
             local _, id
             repeat
                 _, id = os.pullEvent("timer")
             until (id == timer)
 
             timer = os.startTimer(1)
-        end
+        end]]
 
 
         while true do
             repeat
-                parallel.waitForAny(pullKeyEvent, secondTimer)
+                parallel.waitForAny(pullKeyEvent--[[, secondTimer]])
                 term.clear()
                 print(lastChunkByteOffset)
                 -- scrubber bar
