@@ -91,6 +91,10 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
                 end
             end]]
 
+            if (chunkQueuedEvent) then
+                os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
+            end
+
             -- play chunk once speaker can receieve it, catch interrupts
             -- (chunk run time ~2.7s for default chunkSize of 16kb)
             local chunk = chunkHandle.readAll()
@@ -102,9 +106,9 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
                 return true
             end
 
-            if (chunkQueuedEvent) then
-                os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
-            end
+            --if (chunkQueuedEvent) then
+                --os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
+            --end
 
             -- increment, get next chunk while current is playing
             chunkHandle.close()
@@ -120,14 +124,16 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
     -- play last chunk
     local chunk = chunkHandle.readAll()
 
-    
-
-    playChunk(chunk, interruptEvent)
-    chunkHandle.close()
-    
     if (chunkQueuedEvent) then
         os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
     end
+
+    playChunk(chunk, interruptEvent)
+    chunkHandle.close()
+
+    --if (chunkQueuedEvent) then
+        --os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
+    --end
 
     return false
 end

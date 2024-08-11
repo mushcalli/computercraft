@@ -189,7 +189,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 local songPos = math.floor((screenWidth - 2 - 1) * (lastChunkByteOffset / audioByteLength))
                 print("|" .. string.rep("-", songPos) .. "o" .. string.rep("-", screenWidth - 2 - songPos - 1) .. "|")
                 -- song time display
-                local songTime = math.floor(lastChunkByteOffset / bytesPerSecond) + (math.floor(os.clock()) - lastChunkTime)
+                local songTime = math.floor(lastChunkByteOffset / bytesPerSecond)
                 print(string.format("%02d:%02d / %02d:%02d", math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60))))
 
                 print("\n\nspace: pause, 0-9: seek, A,D: back/forward 10s, J,K: last/next song, X: exit")
