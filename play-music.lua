@@ -134,9 +134,8 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                     playbackOffset = 0
                 end
             end
-        else
-            os.pullEvent("timer")
         end
+        os.pullEvent("song_interrupt")
     end
     
     local function updateLastChunk()
@@ -154,7 +153,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
             local clampedOffset = math.max(0, math.min(newOffset, audioByteLength - 1))
             playbackOffset = clampedOffset
 
-            --lastChunkByteOffset = clampedOffset
+            lastChunkByteOffset = clampedOffset
             lastChunkTime = os.clock()
 
             -- optional, kind of a preference thing
@@ -209,7 +208,6 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                     seek(lastChunkByteOffset)
                 else
                     os.queueEvent("song_interrupt")
-                    break
                 end
             end
             if (key == keys.a) then

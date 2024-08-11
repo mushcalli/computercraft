@@ -95,14 +95,13 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
             -- (chunk run time ~2.7s for default chunkSize of 16kb)
             local chunk = chunkHandle.readAll()
 
-            
-
             local interrupt = playChunk(chunk, interruptEvent)
             if (interrupt) then
                 chunkHandle.close()
                 nextChunkHandle.close()
                 return true
             end
+
             if (chunkQueuedEvent) then
                 os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
             end
@@ -125,6 +124,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
 
     playChunk(chunk, interruptEvent)
     chunkHandle.close()
+    
     if (chunkQueuedEvent) then
         os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
     end
