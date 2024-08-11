@@ -207,8 +207,10 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 paused = not paused
                 if (paused) then
                     seek(lastChunkByteOffset)
+                else
+                    os.queueEvent("song_interrupt")
+                    break
                 end
-                break
             end
             if (key == keys.a) then
                 -- estimate offset of current playback
