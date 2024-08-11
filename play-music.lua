@@ -208,6 +208,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 if (paused) then
                     seek(lastChunkByteOffset)
                 end
+                break
             end
             if (key == keys.a) then
                 -- estimate offset of current playback
