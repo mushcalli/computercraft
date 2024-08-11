@@ -151,7 +151,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
             local clampedOffset = math.max(0, math.min(newOffset, audioByteLength - 1))
             playbackOffset = clampedOffset
 
-            --lastChunkByteOffset = clampedOffset
+            lastChunkByteOffset = clampedOffset
             lastChunkTime = os.clock()
 
             os.queueEvent("song_interrupt")
@@ -184,7 +184,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
             repeat
                 parallel.waitForAny(pullKeyEvent, secondTimer)
                 term.clear()
-
+                print(lastChunkByteOffset)
                 -- scrubber bar
                 local songPos = math.floor((screenWidth - 2 - 1) * (lastChunkByteOffset / audioByteLength))
                 print("|" .. string.rep("-", songPos) .. "o" .. string.rep("-", screenWidth - 2 - songPos - 1) .. "|")

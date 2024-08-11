@@ -36,6 +36,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
     --local startTimestamp = os.date("!%a, %d %b %Y %T GMT")
 
     local i = startOffset
+    local prev_i
     --local maxByteOffset = httpPlayer.chunkSize * math.floor(audioByteLength / httpPlayer.chunkSize)
     local maxByteOffset = audioByteLength - math.fmod(audioByteLength, httpPlayer.chunkSize)
 
@@ -43,6 +44,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
     --local chunkHandle, chunkErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=0-" .. rangeEnd})
     local chunkHandle, chunkErr = http.get(audioUrl, {["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
     if (audioByteLength - startOffset > httpPlayer.chunkSize) then
+        prev_i = i
         i = i + httpPlayer.chunkSize
         rangeEnd = math.min((i + httpPlayer.chunkSize) - 1, audioByteLength - 1)
         --local nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
@@ -94,7 +96,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
             local chunk = chunkHandle.readAll()
 
             if (chunkQueuedEvent) then
-                os.queueEvent(chunkQueuedEvent, i, math.floor(os.clock()))
+                os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
             end
 
             local interrupt = playChunk(chunk, interruptEvent)
@@ -108,6 +110,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
             -- increment, get next chunk while current is playing
             chunkHandle.close()
             chunkHandle = nextChunkHandle
+            prev_i = i
             i = i + httpPlayer.chunkSize
             rangeEnd = math.min(i + httpPlayer.chunkSize - 1, audioByteLength - 1)
             --nextChunkHandle, nextErr = http.get(audioUrl, {["If-Unmodified-Since"] = startTimestamp, ["Range"] = "bytes=" .. i .. "-" .. rangeEnd})
@@ -119,7 +122,7 @@ local function streamFromUrl(audioUrl, startOffset, audioByteLength, interruptEv
     local chunk = chunkHandle.readAll()
 
     if (chunkQueuedEvent) then
-        os.queueEvent(chunkQueuedEvent, i, math.floor(os.clock()))
+        os.queueEvent(chunkQueuedEvent, prev_i, math.floor(os.clock()))
     end
 
     playChunk(chunk, interruptEvent)
