@@ -142,7 +142,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
         while true do
             local _
             _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
-            --lastChunkByteOffset = math.max(lastChunkByteOffset - httpPlayer.chunkSize, 0) -- awful nightmare duct tape solution but idc
+            lastChunkByteOffset = math.max(lastChunkByteOffset - httpPlayer.chunkSize, 0) -- awful nightmare duct tape solution but it is what it is
         end
     end
 
