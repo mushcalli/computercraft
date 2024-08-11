@@ -136,11 +136,6 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, star
     -- startOffset will be ignored if partial requests aren't supported, the song will just be played from the beginning
     startOffset = startOffset or 0
 
-    if (startOffset < 0 or startOffset > audioByteLength - 1) then
-        print("invalid startOffset (" .. startOffset .. ")")
-        return false
-    end
-
     -- if not provided, poll url for usePartialRequests, audioByteLength
     if (usePartialRequests == nil or audioByteLength == nil) then
         local pollResponse, polledLength = httpPlayer.pollUrl(audioUrl)
@@ -151,6 +146,11 @@ function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, star
 
         usePartialRequests = pollResponse
         audioByteLength = polledLength
+    end
+
+    if (startOffset < 0 or startOffset > audioByteLength - 1) then
+        print("invalid startOffset (" .. startOffset .. ")")
+        return false
     end
 
 
