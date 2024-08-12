@@ -9,7 +9,7 @@ local protocol = "organChunk"
 local offsetPath = "offset.txt"
 local UIDeviceOrientation = {
     [0] = "top",
-    [1] = "bottom",
+    [1] = "back",
     [2] = "left",
     [3] = "right"
 }
@@ -55,13 +55,13 @@ local function noteTop()
     end
 end
 
-local function noteBottom()
+local function noteBack()
     while true do
-        os.pullEvent("bottom")
+        os.pullEvent("back")
 
-        redstone.setOutput("bottom", true)
+        redstone.setOutput("back", true)
         os.sleep(noteLength)
-        redstone.setOutput("bottom", false)
+        redstone.setOutput("back", false)
     end
 end
 
@@ -86,4 +86,4 @@ local function noteRight()
 end
 
 --- main
-parallel.waitForAny(waitForMessages, noteTop, noteBottom, noteLeft, noteRight)
+parallel.waitForAny(waitForMessages, noteTop, noteBack, noteLeft, noteRight)
