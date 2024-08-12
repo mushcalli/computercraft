@@ -28,7 +28,7 @@ end
 local validMessages = {}
 local messagePrefix = ":3 organChunks can u play "
 for i = 0, 3 do
-    table.insert(validMessages, messagePrefix .. ((offset * 4) + i), true)
+    validMessages[messagePrefix .. ((offset * 4) + i)] = true
 end
 
 
