@@ -9,3 +9,5 @@ file.close()
 local file2 = fs.open("startup.lua", "w")
 file2.writeLine('shell.run("organChunk.lua")')
 file2.close()
+
+os.reboot()
