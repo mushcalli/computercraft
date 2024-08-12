@@ -8,4 +8,4 @@ file.close()
 
 file = fs.open("startup.lua", "w")
 file.writeLine('shell.run("organChunk.lua")')
-fs.close()
+file.close()
