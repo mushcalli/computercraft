@@ -36,7 +36,7 @@ if (result == nil) then
 end
 
 -- get filehandle from url
-local response = http.get(audioUrl)
+local response = http.get(url)
 if (not response) then
     print("get request failed :(")
     return
