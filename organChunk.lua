@@ -40,5 +40,6 @@ while true do
         local mod = math.fmod(tonumber(string.sub(message, string.len(messagePrefix) + 1)), 4)
         redstone.setOutput(UIDeviceOrientation[mod], true)
         os.sleep(noteLength)
+        redstone.setOutput(UIDeviceOrientation[mod], false)
     end
 end
