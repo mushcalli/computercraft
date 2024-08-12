@@ -27,17 +27,19 @@ end
 -- generate table of valid rednet messages
 local validMessages = {}
 local messagePrefix = ":3 organChunks can u play "
+local len = string.len(messagePrefix)
 for i = 0, 3 do
     validMessages[messagePrefix .. ((offset * 4) + i)] = true
 end
+print(textutils.serialize(validMessages))
 
 
 --- main
 while true do
     local id, message = rednet.receive(protocol)
 
-    if (validMessages[message]) then
-        local mod = math.fmod(tonumber(string.sub(message, string.len(messagePrefix) + 1)), 4)
+    if (validMessages[tostring(message)]) then
+        local mod = math.fmod(tonumber(string.sub(message, len + 1)), 4)
         redstone.setOutput(UIDeviceOrientation[mod], true)
         os.sleep(noteLength)
         redstone.setOutput(UIDeviceOrientation[mod], false)
