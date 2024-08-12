@@ -679,7 +679,7 @@ function wave.loadTrackFromHandle(handle)
 	if firstBytes == 0 then
 		print("Found new NBS file; Using new loader...")
 		handle.close()
-		return wave.loadNewTrackFromHandle(path)
+		return wave.loadNewTrackFromHandle(handle)
 	end
 
 	track.length = firstBytes -- song length (ticks)

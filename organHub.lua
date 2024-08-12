@@ -18,8 +18,15 @@ if (not success) then
 end
 
 
-local function playNote()
+local protocol = "organChunk"
+local messagePrefix = ":3 organChunks can u play "
+local pitchBias = 0
 
+local function playNote(note, pitch, volume)
+    -- note and volume dont apply here lmao
+    -- pitch: F#3 is zero, F#5 is 24
+
+    rednet.broadcast(messagePrefix .. math.max(math.min(pitch + pitchBias, 35), 0), protocol)
 end
 
 
@@ -29,7 +36,7 @@ local context = wave.createContext()
 context:addOutput(playNote, 1, {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, wave._defaultThrottle, clipMode)
 
 -- get and check url
-local url = read()
+--[[local url = read()
 local result = httpPlayer.pollUrl(url)
 if (result == nil) then
     error("bad url :(")
@@ -40,9 +47,15 @@ local response = http.get(url)
 if (not response) then
     print("get request failed :(")
     return
+end]]
+
+local path = read()
+if (not fs.exists(path)) then
+    error("bad path :(")
 end
 
-local track = wave.loadTrackFromHandle(response)
+--local track = wave.loadTrackFromHandle(response)
+local track = wave.loadTrack(path)
 local instance = context:addInstance(track, volume, true, true)
 
 -- playback
