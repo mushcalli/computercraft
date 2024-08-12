@@ -1,7 +1,6 @@
 local dfpwm = require("cc.audio.dfpwm")
 
-local speaker = peripheral.find("speaker")
-if (not speaker) then error("error: speaker not found") end
+local speaker
 
 local decoder = dfpwm.make_decoder()
 
@@ -134,6 +133,9 @@ end
 function httpPlayer.playFromUrl(audioUrl, interruptEvent, chunkQueuedEvent, startOffset, usePartialRequests, audioByteLength)
     -- chunkQueuedEvent optional, if given will send that event just before playing each chunk, along with { chunk byte offset, chunk queued time (based on os.clock()) }
     -- last 2 args optional, only to be used if url has been polled externally
+
+    speaker = peripheral.find("speaker")
+    if (not speaker) then error("error: speaker not found") end
 
     -- startOffset will be ignored if partial requests aren't supported, the song will just be played from the beginning
     startOffset = startOffset or 0
