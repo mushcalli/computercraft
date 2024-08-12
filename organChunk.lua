@@ -27,8 +27,8 @@ end
 -- generate table of valid rednet messages
 local validMessages = {}
 local messagePrefix = ":3 organChunks can u play "
-for i = 0, 4 do
-    validMessages[i] = messagePrefix .. ((offset * 4) + i)
+for i = 0, 3 do
+    validMessages[i+1] = messagePrefix .. ((offset * 4) + i)
 end
 
 
