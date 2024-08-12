@@ -34,14 +34,48 @@ end
 print(textutils.serialize(validMessages))
 
 
---- main
-while true do
+local function waitForMessages()
     local id, message = rednet.receive(protocol)
 
     if (validMessages[tostring(message)]) then
         local mod = math.fmod(tonumber(string.sub(message, len + 1)), 4)
-        redstone.setOutput(UIDeviceOrientation[mod], true)
-        os.sleep(noteLength)
-        redstone.setOutput(UIDeviceOrientation[mod], false)
+        os.queueEvent(UIDeviceOrientation[mod])
     end
+end
+
+local function noteTop()
+    local event = os.pullEvent("top")
+
+    redstone.setOutput("top", true)
+    os.sleep(noteLength)
+    redstone.setOutput("top", false)
+end
+
+local function noteBottom()
+    local event = os.pullEvent("bottom")
+
+    redstone.setOutput("bottom", true)
+    os.sleep(noteLength)
+    redstone.setOutput("bottom", false)
+end
+
+local function noteLeft()
+    local event = os.pullEvent("left")
+
+    redstone.setOutput("left", true)
+    os.sleep(noteLength)
+    redstone.setOutput("left", false)
+end
+
+local function noteRight()
+    local event = os.pullEvent("right")
+
+    redstone.setOutput("right", true)
+    os.sleep(noteLength)
+    redstone.setOutput("right", false)
+end
+
+--- main
+while true do
+    parallel.waitForAny(waitForMessages, noteTop, noteBottom, noteLeft, noteRight)
 end
