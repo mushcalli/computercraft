@@ -4,7 +4,8 @@ if (not rednet.isOpen()) then
     error("error: failed to open rednet")
 end
 
-local noteLength = 1 -- 0.2 is about the length of a noteblock note
+local noteLength = 1
+-- 0.2 is about the length of a noteblock note
 local protocol = "organChunk"
 local offsetPath = "offset.txt"
 local UIDeviceOrientation = {

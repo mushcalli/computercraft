@@ -20,20 +20,27 @@ end
 
 local protocol = "organChunk"
 local messagePrefix = ":3 organChunks can u play "
-local pitchBias = 0
+--local pitchBias = 7
 
-local function playNote(note, pitch, volume)
+local function playNoteHigh(note, pitch, volume)
     -- note and volume dont apply here lmao
     -- pitch: F#3 is zero, F#5 is 24
 
-    rednet.broadcast(messagePrefix .. math.max(math.min(pitch + pitchBias, 35), 0), protocol)
+    rednet.broadcast(messagePrefix .. math.max(math.min(pitch + 11, 35), 0), protocol)
+end
+local function playNoteLow(note, pitch, volume)
+    -- note and volume dont apply here lmao
+    -- pitch: F#3 is zero, F#5 is 24
+
+    rednet.broadcast(messagePrefix .. math.max(math.min(pitch - 1, 35), 0), protocol)
 end
 
 
 --- g
-local clipMode = 2
+local clipMode = 0
 local context = wave.createContext()
-context:addOutput(playNote, 1, {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, wave._defaultThrottle, clipMode)
+context:addOutput(playNoteHigh, 1, {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, wave._defaultThrottle, clipMode)
+context:addOutput(playNoteLow, 1, {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, wave._defaultThrottle, clipMode)
 
 -- get and check url
 --[[local url = read()
@@ -56,7 +63,7 @@ end
 
 --local track = wave.loadTrackFromHandle(response)
 local track = wave.loadTrack(path)
-local instance = context:addInstance(track, volume, true, true)
+local instance = context:addInstance(track, volume, true, false)
 
 -- playback
 local timer = os.startTimer(0.05)
