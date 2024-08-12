@@ -35,47 +35,55 @@ print(textutils.serialize(validMessages))
 
 
 local function waitForMessages()
-    local id, message = rednet.receive(protocol)
+    while true do
+        local id, message = rednet.receive(protocol)
 
-    if (validMessages[tostring(message)]) then
-        local mod = math.fmod(tonumber(string.sub(message, len + 1)), 4)
-        os.queueEvent(UIDeviceOrientation[mod])
+        if (validMessages[tostring(message)]) then
+            local mod = math.fmod(tonumber(string.sub(message, len + 1)), 4)
+            os.queueEvent(UIDeviceOrientation[mod])
+        end
     end
 end
 
 local function noteTop()
-    local event = os.pullEvent("top")
+    while true do
+        os.pullEvent("top")
 
-    redstone.setOutput("top", true)
-    os.sleep(noteLength)
-    redstone.setOutput("top", false)
+        redstone.setOutput("top", true)
+        os.sleep(noteLength)
+        redstone.setOutput("top", false)
+    end
 end
 
 local function noteBottom()
-    local event = os.pullEvent("bottom")
+    while true do
+        os.pullEvent("bottom")
 
-    redstone.setOutput("bottom", true)
-    os.sleep(noteLength)
-    redstone.setOutput("bottom", false)
+        redstone.setOutput("bottom", true)
+        os.sleep(noteLength)
+        redstone.setOutput("bottom", false)
+    end
 end
 
 local function noteLeft()
-    local event = os.pullEvent("left")
+    while true do
+        os.pullEvent("left")
 
-    redstone.setOutput("left", true)
-    os.sleep(noteLength)
-    redstone.setOutput("left", false)
+        redstone.setOutput("left", true)
+        os.sleep(noteLength)
+        redstone.setOutput("left", false)
+    end
 end
 
 local function noteRight()
-    local event = os.pullEvent("right")
+    while true do
+        os.pullEvent("right")
 
-    redstone.setOutput("right", true)
-    os.sleep(noteLength)
-    redstone.setOutput("right", false)
+        redstone.setOutput("right", true)
+        os.sleep(noteLength)
+        redstone.setOutput("right", false)
+    end
 end
 
 --- main
-while true do
-    parallel.waitForAny(waitForMessages, noteTop, noteBottom, noteLeft, noteRight)
-end
+parallel.waitForAny(waitForMessages, noteTop, noteBottom, noteLeft, noteRight)
