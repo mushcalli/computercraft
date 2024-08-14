@@ -274,9 +274,9 @@ function wave.output:playNote(note, pitch, volume)
 		end
 	end
 	--print("DEBUG Plaing note "..note.." with instrument "..wave._newSoundMap[note].. " !")
-    if not (self.filter[note]) then
+    --[[if not (self.filter[note]) then
         self.filter[note] = true
-    end
+    end]]
 	if self.filter[note] and self.notes < self.throttle then
 		--print("TEST")
 		self.nativePlayNote(note, pitch, volume * self.volume)

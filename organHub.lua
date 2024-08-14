@@ -41,7 +41,7 @@ end]]
 --- g
 local clipMode = 0
 local context = wave.createContext()
-context:addOutput(playNote, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+context:addOutput(playNote, 1, {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, wave._defaultThrottle, clipMode)
 --context:addOutput(playNoteLow, 1, filterOutDrums, wave._defaultThrottle, clipMode)
 
 -- get and check url
