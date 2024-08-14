@@ -18,24 +18,40 @@ if (not success) then
 end
 
 
+--local args = {...}
+--local path = args[1]
+
+
 local protocol = "organChunk"
 local messagePrefix = ":3 organChunks can u play "
 local filterOutDrums = {true, true, false, false, false, true, true, true, true, true, true, false, true, true, true, true}
---local pitchBias = 7
+
+local mode = 2
+local pitchBias = 7
+
+local function playNoteBiased(note, pitch, volume)
+    -- pitch: F#3 is zero, F#5 is 24
+
+    local newPitch = pitch + pitchBias
+    if (filterOutDrums[note] and newPitch >= 0 and newPitch <= 35) then
+        rednet.broadcast(messagePrefix .. newPitch, protocol)
+    end
+end
 
 local function playNoteHigh(note, pitch, volume)
     -- pitch: F#3 is zero, F#5 is 24
 
-    if (filterOutDrums[note]) then
-        rednet.broadcast(messagePrefix .. math.max(math.min(pitch + 11, 35), 0), protocol)
+    local newPitch = pitch + 11
+    if (filterOutDrums[note] and newPitch >= 0 and newPitch <= 35) then
+        rednet.broadcast(messagePrefix .. newPitch, protocol)
     end
 end
 local function playNoteLow(note, pitch, volume)
-    -- note and volume dont apply here lmao
     -- pitch: F#3 is zero, F#5 is 24
 
-    if (filterOutDrums[note]) then
-        rednet.broadcast(messagePrefix .. math.max(math.min(pitch - 1, 35), 0), protocol)
+    local newPitch = pitch - 1
+    if (filterOutDrums[note] and newPitch >= 0 and newPitch <= 35) then
+        rednet.broadcast(messagePrefix .. newPitch, protocol)
     end
 end
 
@@ -43,11 +59,16 @@ end
 --- g
 local clipMode = 0
 local context = wave.createContext()
-context:addOutput(playNoteHigh, 1, filterOutDrums, wave._defaultThrottle, clipMode)
-context:addOutput(playNoteLow, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+
+if (mode == 1) then
+    context:addOutput(playNoteBiased, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+else
+    context:addOutput(playNoteHigh, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+    context:addOutput(playNoteLow, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+end
 
 -- get and check url
---[[local url = read()
+local url = read()
 local result = httpPlayer.pollUrl(url)
 if (result == nil) then
     error("bad url :(")
@@ -58,21 +79,21 @@ local response = http.get(url)
 if (not response) then
     print("get request failed :(")
     return
-end]]
-
-local path = read()
-if (not fs.exists(path)) then
-    error("bad path :(")
 end
 
---local track = wave.loadTrackFromHandle(response)
-local track = wave.loadTrack(path)
+--local path = read()
+--[[if (not fs.exists(path)) then
+    error("bad path :(")
+end]]
+
+local track = wave.loadTrackFromHandle(response)
+--local track = wave.loadTrack(path)
 local instance = context:addInstance(track, volume, true, false)
 
 -- playback
 local timer = os.startTimer(0.05)
 while instance.playing do
-    local e = {os.pullEvent()}
+    local e = {os.pullEventRaw()}
     if e[1] == "timer" and e[2] == timer then
         timer = os.startTimer(0)
         local prevtick = instance.tick
