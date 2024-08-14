@@ -21,6 +21,7 @@ end
 local protocol = "organChunk"
 local messagePrefix = ":3 organChunks can u play "
 local pitchBias = 7
+local filterOutDrums = {true, true, false, false, false, true, true, true, true, true, true, false, true, true, true, true}
 
 local function playNote(note, pitch, volume)
     -- pitch: F#3 is zero, F#5 is 24
@@ -40,9 +41,8 @@ end]]
 --- g
 local clipMode = 0
 local context = wave.createContext()
-local filterOutDrums = {true, true, false, false, false, true, true, true, true, true, true, false, true, true, true, true}
-context:addOutput(playNoteHigh, 1, filterOutDrums, wave._defaultThrottle, clipMode)
-context:addOutput(playNoteLow, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+context:addOutput(playNote, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+--context:addOutput(playNoteLow, 1, filterOutDrums, wave._defaultThrottle, clipMode)
 
 -- get and check url
 --[[local url = read()
@@ -70,7 +70,7 @@ local instance = context:addInstance(track, volume, true, false)
 -- playback
 local timer = os.startTimer(0.05)
 while instance.playing do
-    local e = {os.pullEventRaw()}
+    local e = {os.pullEvent()}
     if e[1] == "timer" and e[2] == timer then
         timer = os.startTimer(0)
         local prevtick = instance.tick
