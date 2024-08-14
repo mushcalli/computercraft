@@ -20,28 +20,31 @@ end
 
 local protocol = "organChunk"
 local messagePrefix = ":3 organChunks can u play "
-local pitchBias = 7
+local filterOutDrums = {true, true, false, false, false, true, true, true, true, true, true, false, true, true, true, true}
+--local pitchBias = 7
 
-
-local function playNote(note, pitch, volume)
+local function playNoteHigh(note, pitch, volume)
     -- pitch: F#3 is zero, F#5 is 24
 
-    rednet.broadcast(messagePrefix .. math.max(math.min(pitch + pitchBias, 35), 0), protocol)
+    if (filterOutDrums[note]) then
+        rednet.broadcast(messagePrefix .. math.max(math.min(pitch + 11, 35), 0), protocol)
+    end
 end
---[[local function playNoteLow(note, pitch, volume)
+local function playNoteLow(note, pitch, volume)
     -- note and volume dont apply here lmao
     -- pitch: F#3 is zero, F#5 is 24
 
-    rednet.broadcast(messagePrefix .. math.max(math.min(pitch - 1, 35), 0), protocol)
-end]]
+    if (filterOutDrums[note]) then
+        rednet.broadcast(messagePrefix .. math.max(math.min(pitch - 1, 35), 0), protocol)
+    end
+end
 
 
 --- g
 local clipMode = 0
-local filterOutDrums = {true, true, false, false, false, true, true, true, true, true, true, false, true, true, true, true}
 local context = wave.createContext()
-context:addOutput(playNote, 1, filterOutDrums, wave._defaultThrottle, clipMode)
---context:addOutput(playNoteLow, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+context:addOutput(playNoteHigh, 1, filterOutDrums, wave._defaultThrottle, clipMode)
+context:addOutput(playNoteLow, 1, filterOutDrums, wave._defaultThrottle, clipMode)
 
 -- get and check url
 --[[local url = read()
