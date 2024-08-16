@@ -678,7 +678,7 @@ function wave.loadTrackFromHandle(handle)
 	firstBytes = readInt(2)
 	if firstBytes == 0 then
 		print("Found new NBS file; Using new loader...")
-		handle.close()
+		--handle.close()
 		return wave.loadNewTrackFromHandle(handle)
 	end
 
