@@ -537,7 +537,7 @@ function wave.loadNewTrackFromHandle(handle)
 	end
 	local function readStr()
 		local length = readInt(4)
-		if not length or not tonumber(length) then return end
+		if not length then return end
 		local data = { }
 		for i = 1, length do
 			data[i] = handle.read()
