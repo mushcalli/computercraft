@@ -25,10 +25,8 @@ local screenWidth = term.getSize()
 --- ui variables
 local uiLayer = 1
 local pageOffset = 0
---songs list
-local maxSongPage = 0
 --current playlist
-local currentPlaylist = {}
+local currentPlaylist
 
 
 local function updateCache(cacheTable, path)
@@ -121,7 +119,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
     local paused = false
     local playbackOffset = 0
     local lastChunkByteOffset = 0
-    local lastChunkTime = os.clock()
+    --local lastChunkTime = os.clock()
 
     local function playSong()
         if (not paused) then
@@ -141,9 +139,8 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
     
     local function updateLastChunk()
         while true do
-            local _
-            _, lastChunkByteOffset, lastChunkTime = os.pullEvent("chunk_queued")
-            lastChunkByteOffset = math.max(lastChunkByteOffset - httpPlayer.chunkSize, 0) -- awful nightmare duct tape solution but it is what it is
+            _, lastChunkByteOffset, _ = os.pullEvent("chunk_queued")
+            lastChunkByteOffset = math.max(lastChunkByteOffset - httpPlayer.chunkSize, 0) -- awful nightmare duct tape solution to fix pausing but it is what it is
         end
     end
 
@@ -155,10 +152,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
             playbackOffset = clampedOffset
 
             lastChunkByteOffset = clampedOffset
-            lastChunkTime = os.clock()
-
-            -- optional, kind of a preference thing
-            --paused = false
+            --lastChunkTime = os.clock()
         end
     end
 
@@ -194,7 +188,7 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 local songTime = math.floor(lastChunkByteOffset / bytesPerSecond)
                 print(string.format("%02d:%02d / %02d:%02d", math.floor(songTime / 60), math.floor(math.fmod(songTime, 60)), math.floor(songLength / 60), math.floor(math.fmod(songLength, 60))))
 
-                print("\n\nspace: pause, 0-9: seek, A,D: back/forward 10s, J,K: last/next song, X: exit")
+                print("\n\nspace: pause, 0-9: seek, A,D: back/forward 10s, J,K: prev/next song, X: exit")
             until keyPressed
             keyPressed = false
 
@@ -226,6 +220,12 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
                 local newOffset = lastChunkByteOffset + (10 * 6000)
                 seek(newOffset)
             end
+            if (key == keys.j) then
+                
+            end
+            if (key == keys.k) then
+                
+            end
             if (key == keys.x) then
                 os.queueEvent("song_interrupt")
                 exit = true
@@ -241,17 +241,29 @@ local function playSongWithUI(url, prevName, nextName, doAutoExit)
 end
 
 local function songListUI()
-    print("songs:\n")
-    if (#songList == 0) then
+    local currentSongs = songList
+    local playlistName = "songs"
+    if (currentPlaylist > 0) then
+        local currentSongIDs = { table.unpack(playlists[currentPlaylist], 2) }
+        currentSongs = {}
+        for i, id in currentSongIDs do
+            table.insert(currentSongs, songList[id])
+        end
+        playlistName = playlists[currentPlaylist][1]
+    end
+    local maxSongPage = math.ceil(#currentSongs / 10) - 1
+
+    print(playlistName .. ":\n")
+    if (#currentSongs == 0) then
         print("none")
     else
         local start = (pageOffset) * 10 + 1
         for i = start, start + 9 do
-            if (not songList[i]) then
+            if (not currentSongs[i]) then
                 break
             end
 
-            print(i .. ". " .. songList[i][1])
+            print(i .. ". " .. currentSongs[i][1])
         end
     end
 
@@ -262,11 +274,11 @@ local function songListUI()
     if (digit == 0) then
         digit = 10
     end
-    if (digit >= 0 and #songList ~= 0) then
+    if (digit >= 0 and #currentSongs ~= 0) then
         local num = digit + (pageOffset * 10)
 
-        if (songList[num]) then
-            playSongWithUI(songList[num][2])
+        if (currentSongs[num]) then
+            playSongWithUI(currentSongs[num][2])
         end
     end
     -- jrop and klimb :relieved:
@@ -277,15 +289,12 @@ local function songListUI()
         pageOffset = math.max(pageOffset - 1, 0)
     end
     if (key == keys.a) then
-        --[[if (#songList > 9) then
-            print("no there's too many already")
-        else]]
         term.clear()
 
         print("new song title (spaces fine, pls no | thats my string separator):")
         local input1 = read()
         if (input1 == "") then
-            goto continue
+            return
         end
         while (string.find(input1, "%|")) do
             print(">:(")
@@ -296,7 +305,7 @@ local function songListUI()
         print("new song url (pls no | here either):")
         local input2 = read()
         if (input2 == "") then
-            goto continue
+            return
         end
         while (string.find(input2, "%|")) do
             print(">:(")
@@ -305,9 +314,10 @@ local function songListUI()
         --songList[#songList+1][2] = input
 
         table.insert(songList, {input1, input2})
+        table.insert(playlists[currentPlaylist], #songList)
 
         updateCache(songList, songListPath)
-        maxSongPage = math.ceil(#songList / 10) - 1
+        updateCache(playlists, playlistsPath)
     end
     if (key == keys.e) then
         print("which one? (1-0)")
@@ -316,29 +326,28 @@ local function songListUI()
         if (_digit == 0) then
             _digit = 10
         end
-        if (_digit >= 0 and #songList ~= 0) then
+        if (_digit >= 0 and #currentSongs > 0) then
             local num = _digit + (pageOffset * 10)
 
-            if (songList[num]) then
+            if (currentSongs[num]) then
                 term.clear()
 
                 print("new song title (spaces fine, pls no | thats my string separator):")
-                local input1 = read()
-                if (input1 == "") then input1 = songList[num][1] end
-                while (string.find(input1, "%|")) do
-                    print(">:(")
+                local song = songList[playlists[currentPlaylist][num + 1]]
+                local input1
+                repeat
                     input1 = read()
-                end
+                    if (input1 == "") then input1 = song[1] end
+                until not string.find(input1, "%|")
 
                 print("new song url (pls no | here either):")
-                local input2 = read()
-                if (input2 == "") then input2 = songList[num][2] end
-                while (string.find(input2, "%|")) do
-                    print(">:(")
+                local input2
+                repeat
                     input2 = read()
-                end
+                    if (input2 == "") then input2 = song[2] end
+                until not string.find(input2, "%|")
                 
-                songList[num] = {input1, input2}
+                songList[playlists[currentPlaylist][num + 1]] = {input1, input2}
 
                 updateCache(songList, songListPath)
             end
@@ -351,28 +360,45 @@ local function songListUI()
         if (_digit == 0) then
             _digit = 10
         end
-        if (_digit >= 0 and #songList ~= 0) then
+        if (_digit >= 0 and #currentSongs > 0) then
             local num = _digit + (pageOffset * 10)
 
-            if (songList[num]) then
-                print("removing " .. songList[num][1])
-                table.remove(songList, num)
+            if (currentSongs[num]) then
+                print("removing " .. currentSongs[num][1])
+                table.remove(songList, playlists[currentPlaylist][num + 1])
                 updateCache(songList, songListPath)
-                updatePlaylists(num)
-                maxSongPage = math.ceil(#songList / 10) - 1
+                updatePlaylists(playlists[currentPlaylist][num + 1])
                 os.sleep(1)
             end
         end
     end
     if (key == keys.p) then
+        if (#playlists == 0) then
+            print("no playlists found")
+            return
+        end
+
         print("which one? (1-0)")
         local event, key = os.pullEvent("key_up")
         local _digit = keyToDigit(key)
         if (_digit == 0) then
             _digit = 10
         end
-        if (_digit >= 0 and #songList ~= 0) then
+        if (_digit >= 0 and #currentSongs > 0) then
             local num = _digit + (pageOffset * 10)
+
+            if (currentSongs[num]) then
+                term.clear()
+
+                local input
+                repeat
+                    print("to which playlist? (1-" .. #playlists .. ")")
+                    input = tonumber(read())
+                until playlists[input + 1]
+
+                table.insert(playlists[input + 1], playlists[currentPlaylist][num])
+                updateCache(playlists, playlistsPath)
+            end
         end
     end
     if (key == keys.tab) then
@@ -381,15 +407,9 @@ local function songListUI()
     if (key == keys.x) then
         uiLayer = 0
     end
-
-    ::continue::
 end
 
 local function playlistsUI()
-    --
-end
-
-local function currentPlaylistUI()
     --
 end
 
@@ -397,23 +417,30 @@ end
 ---- main
 -- read from song_list.txt if exists
 readCache(songList, songListPath)
-maxSongPage = math.ceil(#songList / 10) - 1
 
 -- read from playlists.txt if exists
 readCache(playlists, playlistsPath)
--- generate sortedPlaylists for faster contains check
-for i, line in ipairs(playlists) do
-    local sorted = { table.unpack(line, 2) }
-    table.sort(sorted)
-    sortedPlaylists[i] = sorted
+
+-- if playlists empty, build global playlist as first entry
+if (#playlists == 0) then
+    playlists[1] = {""}
+    for i=1, #songList do
+        table.insert(playlists[1], i)
+    end
 end
 
---[[if (#songList > 10) then
-    error("music list too long! ik its a skill issue but i dont wanna implement multi page ui-")
-end]]
+-- generate sortedPlaylists for faster contains check
+for i, line in ipairs(playlists) do
+    local sortedLine = { table.unpack(line, 2) }
+    table.sort(sortedLine)
+    sortedPlaylists[i] = sortedLine
+end
+
+-- initialize with global playlist open
+currentPlaylist = 1
 
 
--- ui loop
+--- ui loop
 while true do
     term.clear()
 
@@ -421,8 +448,6 @@ while true do
         songListUI()
     elseif (uiLayer == 2) then
         playlistsUI()
-    elseif (uiLayer == 3) then
-        currentPlaylistUI()
     else
         break
     end
