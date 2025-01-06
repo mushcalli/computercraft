@@ -5,9 +5,9 @@ end
 
 local function runInWindow(input)
     local win = window.create(term.current(), 1, 1, term.getSize())
-    local old = term.redirect(win)
+    term.redirect(win)
     local ok = shell.run(input)
-    term.redirect(old)
+    term.redirect(term.native())
     return win, ok
 end
 
