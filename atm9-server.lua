@@ -4,7 +4,8 @@ if (not chat) then
 end
 
 local function runInWindow(input)
-    local win = window.create(term.current(), 1, 1, term.getSize())
+    local w, h = term.getSize()
+    local win = window.create(term.current(), 1, 1, w, h)
     term.redirect(win)
     local ok = shell.run(input)
     term.redirect(term.native())
