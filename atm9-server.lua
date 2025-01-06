@@ -15,7 +15,7 @@ local function messageCalli(msg, isError)
     if (not isError) then
         chat.sendToastToPlayer(msg, "^w^", "bonjour_baguette", "&bcyber irys", "<>", "&3")
     else
-        chat.sendToastToPlayer("&c" .. msg, "@_@", "bonjour_baguette", "&bcyber-irys", "<>", "&3")
+        chat.sendToastToPlayer("§c" .. msg, "@_@", "bonjour_baguette", "&bcyber-irys", "<>", "&3")
     end
 
     if (string.find(msg, "\n")) then
@@ -56,5 +56,5 @@ end
 
 
 while true do
-    parallel.waitForAny(catchChatEvents, runChatCommands)
+    parallel.waitForAll(catchChatEvents, runChatCommands)
 end
