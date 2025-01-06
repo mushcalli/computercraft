@@ -7,6 +7,7 @@ local function runInWindow(input)
     local win = window.create(term.current(), 1, 1, term.getSize())
     local old = term.redirect(win)
     local ok = shell.run(input)
+    term.redirect(old)
     return win, ok
 end
 
