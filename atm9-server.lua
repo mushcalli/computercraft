@@ -24,7 +24,7 @@ end
 
 --- main
 while true do
-    parallel.waitForAny()
+    parallel.waitForAny(catchChatEvents, runChatCommands)
 end
 
 local function runChatCommands()
