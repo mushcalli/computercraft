@@ -37,24 +37,26 @@ local function runChatCommands()
 end
 
 local function catchChatEvents()
-    local event, user, msg, _, hidden = os.pullEvent("chat")
-    local command = nil
-    if (hidden) then
-        command = msg
-    elseif (string.sub(msg, 1, 1) == ";") then
-        command = string.sub(msg, 2)
-    end
-    if (command) then
-        if (command == "kill") then
-            messageCalli("rebooting server,,,", true)
-            os.reboot()
+    while true do
+        local event, user, msg, _, hidden = os.pullEvent("chat")
+        local command = nil
+        if (hidden) then
+            command = msg
+        elseif (string.sub(msg, 1, 1) == ";") then
+            command = string.sub(msg, 2)
         end
+        if (command) then
+            if (command == "kill") then
+                messageCalli("rebooting server,,,", true)
+                os.reboot()
+            end
 
-        os.queueEvent("chatCommand", command)
+            os.queueEvent("chatCommand", command)
+        end
     end
 end
 
 
 while true do
-    parallel.waitForAll(catchChatEvents, runChatCommands)
+    parallel.waitForAny(catchChatEvents, runChatCommands)
 end
