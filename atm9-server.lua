@@ -31,7 +31,7 @@ local function runChatCommands()
     local out = ""
     local _, lines = win.getSize()
     for i = 1, lines do
-        out = out .. win.getLine(i)
+        out = out .. "\n" .. win.getLine(i)
     end
     
     messageCalli(out, not ok)
