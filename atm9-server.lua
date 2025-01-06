@@ -33,7 +33,7 @@ local function runChatCommands()
         out = out .. win.getLine(i)
     end
     
-    messageCalli(out, ok)
+    messageCalli(out, not ok)
 end
 
 local function catchChatEvents()
