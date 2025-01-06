@@ -23,10 +23,6 @@ local function messageCalli(msg, isError)
 end
 
 --- main
-while true do
-    parallel.waitForAny(catchChatEvents, runChatCommands)
-end
-
 local function runChatCommands()
     local event, command = os.pullEvent("chatCommand")
     local win, ok = runInWindow(command)
@@ -55,4 +51,9 @@ local function catchChatEvents()
 
         os.queueEvent("chatCommand", command)
     end
+end
+
+
+while true do
+    parallel.waitForAny(catchChatEvents, runChatCommands)
 end
