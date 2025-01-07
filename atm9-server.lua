@@ -1,3 +1,9 @@
+local success, messenger = pcall(require, "urlPlayer")
+if (not success) then
+    shell.run("wget https://raw.githubusercontent.com/mushcalli/computercraft/refs/heads/main/calliMessenger.lua calliMessenger.lua")
+    messenger = require("calliMessenger")
+end
+
 local chat = peripheral.find("chatBox")
 if (not chat) then
     error("error: chatBox not found")
@@ -10,19 +16,6 @@ local function runInWindow(input)
     local ok = shell.run(input)
     term.redirect(old)
     return win, ok
-end
-
-local function messageCalli(msg, isError)
-    if (string.find(msg, "\n")) then
-        chat.sendMessageToPlayer("\n" .. msg, "bonjour_baguette", "&bcyber-irys", "<>", "&3")
-        return
-    end
-
-    if (not isError) then
-        chat.sendToastToPlayer(msg, "^w^", "bonjour_baguette", "&bcyber irys", "<>", "&3")
-    else
-        chat.sendToastToPlayer("§c" .. msg, "@_@", "bonjour_baguette", "&bcyber-irys", "<>", "&3")
-    end
 end
 
 function trim(s)
@@ -53,7 +46,7 @@ local function runChatCommands()
     end
     out = string.sub(out, 1, -2)
     
-    messageCalli(out, not ok)
+    messenger.messageCalli(out, not ok)
 end
 
 local function catchChatEvents()
@@ -67,7 +60,7 @@ local function catchChatEvents()
         end
         if (command) then
             if (command == "kill") then
-                messageCalli("rebooting server,,,", true)
+                messenger.messageCalli("rebooting server,,,", true)
                 os.reboot()
             end
 
