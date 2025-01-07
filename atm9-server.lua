@@ -27,14 +27,14 @@ end
 
 function trim(s)
     local l = 1
-    while strsub(s,l,l) == ' ' do
+    while string.sub(s,l,l) == ' ' do
       l = l+1
     end
-    local r = strlen(s)
-    while strsub(s,r,r) == ' ' do
+    local r = string.len(s)
+    while string.sub(s,r,r) == ' ' do
       r = r-1
     end
-    return strsub(s,l,r)
+    return string.sub(s,l,r)
   end
 
 --- main
