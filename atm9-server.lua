@@ -1,4 +1,4 @@
-local success, messenger = pcall(require, "urlPlayer")
+local success, messenger = pcall(require, "calliMessenger")
 if (not success) then
     shell.run("wget https://raw.githubusercontent.com/mushcalli/computercraft/refs/heads/main/calliMessenger.lua calliMessenger.lua")
     messenger = require("calliMessenger")
