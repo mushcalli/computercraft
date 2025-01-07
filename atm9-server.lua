@@ -13,16 +13,29 @@ local function runInWindow(input)
 end
 
 local function messageCalli(msg, isError)
+    if (string.find(msg, "\n")) then
+        chat.sendMessageToPlayer(msg, "bonjour_baguette", "&bcyber-irys", "<>", "&3")
+        return
+    end
+
     if (not isError) then
         chat.sendToastToPlayer(msg, "^w^", "bonjour_baguette", "&bcyber irys", "<>", "&3")
     else
         chat.sendToastToPlayer("§c" .. msg, "@_@", "bonjour_baguette", "&bcyber-irys", "<>", "&3")
     end
-
-    if (string.find(msg, "\n")) then
-        chat.sendMessageToPlayer(msg, "bonjour_baguette", "&bcyber-irys", "<>", "&3")
-    end
 end
+
+function trim(s)
+    local l = 1
+    while strsub(s,l,l) == ' ' do
+      l = l+1
+    end
+    local r = strlen(s)
+    while strsub(s,r,r) == ' ' do
+      r = r-1
+    end
+    return strsub(s,l,r)
+  end
 
 --- main
 local function runChatCommands()
@@ -30,9 +43,15 @@ local function runChatCommands()
     local win, ok = runInWindow(command)
     local out = ""
     local _, lines = win.getSize()
-    for i = 1, lines do
-        out = out .. "\n" .. win.getLine(i)
+    local i = 1
+    local line = win.getLine(i)
+    while (line ~= "\n") do
+        out = out .. trim(line) .. "\n"
+
+        i = i + 1
+        line = win.getLine(i)
     end
+    out = string.sub(out, 1, -1)
     
     messageCalli(out, not ok)
 end
