@@ -8,12 +8,14 @@ if (not filters) then error("error: potion filters storage not found") end
 -- 1-7 usable, 8+9 dedicated to UI
 local slots = {
     ["aqua"] = 1,
-    ["purification"] = 2,
+    ["purify"] = 2,
     ["flight"] = 3,
     ["reach"] = 4,
     ["sight"] = 5,
     ["ui"] = 8
 }
+
+local fullNames = {"aquatic life", "purification", "flight", "reach", "true sight"}
 
 local args = {...}
 if (#args ~= 1 or not slots[args[1]]) then
@@ -25,20 +27,24 @@ if (not pylon.getItemDetail(slot)) then
     -- pull into pylon
     if (slot == 8) then
         -- *BLASTS ULTRA INSTINCT THEME*
+        print("&e*BLASTS ULTRA INSTINCT THEME*")
         pylon.pullItems(peripheral.getName(filters), 8, 1, 8)
         pylon.pullItems(peripheral.getName(filters), 9, 1, 9)
         return
     end
 
+    print("enabling " .. fullNames[slot] .. ",,,")
     pylon.pullItems(peripheral.getName(filters), slot, 1, slot)
 else
     -- push into barrel
     if (slot == 8) then
         -- *stops blasting ultra instinct theme*
+        print("&edisabling ultra instinct,,,")
         pylon.pushItems(peripheral.getName(filters), 8, 1, 8)
         pylon.pushItems(peripheral.getName(filters), 9, 1, 9)
         return
     end
 
+    print("disabling " .. fullNames[slot] .. ",,,")
     pylon.pushItems(peripheral.getName(filters), slot, 1, slot)
 end

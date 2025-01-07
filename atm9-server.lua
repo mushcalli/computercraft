@@ -46,7 +46,9 @@ local function runChatCommands()
     end
     out = string.sub(out, 1, -2)
     
-    messenger.messageCalli(out, not ok)
+	if (out ~= "") then
+    	messenger.messageCalli(out, not ok)
+	end
 end
 
 local function catchChatEvents()
