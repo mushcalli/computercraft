@@ -24,7 +24,8 @@ local errFaces = {
     "~m~",
     ">~<",
     ">n<",
-    "0~0"
+    "0~0",
+    ":?"
 }
 
 math.randomseed(os.time())
