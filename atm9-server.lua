@@ -14,7 +14,7 @@ end
 
 local function messageCalli(msg, isError)
     if (string.find(msg, "\n")) then
-        chat.sendMessageToPlayer(msg, "bonjour_baguette", "&bcyber-irys", "<>", "&3")
+        chat.sendMessageToPlayer("\n" .. msg, "bonjour_baguette", "&bcyber-irys", "<>", "&3")
         return
     end
 
@@ -51,7 +51,7 @@ local function runChatCommands()
         i = i + 1
         line = win.getLine(i)
     end
-    out = string.sub(out, 1, -1)
+    out = string.sub(out, 1, -2)
     
     messageCalli(out, not ok)
 end
