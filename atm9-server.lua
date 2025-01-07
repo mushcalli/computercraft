@@ -45,7 +45,7 @@ local function runChatCommands()
     local _, lines = win.getSize()
     local i = 1
     local line = win.getLine(i)
-    while (line ~= "\n") do
+    while (not (string.sub(line, 1, 1) == " ") and i < lines) do
         out = out .. trim(line) .. "\n"
 
         i = i + 1
