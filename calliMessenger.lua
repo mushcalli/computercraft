@@ -1,3 +1,8 @@
+local chat = peripheral.find("chatBox")
+if (not chat) then
+    error("error: chatBox not found")
+end
+
 local calliMessenger = {}
 
 function calliMessenger.messageCalli(msg, isError)
