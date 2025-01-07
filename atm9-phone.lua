@@ -1,12 +1,6 @@
-local success, messenger = pcall(require, "calliMessenger")
-if (not success) then
-    shell.run("wget https://raw.githubusercontent.com/mushcalli/computercraft/refs/heads/main/calliMessenger.lua calliMessenger.lua")
-    messenger = require("calliMessenger")
-end
-
-local chat = peripheral.find("chatBox")
-if (not chat) then
-    error("error: chatBox not found")
+peripheral.find("modem", rednet.open)
+if (not rednet.isOpen()) then
+    error("error: failed to open rednet")
 end
 
 local function runInWindow(input)
@@ -21,17 +15,17 @@ end
 function trim(s)
     local l = 1
     while string.sub(s,l,l) == ' ' do
-    	l = l+1
+        l = l+1
     end
     local r = string.len(s)
     while string.sub(s,r,r) == ' ' do
-    	r = r-1
+        r = r-1
     end
     return string.sub(s,l,r)
 end
 
 --- main
-local function runChatCommands()
+local function runCommands()
     local event, command = os.pullEvent("chatCommand")
     local win, ok = runInWindow(command)
     local out = ""
@@ -49,7 +43,7 @@ local function runChatCommands()
     messenger.messageCalli(out, not ok)
 end
 
-local function catchChatEvents()
+local function catchRednetEvents()
     while true do
         local event, user, msg, _, hidden = os.pullEvent("chat")
         local command = nil
@@ -71,5 +65,5 @@ end
 
 
 while true do
-    parallel.waitForAny(catchChatEvents, runChatCommands)
+    parallel.waitForAny(catchRednetEvents, runCommands)
 end

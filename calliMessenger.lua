@@ -10,7 +10,6 @@ local regFaces = {
     "*u*",
     "OwO",
     "UwU",
-    "OwU",
     "::::D",
     ":33",
     ">:3"
