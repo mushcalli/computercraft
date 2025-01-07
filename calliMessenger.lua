@@ -12,14 +12,19 @@ local regFaces = {
     "UwU",
     "::::D",
     ":33",
-    ">:3"
+    ">:3",
+    ">w<",
+    "~w~"
 }
 
 local errFaces = {
     "@_@",
     "XnX",
     "0x0",
-    "~m~"
+    "~m~",
+    ">~<",
+    ">n<",
+    "0~0"
 }
 
 math.randomseed(os.time())
