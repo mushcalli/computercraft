@@ -12,14 +12,15 @@ local slots = {
     ["flight"] = 3,
     ["reach"] = 4,
     ["sight"] = 5,
-    ["ui"] = 8
+    ["ui"] = 8,
+    ["hs"] = 9
 }
 
-local fullNames = {"aquatic life", "purification", "flight", "reach", "true sight"}
+local fullNames = {[1] = "aquatic life", [2] = "purification", [3] = "flight", [4] = "reach", [5] = "true sight", [9] = "heart stop"}
 
 local args = {...}
 if (#args ~= 1 or not slots[args[1]]) then
-    error("usage: t [aqua|purification|flight|reach|sight|ui]")
+    error("usage: t [aqua|purification|flight|reach|sight|hs|ui]")
 end
 
 local slot = slots[args[1]]
@@ -27,7 +28,7 @@ if (not pylon.getItemDetail(slot)) then
     -- pull into pylon
     if (slot == 8) then
         -- *BLASTS ULTRA INSTINCT THEME*
-        print("&e*BLASTS ULTRA INSTINCT THEME*")
+        print("§d*BLASTS ULTRA INSTINCT THEME*")
         pylon.pullItems(peripheral.getName(filters), 8, 1, 8)
         pylon.pullItems(peripheral.getName(filters), 9, 1, 9)
         return
@@ -39,7 +40,7 @@ else
     -- push into barrel
     if (slot == 8) then
         -- *stops blasting ultra instinct theme*
-        print("&edisabling ultra instinct,,,")
+        print("§ddisabling ultra instinct,,,")
         pylon.pushItems(peripheral.getName(filters), 8, 1, 8)
         pylon.pushItems(peripheral.getName(filters), 9, 1, 9)
         return
