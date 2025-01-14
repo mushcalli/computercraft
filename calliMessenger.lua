@@ -14,7 +14,9 @@ local regFaces = {
     ":33",
     ">:3",
     ">w<",
-    "~w~"
+    "~w~",
+    "^u^",
+    ":u"
 }
 
 local errFaces = {
@@ -25,7 +27,8 @@ local errFaces = {
     ">~<",
     ">n<",
     "0~0",
-    ":?"
+    ":?",
+    "u_u"
 }
 
 math.randomseed(os.time())
