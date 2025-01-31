@@ -4,6 +4,11 @@ if (not success) then
     messenger = require("calliMessenger")
 end
 
+peripheral.find("modem", rednet.open)
+if (not rednet.isOpen()) then
+    error("error: failed to open rednet")
+end
+
 local chat = peripheral.find("chatBox")
 if (not chat) then
     error("error: chatBox not found")
@@ -71,6 +76,8 @@ local function catchChatEvents()
     end
 end
 
+--- main
+rednet.host("CawwiCorp", "cyber-irys")
 
 while true do
     parallel.waitForAny(catchChatEvents, runChatCommands)

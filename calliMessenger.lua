@@ -24,9 +24,9 @@ local errFaces = {
     "XnX",
     "0x0",
     "~m~",
-    ">~<",
+    --">~<",
     ">n<",
-    "0~0",
+    --"0~0",
     ":?",
     "u_u"
 }
@@ -44,7 +44,7 @@ function calliMessenger.messageCalli(msg, isError)
     end
 
     if (not isError) then
-        chat.sendToastToPlayer(msg, regFaces[math.random(1, #regFaces)], "bonjour_baguette", "&bcyber irys", "<>", "&3")
+        chat.sendToastToPlayer(msg, regFaces[math.random(1, #regFaces)], "bonjour_baguette", "&bcyber-irys", "<>", "&3")
     else
         chat.sendToastToPlayer("§c" .. msg, errFaces[math.random(1, #errFaces)], "bonjour_baguette", "&bcyber-irys", "<>", "&3")
     end
