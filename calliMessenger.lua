@@ -38,17 +38,17 @@ function calliMessenger.message(msg, isError, player)
 
     if (string.find(msg, "\n")) then
         if (not isError) then
-            chat.sendMessageToPlayer(regFaces[math.random(1, #regFaces)] .. "\n" .. msg, player, "&bcyber-irys", "<>", "&3")
+            chat.sendMessageToPlayer(calliMessenger.regFaces[math.random(1, #calliMessenger.regFaces)] .. "\n" .. msg, player, "&bcyber-irys", "<>", "&3")
         else
-            chat.sendMessageToPlayer(errFaces[math.random(1, #errFaces)] .. "\n§c" .. msg, player, "&bcyber-irys", "<>", "&3")
+            chat.sendMessageToPlayer(calliMessenger.errFaces[math.random(1, #calliMessenger.errFaces)] .. "\n§c" .. msg, player, "&bcyber-irys", "<>", "&3")
         end
         return
     end
 
     if (not isError) then
-        chat.sendToastToPlayer(msg, regFaces[math.random(1, #regFaces)], player, "&bcyber-irys", "<>", "&3")
+        chat.sendToastToPlayer(msg, calliMessenger.regFaces[math.random(1, #calliMessenger.regFaces)], player, "&bcyber-irys", "<>", "&3")
     else
-        chat.sendToastToPlayer("§c" .. msg, errFaces[math.random(1, #errFaces)], player, "&bcyber-irys", "<>", "&3")
+        chat.sendToastToPlayer("§c" .. msg, calliMessenger.errFaces[math.random(1, #calliMessenger.errFaces)], player, "&bcyber-irys", "<>", "&3")
     end
 end
 
