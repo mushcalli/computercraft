@@ -14,7 +14,7 @@ local private = (args[2] == "true")
 local info = det.getPlayer(user)
 
 -- if info == {}
-if (next[info] == nil) then
+if (next(info) == nil) then
     error("error: failed to detect " .. user)
 end
 
