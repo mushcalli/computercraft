@@ -11,6 +11,8 @@ if (#args < 1) then error("usage: dox [username] [private=false]") end
 local user = args[1]
 local private = (args[2] == "true")
 
+local info = det.getPlayer(user)
+
 -- if info == {}
 if (next[info] == nil) then
     error("error: failed to detect " .. user)
