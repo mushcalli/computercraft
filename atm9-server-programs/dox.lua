@@ -9,7 +9,7 @@ local args = {...}
 if (#args < 1) then error("usage: dox [username] [private=false]") end
 
 local user = args[1]
-local private = (args[2] == "true")
+local private = (args[2])
 
 local info = det.getPlayer(user)
 
