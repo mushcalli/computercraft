@@ -12,7 +12,7 @@ end
 local msg = tostring(args[1])
 
 local players = det.getOnlinePlayers()
-for p in players do
+for _, p in ipairs(players) do
     messenger.message(msg, false, p)
     os.sleep(1)
 end
