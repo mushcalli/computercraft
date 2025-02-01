@@ -5,7 +5,7 @@ end
 
 local calliMessenger = {}
 
-local regFaces = {
+calliMessenger.regFaces = {
     "^w^",
     "*u*",
     "OwO",
@@ -19,7 +19,7 @@ local regFaces = {
     ":u"
 }
 
-local errFaces = {
+calliMessenger.errFaces = {
     "@_@",
     "XnX",
     "0x0",
@@ -33,20 +33,22 @@ local errFaces = {
 
 math.randomseed(os.time())
 
-function calliMessenger.messageCalli(msg, isError)
+function calliMessenger.message(msg, isError, player)
+    player = player or "bonjour_baguette"
+
     if (string.find(msg, "\n")) then
         if (not isError) then
-            chat.sendMessageToPlayer(regFaces[math.random(1, #regFaces)] .. "\n" .. msg, "bonjour_baguette", "&bcyber-irys", "<>", "&3")
+            chat.sendMessageToPlayer(regFaces[math.random(1, #regFaces)] .. "\n" .. msg, player, "&bcyber-irys", "<>", "&3")
         else
-            chat.sendMessageToPlayer(errFaces[math.random(1, #errFaces)] .. "\n§c" .. msg, "bonjour_baguette", "&bcyber-irys", "<>", "&3")
+            chat.sendMessageToPlayer(errFaces[math.random(1, #errFaces)] .. "\n§c" .. msg, player, "&bcyber-irys", "<>", "&3")
         end
         return
     end
 
     if (not isError) then
-        chat.sendToastToPlayer(msg, regFaces[math.random(1, #regFaces)], "bonjour_baguette", "&bcyber-irys", "<>", "&3")
+        chat.sendToastToPlayer(msg, regFaces[math.random(1, #regFaces)], player, "&bcyber-irys", "<>", "&3")
     else
-        chat.sendToastToPlayer("§c" .. msg, errFaces[math.random(1, #errFaces)], "bonjour_baguette", "&bcyber-irys", "<>", "&3")
+        chat.sendToastToPlayer("§c" .. msg, errFaces[math.random(1, #errFaces)], player, "&bcyber-irys", "<>", "&3")
     end
 end
 

@@ -52,7 +52,7 @@ local function runChatCommands()
     out = string.sub(out, 1, -2)
     
 	if (out ~= "") then
-    	messenger.messageCalli(out, not ok)
+    	messenger.message(out, not ok)
 	end
 end
 
@@ -67,7 +67,7 @@ local function catchChatEvents()
         end
         if (command) then
             if (command == "kill") then
-                messenger.messageCalli("rebooting server,,,", true)
+                messenger.message("rebooting server,,,", true)
                 os.reboot()
             end
 

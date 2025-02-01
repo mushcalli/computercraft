@@ -16,7 +16,7 @@ if (next[info] == nil) then
     error("error: failed to detect " .. user)
 end
 
-messenger.messageCalli("doxxing " .. user .. ",,,")
+messenger.message("doxxing " .. user .. ",,,")
 os.sleep(1)
 
 if (not private) then
