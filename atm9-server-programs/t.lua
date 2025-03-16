@@ -13,11 +13,12 @@ local slots = {
     ["reach"] = 4,
     ["sight"] = 5,
     ["wings"] = 6,
+    ["walls"] = 7,
     ["ui"] = 8,
     ["hs"] = 9
 }
 
-local fullNames = {[1] = "aquatic life", [2] = "purification", [3] = "flight", [4] = "reach", [5] = "true sight", [6] = "angel wings",[9] = "heart stop"}
+local fullNames = {[1] = "aquatic life", [2] = "purification", [3] = "flight", [4] = "reach", [5] = "true sight", [6] = "angel wings", [7] = "wallhacks", [9] = "heart stop"}
 
 local args = {...}
 if (#args ~= 1 or not slots[args[1]]) then
