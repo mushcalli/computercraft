@@ -22,7 +22,7 @@ local fullNames = {[1] = "aquatic life", [2] = "purification", [3] = "flight", [
 
 local args = {...}
 if (#args ~= 1 or not slots[args[1]]) then
-    error("usage: t [aqua|purification|flight|reach|sight|hs|ui]")
+    error("usage: t [aqua|purification|flight|reach|sight|walls|hs|ui]")
 end
 
 local slot = slots[args[1]]
