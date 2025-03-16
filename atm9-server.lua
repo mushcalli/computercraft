@@ -60,6 +60,12 @@ local function catchChatEvents()
     while true do
         local event, user, msg, _, hidden = os.pullEvent("chat")
         local command = nil
+
+        -- replace with a more robust admin whitelist later
+        if (user ~= "bonjour_baguette") then
+            return
+        end
+
         if (hidden) then
             command = msg
         elseif (string.sub(msg, 1, 1) == ";") then
