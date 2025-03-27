@@ -206,7 +206,7 @@ function rsa.generate_keys(seed, magnitude)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
-            os.sleep(0.05)
+            --os.sleep(0.05)
         until is_prime
         p = N
         print("p: " .. p)
@@ -218,7 +218,7 @@ function rsa.generate_keys(seed, magnitude)
             if (_k % 2 == 0) then _k = _k + 1 end
 
             is_prime, N = rsa.checkPrime(_n, _k)
-            os.sleep(0.05)
+            --os.sleep(0.05)
         until is_prime and N ~= p
         q = N
         print("q: " .. q)
@@ -227,7 +227,7 @@ function rsa.generate_keys(seed, magnitude)
         local gcd, _ = rsa.gcd_ext(p-1, q-1)
         totient_thingy = math.abs((p-1) * (q-1)) / gcd
 
-        os.sleep(0.05)
+        --os.sleep(0.05)
     until totient_thingy > e and (totient_thingy % e) ~= 0
     print("totient: " .. totient_thingy)
 
@@ -263,6 +263,6 @@ end
 
 --return rsa
 
-local n, e, d = rsa.generate_keys(23849812, 8)
+local n, e, d = rsa.generate_keys(7, 8)
 local enc = rsa.encryptInt(7, e, n)
 print("7 -> " .. enc .. " -> " .. rsa.decryptInt(enc, d, n))
