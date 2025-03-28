@@ -8,6 +8,7 @@ the baby is you|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/
 sneaky snitch|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Sneaky-Snitch.dfpwm
 chappell roan - HOT TO GO!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chappell%20Roan%20-%20HOT%20TO%20GO!%20(Official%20Music%20Video).dfpwm
 chappell roan - good luck babe!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chappell%20Roan%20-%20Good%20Luck%2C%20Babe!%20(Official%20Lyric%20Video).dfpwm
+lamazeP - ai no uta|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%84%9B%E3%81%AE%E8%A9%A9%EF%BC%88V3%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20lamazeP.dfpwm
 lamazeP - popipo|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%81%BD%E3%81%A3%E3%81%B4%E3%81%A3%E3%81%BD%E3%83%BC%EF%BC%88V3Edition%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20LamazeP.dfpwm
 aiobahn - INTERNET OVERDOSE|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Aiobahn%20%2B81%20feat.%20KOTOKO%20-%20INTERNET%20OVERDOSE%20(Official%20Music%20Video)%20%5BTheme%20for%20NEEDY%20GIRL%20OVERDOSE%5D.dfpwm
 anamanaguchi - miku|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Anamanaguchi%20-%20Miku%20ft.%20Hatsune%20Miku%20(Lyric%20Video).dfpwm
@@ -119,4 +120,3 @@ pinocchioP - magical girl and chocolate|https://github.com/mushcalli/computercra
 doriko - romeo and cinderella|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%83%AD%E3%83%9F%E3%82%AA%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%87%E3%83%AC%E3%83%A9%20-%20doriko%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%E3%80%90official%20MV%E3%80%91.dfpwm
 ayase - ghost city tokyo|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E5%B9%BD%E9%9C%8A%E6%9D%B1%E4%BA%AC%20%E2%A7%B8%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 mothy - servant of evil|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%82%AA%E3%83%8E%E5%8F%AC%E4%BD%BF%20(feat.%20%E9%8F%A1%E9%9F%B3%E3%83%AC%E3%83%B3).dfpwm
-lamazeP - ai no uta|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%84%9B%E3%81%AE%E8%A9%A9%EF%BC%88V3%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20lamazeP.dfpwm
