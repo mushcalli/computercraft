@@ -114,5 +114,5 @@ pinocchioP - magical girl and chocolate|https://github.com/mushcalli/computercra
 doriko - romeo and cinderella|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%83%AD%E3%83%9F%E3%82%AA%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%87%E3%83%AC%E3%83%A9%20-%20doriko%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%E3%80%90official%20MV%E3%80%91.dfpwm
 |https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E5%B9%BD%E9%9C%8A%E6%9D%B1%E4%BA%AC%20%E2%A7%B8%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 |https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%82%AA%E3%83%8E%E5%8F%AC%E4%BD%BF%20(feat.%20%E9%8F%A1%E9%9F%B3%E3%83%AC%E3%83%B3).dfpwm
-|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%84%9B%E3%81%AE%E8%A9%A9%EF%BC%88V3%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20lamazeP.dfpwm
-|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%F0%9F%A4%BC_%E2%99%80%EF%B8%8F%20(%EF%BC%9Awomen_wrestling%EF%BC%9A)%20%5Bfeat.%20GUMI%20V6%5D.dfpwm
+lamazeP - ai no uta|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%84%9B%E3%81%AE%E8%A9%A9%EF%BC%88V3%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20lamazeP.dfpwm
+jamieP - :women_wrestling:|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%F0%9F%A4%BC_%E2%99%80%EF%B8%8F%20(%EF%BC%9Awomen_wrestling%EF%BC%9A)%20%5Bfeat.%20GUMI%20V6%5D.dfpwm
