@@ -1,6 +1,9 @@
 funky town low quality|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/funky%20town%20low%20quality-(p).dfpwm
 captainsparklez - revenge|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/revenge.dfpwm
 caramelldansen|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Caramella%20Girls%20-%20Caramelldansen%20HD%20Version%20(Swedish%20Original).dfpwm
+karkalicious|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/karkalicious.dfpwm
+ave mary am|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/broadway%20karkat%20-%20ave%20mary%20am.dfpwm
+the baby is you|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/toby%20fox%20-%20the%20baby%20is%20you%20(full%20album).dfpwm
 sneaky snitch|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Sneaky-Snitch.dfpwm
 chappell roan - HOT TO GO!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chappell%20Roan%20-%20HOT%20TO%20GO!%20(Official%20Music%20Video).dfpwm
 chappell roan - good luck babe!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chappell%20Roan%20-%20Good%20Luck%2C%20Babe!%20(Official%20Lyric%20Video).dfpwm
@@ -112,7 +115,7 @@ pinocchioP - god-ish|https://github.com/mushcalli/computercraft/raw/main/dfpwm-f
 pinocchioP - reincarnation apple|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%83%94%E3%83%8E%E3%82%AD%E3%82%AA%E3%83%94%E3%83%BC%20-%20%E8%BB%A2%E7%94%9F%E6%9E%97%E6%AA%8E%20feat.%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20%E2%A7%B8%20Reincarnation%20Apple.dfpwm
 pinocchioP - magical girl and chocolate|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%83%94%E3%83%8E%E3%82%AD%E3%82%AA%E3%83%94%E3%83%BC%20-%20%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%81%A8%E3%83%81%E3%83%A7%E3%82%B3%E3%83%AC%E3%82%90%E3%83%88%20feat.%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20%E2%A7%B8%20Magical%20Girl%20and%20Chocolate.dfpwm
 doriko - romeo and cinderella|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%83%AD%E3%83%9F%E3%82%AA%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%87%E3%83%AC%E3%83%A9%20-%20doriko%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%E3%80%90official%20MV%E3%80%91.dfpwm
-|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E5%B9%BD%E9%9C%8A%E6%9D%B1%E4%BA%AC%20%E2%A7%B8%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
-|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%82%AA%E3%83%8E%E5%8F%AC%E4%BD%BF%20(feat.%20%E9%8F%A1%E9%9F%B3%E3%83%AC%E3%83%B3).dfpwm
+ayase - ghost city tokyo|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E5%B9%BD%E9%9C%8A%E6%9D%B1%E4%BA%AC%20%E2%A7%B8%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
+mothy - servant of evil|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%82%AA%E3%83%8E%E5%8F%AC%E4%BD%BF%20(feat.%20%E9%8F%A1%E9%9F%B3%E3%83%AC%E3%83%B3).dfpwm
 lamazeP - ai no uta|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%84%9B%E3%81%AE%E8%A9%A9%EF%BC%88V3%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20lamazeP.dfpwm
 jamieP - :women_wrestling:|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%F0%9F%A4%BC_%E2%99%80%EF%B8%8F%20(%EF%BC%9Awomen_wrestling%EF%BC%9A)%20%5Bfeat.%20GUMI%20V6%5D.dfpwm
