@@ -4,7 +4,6 @@ caramelldansen|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/m
 sneaky snitch|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Sneaky-Snitch.dfpwm
 chappell roan - HOT TO GO!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chappell%20Roan%20-%20HOT%20TO%20GO!%20(Official%20Music%20Video).dfpwm
 chappell roan - good luck babe!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chappell%20Roan%20-%20Good%20Luck%2C%20Babe!%20(Official%20Lyric%20Video).dfpwm
-vylet pony - ANTONYMPH|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/ANTONYMPH%20(Official%20Music%20Video)%20%C2%BB%20EPILEPSY%20WARNING.dfpwm
 lamazeP - popipo|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%81%BD%E3%81%A3%E3%81%B4%E3%81%A3%E3%81%BD%E3%83%BC%EF%BC%88V3Edition%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20LamazeP.dfpwm
 aiobahn - INTERNET OVERDOSE|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Aiobahn%20%2B81%20feat.%20KOTOKO%20-%20INTERNET%20OVERDOSE%20(Official%20Music%20Video)%20%5BTheme%20for%20NEEDY%20GIRL%20OVERDOSE%5D.dfpwm
 anamanaguchi - miku|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Anamanaguchi%20-%20Miku%20ft.%20Hatsune%20Miku%20(Lyric%20Video).dfpwm
@@ -77,10 +76,12 @@ kanaria - identity|https://github.com/mushcalli/computercraft/raw/main/dfpwm-fil
 kanaria - EYE|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%E3%80%91EYE%E3%80%90Kanaria%E3%80%91.dfpwm
 kanaria - KING|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%E3%80%91KING%E3%80%90Kanaria%E3%80%91.dfpwm
 kanaria - QUEEN|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%E3%80%91QUEEN%E3%80%90Kanaria%E3%80%91.dfpwm
-kanaria - |https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%E3%80%91%E3%82%A8%E3%83%B3%E3%83%B4%E3%82%A3%E3%83%BC%E3%83%99%E3%82%A4%E3%83%93%E3%83%BC%E3%80%90Kanaria%E3%80%91.dfpwm
-kanaria - |https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%E3%80%91%E9%85%94%E3%81%84%E3%81%A9%E3%82%8C%E7%9F%A5%E3%82%89%E3%81%9A%E3%80%90Kanaria%E3%80%91.dfpwm
+kanaria - envy baby|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%E3%80%91%E3%82%A8%E3%83%B3%E3%83%B4%E3%82%A3%E3%83%BC%E3%83%99%E3%82%A4%E3%83%93%E3%83%BC%E3%80%90Kanaria%E3%80%91.dfpwm
+kanaria - yoidore shirazu|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%E3%80%91%E9%85%94%E3%81%84%E3%81%A9%E3%82%8C%E7%9F%A5%E3%82%89%E3%81%9A%E3%80%90Kanaria%E3%80%91.dfpwm
+kanaria - BRAIN|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90Kanaria%E3%80%91BRAIN.dfpwm
 SAWTOWNE - M@GICAL*CURE! LOVE<3SHOT!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90MV%E3%80%91M%40GICAL%E2%98%86CURE!%20LOVE%20%E2%99%A5%20SHOT!%20%E2%A7%B8%20SAWTOWNE%20feat.%20Hatsune%20Miku.dfpwm
-https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90Music%E3%80%91Bit%20of%20a%20Monster.dfpwm
+vylet pony - ANTONYMPH|
+vylet pony - bit of a monster|
 https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90Rin%EF%BC%8ALuka%E3%80%91drop%20pop%20candy%E3%80%90%E3%82%AA%E3%83%AA%E3%82%B8%E3%83%8A%E3%83%AB%E3%80%91.dfpwm
 https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90%E5%85%AC%E5%BC%8F%E3%80%91%20%E3%83%80%E3%83%BC%E3%83%AA%E3%83%B3%E3%83%80%E3%83%B3%E3%82%B9%EF%BC%8F%E3%81%8B%E3%81%84%E3%82%8A%E3%81%8D%E3%83%99%E3%82%A2%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90%E5%85%AC%E5%BC%8F%E3%80%91%20%E3%83%90%E3%82%B0%EF%BC%8F%E3%81%8B%E3%81%84%E3%82%8A%E3%81%8D%E3%83%99%E3%82%A2%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
