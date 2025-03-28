@@ -1,7 +1,7 @@
 funky town low quality|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/funky%20town%20low%20quality-(p).dfpwm
 captainsparklez - revenge|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/revenge.dfpwm
 caramelldansen|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Caramella%20Girls%20-%20Caramelldansen%20HD%20Version%20(Swedish%20Original).dfpwm
-vylet pony - excited about burger|https://github.com/mushcalli/computercraft/blob/main/dfpwm-files/music/Vylet%20Pony%20-%20%E3%80%90Music%E3%80%91Excited%20About%20Burger%20(2021).dfpwm
+vylet pony - excited about burger|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Vylet%20Pony%20-%20%E3%80%90Music%E3%80%91Excited%20About%20Burger%20(2021).dfpwm
 karkalicious|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/karkalicious.dfpwm
 ave mary am|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/broadway%20karkat%20-%20ave%20mary%20am.dfpwm
 the baby is you|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/toby%20fox%20-%20the%20baby%20is%20you%20(full%20album).dfpwm
