@@ -1,6 +1,7 @@
 funky town low quality|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/funky%20town%20low%20quality-(p).dfpwm
 captainsparklez - revenge|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/revenge.dfpwm
 caramelldansen|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Caramella%20Girls%20-%20Caramelldansen%20HD%20Version%20(Swedish%20Original).dfpwm
+vylet pony - excited about burger|https://github.com/mushcalli/computercraft/blob/main/dfpwm-files/music/Vylet%20Pony%20-%20%E3%80%90Music%E3%80%91Excited%20About%20Burger%20(2021).dfpwm
 karkalicious|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/karkalicious.dfpwm
 ave mary am|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/broadway%20karkat%20-%20ave%20mary%20am.dfpwm
 the baby is you|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/toby%20fox%20-%20the%20baby%20is%20you%20(full%20album).dfpwm
@@ -10,7 +11,14 @@ chappell roan - good luck babe!|https://github.com/mushcalli/computercraft/raw/m
 lamazeP - popipo|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%81%BD%E3%81%A3%E3%81%B4%E3%81%A3%E3%81%BD%E3%83%BC%EF%BC%88V3Edition%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20LamazeP.dfpwm
 aiobahn - INTERNET OVERDOSE|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Aiobahn%20%2B81%20feat.%20KOTOKO%20-%20INTERNET%20OVERDOSE%20(Official%20Music%20Video)%20%5BTheme%20for%20NEEDY%20GIRL%20OVERDOSE%5D.dfpwm
 anamanaguchi - miku|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Anamanaguchi%20-%20Miku%20ft.%20Hatsune%20Miku%20(Lyric%20Video).dfpwm
+jamieP - :women_wrestling:|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%F0%9F%A4%BC_%E2%99%80%EF%B8%8F%20(%EF%BC%9Awomen_wrestling%EF%BC%9A)%20%5Bfeat.%20GUMI%20V6%5D.dfpwm
 jamieP - cadmium colors|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Cadmium%20Colors%20(feat.%20Kasane%20Teto).dfpwm
+jamieP - i wish that i could fall|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/I%20Wish%20That%20I%20Could%20Fall%20(feat.%20GUMI%20SV).dfpwm
+jamieP - machine love|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Machine%20Love%20(feat.%20Kasane%20Teto).dfpwm
+jamieP & vaneP - FIRE!!!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Vane%20%26%20JamieP%20-%20FIRE!!!%20(feat.%20Kasane%20Teto).dfpwm
+jamieP - you're telling me a SHRIMP fried this rice?!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%82%A8%E3%83%93%E3%83%81%E3%83%A3%E3%83%BC%E3%83%8F%E3%83%B3!%20(You%E2%80%99re%20Telling%20Me%20A%20SHRIMP%20Fried%20This%20Rice%EF%BC%9F!)%20%5Bfeat.%20Hatsune%20Miku%20English%5D.dfpwm
+flavor foley - water the roses|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Water%20the%20Roses%20ft.%20GUMI.dfpwm
+flavor foley - weathergirl|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/weathergirl%20ft.%20Eleanor%20Forte.dfpwm
 chinozo - anti you|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chinozo%20'%E3%82%A2%E3%83%B3%E3%83%81%E3%83%A6%E3%83%BC'%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 chinozo - goodbye declaration|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Chinozo%20'%E3%82%B0%E3%83%83%E3%83%90%E3%82%A4%E5%AE%A3%E8%A8%80'%20feat.FloweR.dfpwm
 DECO*27 - ghost rule|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/DECO%EF%BC%8A27%20-%20%E3%82%B4%E3%83%BC%E3%82%B9%E3%83%88%E3%83%AB%E3%83%BC%E3%83%AB%20feat.%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
@@ -22,13 +30,11 @@ DECO*27 - monitoring|https://github.com/mushcalli/computercraft/raw/main/dfpwm-f
 DECO*27 - rabbit hole|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/DECO%EF%BC%8A27%20-%20%E3%83%A9%E3%83%93%E3%83%83%E3%83%88%E3%83%9B%E3%83%BC%E3%83%AB%20feat.%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 DECO*27 - the vampire|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/DECO%EF%BC%8A27%20-%20%E3%83%B4%E3%82%A1%E3%83%B3%E3%83%91%E3%82%A4%E3%82%A2%20feat.%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 DECO*27 & pinocchioP - (not) a devil|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/DECO%EF%BC%8A27%20x%20%E3%83%94%E3%83%8E%E3%82%AD%E3%82%AA%E3%83%94%E3%83%BC%20-%20%E3%83%87%E3%83%93%E3%83%AB%E3%81%98%E3%82%83%E3%81%AA%E3%81%84%E3%82%82%E3%82%93%20feat.%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
-jamieP - i wish that i could fall|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/I%20Wish%20That%20I%20Could%20Fall%20(feat.%20GUMI%20SV).dfpwm
 KIRA - 4BLOOD|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/KIRA%20-%204BLOOD%20feat.%20Hatsune%20Miku%20(Original%20Song).dfpwm
 KIRA - digital girl|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/KIRA%20-%20Digital%20Girl%20ft.%20Hatsune%20Miku%20(Original%20Song).dfpwm
 KIRA - WILDCARD|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/KIRA%20-%20WILDCARD%20ft.%20Kasane%20Teto%20AI%20(Original%20Song).dfpwm
 MIMI - encore dance|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/MIMI%20-%20%E3%82%A2%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%80%E3%83%B3%E3%82%B9%20(feat.%20%E9%87%8D%E9%9F%B3%E3%83%86%E3%83%88SV).dfpwm
 MIMI - science|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/MIMI%20-%20%E3%82%B5%E3%82%A4%E3%82%A8%E3%83%B3%E3%82%B9%20(feat.%E9%87%8D%E9%9F%B3%E3%83%86%E3%83%88SV).dfpwm
-jamieP - machine love|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Machine%20Love%20(feat.%20Kasane%20Teto).dfpwm
 iroha - meltdown|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Meltdown%20feat.Kagamine%20Rin.dfpwm
 mili - ga1ahad and scientific witchery|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Mili%20-%20Ga1ahad%20and%20Scientific%20Witchery.dfpwm
 mili - in hell we live, lament|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Mili%20-%20In%20Hell%20We%20Live%2C%20Lament%20feat.%20KIHOW%20from%20MYTH%20%26%20ROID%20%E2%A7%B8%20Limbus%20Company.dfpwm
@@ -40,9 +46,8 @@ neru - lost one's weeping|https://github.com/mushcalli/computercraft/raw/main/df
 suzie - SPEED OF SPICE|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/SPEED%20OF%20SPICE%20%EF%BD%9C%20suzie%20ft.%20%E9%9F%B3%E8%A1%97%E3%82%A6%E3%83%8A.dfpwm
 supercell - melt|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Supercell%20-%20Melt.dfpwm
 supercell - world is mine|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Supercell%20-%20World%20Is%20Mine.dfpwm
-jamieP & vaneP - FIRE!!!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Vane%20%26%20JamieP%20-%20FIRE!!!%20(feat.%20Kasane%20Teto).dfpwm
-flavor foley - water the roses|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Water%20the%20Roses%20ft.%20GUMI.dfpwm
 YOASOBI - IDOL|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/YOASOBI%E3%80%8C%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%80%8D%20Official%20Music%20Video.dfpwm
+TAK - LEMON MELON COOKIE|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%5BMV%5D%20TAK%20%E2%80%98LEMON%20MELON%20COOKIE%E2%80%99%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 R sound design - flos|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/flos%E2%A7%B8R%20Sound%20Design%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 inabakumori - i'm the rain|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/inabakumori%20-%20%20I'm%20the%20Rain%20(Vo.%20Kaai%20Yuki)%20%20%E7%A8%B2%E8%91%89%E6%9B%87%E3%80%8E%E7%A7%81%E3%81%AF%E9%9B%A8%E3%80%8FVo.%20%E6%AD%8C%E6%84%9B%E3%83%A6%E3%82%AD.dfpwm
 inabakumori - anticyclone|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/inabakumori%20-%20Anticyclone%20(Vo.%20Kaai%20Yuki)%20%E7%A8%B2%E8%91%89%E6%9B%87%20-%20%E3%82%A2%E3%83%B3%E3%83%81%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AD%E3%83%B3%20(Vo.%20%E6%AD%8C%E6%84%9B%E3%83%A6%E3%82%AD).dfpwm
@@ -72,7 +77,6 @@ underscores - cops and robbers|https://github.com/mushcalli/computercraft/raw/ma
 underscores - locals (girls like us)|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/underscores%20'Locals%20(Girls%20like%20us)%20%5Bwith%20gabby%20start%5D'%20Lyric%20Video.dfpwm
 underscores - northwest zombie girl|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/underscores%20'Northwest%20zombie%20girl'%20Lyric%20Video.dfpwm
 underscores - old money bitch|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/underscores%20'Old%20money%20bitch'%20Lyric%20Video.dfpwm
-flavor foley - weathergirl|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/weathergirl%20ft.%20Eleanor%20Forte.dfpwm
 wowaka - rolling girl|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/wowaka%20%E3%80%8E%E3%83%AD%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%AC%E3%83%BC%E3%83%AB%E3%80%8Ffeat.%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20%E2%A7%B8%20wowaka%20-%20Rollin%20Girl%20(Official%20Video)%20ft.%20Hatsune%20Miku.dfpwm
 whiteflame - senbonzakura|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%8C%EF%BC%AD%EF%BC%B6%E3%80%8D%E3%80%80%E5%8D%83%E6%9C%AC%E6%A1%9C%E3%80%80WhiteFlame%20feat%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 reol & giga - LUVORATORRRRRY!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90GUMI%26RIN%E3%82%AA%E3%83%AA%E3%82%B8%E3%83%8A%E3%83%AB%E3%80%91LUVORATORRRRRY!%E3%80%90%E3%83%9C%E3%82%AB%E3%83%A9%E3%83%9C%E3%80%91.dfpwm
@@ -87,7 +91,6 @@ SAWTOWNE - M@GICAL*CURE! LOVE<3SHOT!|https://github.com/mushcalli/computercraft/
 vylet pony - ANTONYMPH|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Vylet%20Pony%20-%20ANTONYMPH%20(Official%20Music%20Video)%20%C2%BB%20EPILEPSY%20WARNING.dfpwm
 vylet pony - bit of a monster|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Vylet%20Pony%20-%20%E3%80%90Music%E3%80%91Bit%20of%20a%20Monster.dfpwm
 vylet pony - creature city|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/Vylet%20Pony%20-%20%E3%80%90Music%E3%80%91Creature%20City.dfpwm
-vylet pony - excited about burger|https://github.com/mushcalli/computercraft/blob/main/dfpwm-files/music/Vylet%20Pony%20-%20%E3%80%90Music%E3%80%91Excited%20About%20Burger%20(2021).dfpwm
 reol & giga - drop pop candy|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90Rin%EF%BC%8ALuka%E3%80%91drop%20pop%20candy%E3%80%90%E3%82%AA%E3%83%AA%E3%82%B8%E3%83%8A%E3%83%AB%E3%80%91.dfpwm
 kairiki bear - darling dance|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90%E5%85%AC%E5%BC%8F%E3%80%91%20%E3%83%80%E3%83%BC%E3%83%AA%E3%83%B3%E3%83%80%E3%83%B3%E3%82%B9%EF%BC%8F%E3%81%8B%E3%81%84%E3%82%8A%E3%81%8D%E3%83%99%E3%82%A2%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 kairiki bear - bug|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%80%90%E5%85%AC%E5%BC%8F%E3%80%91%20%E3%83%90%E3%82%B0%EF%BC%8F%E3%81%8B%E3%81%84%E3%82%8A%E3%81%8D%E3%83%99%E3%82%A2%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
@@ -106,7 +109,6 @@ toa - patchwork staccato|https://github.com/mushcalli/computercraft/raw/main/dfp
 mikitoP - roki|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%81%BF%E3%81%8D%E3%81%A8P%20%E3%80%8E%20%E3%83%AD%E3%82%AD%20%E3%80%8F%20MV.dfpwm
 mikitoP - shoujo rei|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%81%BF%E3%81%8D%E3%81%A8P%20%E3%80%8E%20%E5%B0%91%E5%A5%B3%E3%83%AC%E3%82%A4%20%E3%80%8F%20MV.dfpwm
 yuuyu-P - deep-sea girl|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%82%86%E3%81%86%E3%82%86%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%E3%80%8C%E6%B7%B1%E6%B5%B7%E5%B0%91%E5%A5%B3%E3%80%8D%20MV%20(Deep%20Sea%20Girl%20%E2%A7%B8%EC%8B%AC%ED%95%B4%EC%86%8C%EB%85%80)%E3%80%80with%20translation.dfpwm
-jamieP - you're telling me a SHRIMP fried this rice?!|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%82%A8%E3%83%93%E3%83%81%E3%83%A3%E3%83%BC%E3%83%8F%E3%83%B3!%20(You%E2%80%99re%20Telling%20Me%20A%20SHRIMP%20Fried%20This%20Rice%EF%BC%9F!)%20%5Bfeat.%20Hatsune%20Miku%20English%5D.dfpwm
 ayase - cynical night plan|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%82%B7%E3%83%8B%E3%82%AB%E3%83%AB%E3%83%8A%E3%82%A4%E3%83%88%E3%83%97%E3%83%A9%E3%83%B3%20%E2%A7%B8%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 amala - daidaidaidaidaikirai|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%83%80%E3%82%A4%E3%83%80%E3%82%A4%E3%83%80%E3%82%A4%E3%83%80%E3%82%A4%E3%83%80%E3%82%A4%E3%82%AD%E3%83%A9%E3%82%A4%20-%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20VS%20%E9%87%8D%E9%9F%B3%E3%83%86%E3%83%88%20(Daidaidaidaidaikirai%20-%20HatsuneMiku%20VS%20KasaneTeto).dfpwm
 HACHI - sand planet|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E3%83%8F%E3%83%81%20-%20%E7%A0%82%E3%81%AE%E6%83%91%E6%98%9F%20feat.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20%2C%20HACHI%20-%20DUNE%20ft.Miku%20Hatsune.dfpwm
@@ -118,4 +120,3 @@ doriko - romeo and cinderella|https://github.com/mushcalli/computercraft/raw/mai
 ayase - ghost city tokyo|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E5%B9%BD%E9%9C%8A%E6%9D%B1%E4%BA%AC%20%E2%A7%B8%20%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF.dfpwm
 mothy - servant of evil|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%82%AA%E3%83%8E%E5%8F%AC%E4%BD%BF%20(feat.%20%E9%8F%A1%E9%9F%B3%E3%83%AC%E3%83%B3).dfpwm
 lamazeP - ai no uta|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%E6%84%9B%E3%81%AE%E8%A9%A9%EF%BC%88V3%EF%BC%89-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF%20for%20lamazeP.dfpwm
-jamieP - :women_wrestling:|https://github.com/mushcalli/computercraft/raw/main/dfpwm-files/music/%F0%9F%A4%BC_%E2%99%80%EF%B8%8F%20(%EF%BC%9Awomen_wrestling%EF%BC%9A)%20%5Bfeat.%20GUMI%20V6%5D.dfpwm
